@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Interfaces;
 
+use Illuminate\Pagination\LengthAwarePaginator;
+
 interface Repository
 {
     /**
@@ -19,17 +21,16 @@ interface Repository
 
     /**
      * Get entities
-     * @param $id
-     * @return mixed
+     * @return LengthAwarePaginator
      */
-    public function find($filters = []);
+    public function find(array $filters, array $sorts, int $limit, array $includes): LengthAwarePaginator;
 
     /**
      * Create an entity
      * @param array $attributes
      * @return mixed
      */
-    public function create($attributes = []);
+    public function create(array $attributes);
 
     /**
      * Update an entity
@@ -37,7 +38,7 @@ interface Repository
      * @param array $attributes
      * @return mixed
      */
-    public function update($id, $attributes = []);
+    public function update($id, array $attributes);
 
     /**
      * Delete an entity

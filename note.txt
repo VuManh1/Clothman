@@ -1,0 +1,39 @@
+#### Các lệnh trong laravel ####
+
+ - Chạy project: php artisan serve
+ - Tạo controller: php artisan make:controller "Tên controller"
+ - Tạo model: php artisan make:model "Tên model"
+ 
+ * Migration
+ - Tạo migration: php artisan make:migration "tên migration"
+ - Run migration: php artisan migrate
+ - Rollback migration: php artisan migrate:rollback
+
+
+#### Các lệnh thao tác với git github ####
+
+ - Kéo code về: git pull
+
+ - Kéo code về xong thì cài lại các package: 
+   + npm install
+   + composer install
+ 
+ - Tạo branch mới: git branch "tên branch"
+ - Xóa branch: git branch -d "tên branch"
+ - Chuyển sang branch khác: git checkout "tên branch"
+ - Merge branch:
+   + Chuyển sang branch muốn merge
+   + git merge "tên branch cần merge"
+
+ - Đẩy code lên github:
+   + git add .
+   + git commit -m "tên tự đặt"
+   + git push -u origin "tên branch muốn đẩy lên"
+
+
+#### Các quy tắc code  ####
+
+- Tên class, model: danh từ, PascalCase (VD: ProductsController, ProductService)
+- Tên biến: danh từ, camelCase (VD: productVariant, )
+
+- Comment chức năng của hàm khi viết xong
