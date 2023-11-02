@@ -10,7 +10,12 @@ abstract class EloquentRepository implements Repository
 {
     protected Model $model;
 
-    public function __construct() {
+    public function __construct($model) {
+        $this->setModel($model);
+    }
+
+    private function setModel($model) {
+        $this->model = app()->make($model);
     }
 
     public function getAll() {

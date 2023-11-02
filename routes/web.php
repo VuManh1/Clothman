@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Auth\EmailVerificationController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,7 +18,38 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
+Route::get("/", function () {
+    return view("home");
 });
+
+/*
+* Auth route
+*/
+Route::prefix('auth')->group(function () {
+    // Login route
+    Route::get('/login', [LoginController::class, 'login'])->name("login");
+    Route::post('/login', [LoginController::class, 'authenticate']);
+    Route::post('/logout', [LoginController::class, 'logout'])->name("logout");
+
+    // Register route
+    Route::get('/register', [RegisterController::class, 'register'])->name("register");
+    Route::post('/register', [RegisterController::class, 'store']);
+
+    // Email confirmation route
+    Route::get("/email/verify", [EmailVerificationController::class, "notice"])->middleware("auth")->name("verification.notice");
+    Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, "verify"])
+        ->middleware(['auth', 'signed'])->name('verification.verify');
+    Route::post('/email/verification-notification', [EmailVerificationController::class, "send"])
+        ->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+    // Forgot password route
+    Route::get('/forgot-password', [ForgotPasswordController::class, "request"])->middleware('guest')->name('password.request');
+    Route::post('/forgot-password', [ForgotPasswordController::class, "email"])->middleware('guest')->name('password.email');
+
+    // Reset password route
+    Route::get('/reset-password/{token}', [ResetPasswordController::class, "reset"])->middleware('guest')->name('password.reset');
+    Route::post('/reset-password', [ResetPasswordController::class, "update"])->middleware('guest')->name('password.update');
+});
+
+Route::resource('products', ProductsController::class);
+
