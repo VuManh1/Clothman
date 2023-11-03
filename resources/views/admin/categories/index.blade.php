@@ -21,7 +21,7 @@
                                         <a href="{{ route("admin.dashboard") }}">Dashboard</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
-                                        Tables
+                                        Categories
                                     </li>
                                 </ol>
                             </nav>
@@ -38,6 +38,10 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card-style mb-30">
+                            <div>
+                                <a href="{{ route("categories.create") }}" class="btn btn-dark mb-3">Create new category</a>
+                            </div>
+
                             <div class="table-wrapper table-responsive">
                                 <table class="table">
                                     <thead>
@@ -67,12 +71,14 @@
                                                         </td>
                                                     </tr>
                                                 @endforeach
-                                            @else
-                                                
                                             @endif
                                     </tbody>
                                 </table>
                                 <!-- end table -->
+
+                                @if (!isset($categories) || !$categories->isNotEmpty())
+                                    <div>Không có kết quả</div>
+                                @endif
                             </div>
                         </div>
                         <!-- end card -->

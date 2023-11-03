@@ -25,14 +25,18 @@
             width: 80px;
             height: 50px;
         }
+
+        .error {
+            color: red;
+        }
     </style>
 </head>
 
 <body>
     <!-- ======== Preloader =========== -->
-    <div id="preloader">
+    {{-- <div id="preloader">
         <div class="spinner"></div>
-    </div>
+    </div> --}}
     <!-- ======== Preloader =========== -->
 
     <!-- ======== sidebar-nav start =========== -->
@@ -72,6 +76,8 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="{{ Vite::asset('resources/admin/js/admin.js') }}"></script>
 
+    @yield('scripts')
+    
     <script>
         // ======== jvectormap activation
         var markers = [{
