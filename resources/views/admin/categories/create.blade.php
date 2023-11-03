@@ -41,6 +41,8 @@
                 <div class="col-lg-12">
                     <div class="card-style mb-30">
                         <form action="{{ route('categories.store') }}" method="POST" id="create-cate-form">
+                            @csrf
+
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
                                 <input type="text" class="form-control" id="name" name="name">
@@ -49,7 +51,7 @@
                                 <label for="description" class="form-label">Description</label>
                                 <input type="text" class="form-control" id="description" name="description">
                             </div>
-                            
+
                             <button type="submit" class="btn btn-success">Create</button>
                         </form>
                     </div>

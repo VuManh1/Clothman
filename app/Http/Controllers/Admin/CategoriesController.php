@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DTOs\Categories\CreateCategoryDto;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Category\CreateCategoryRequest;
 use App\Services\Categories\Interfaces\GetCategoriesService;
 use App\Services\Categories\Interfaces\ManageCategoriesService;
 use Illuminate\Http\Request;
@@ -22,7 +24,7 @@ class CategoriesController extends Controller
     public function index(Request $request)
     {
         $categories = $this->getCategoriesService->get();
-        return view("admin.categories.index");
+        return view("admin.categories.index", ["categories" => $categories]);
     }
 
     /**
@@ -41,9 +43,15 @@ class CategoriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateCategoryRequest $request)
     {
-        //
+        $request->validated();
+
+        $createCategoryDto = CreateCategoryDto::fromRequest($request);
+
+        $category = $this->manageCategoriesService->createCategory($createCategoryDto);
+
+        return redirect()->route("categories.index")->with("success","");
     }
 
     /**

@@ -13,8 +13,13 @@ class ManageCategoriesServiceImpl implements ManageCategoriesService
         private CategoryRepository $categoryRepository
     ) {}
 
-    public function createCategory($id, CreateCategoryDto $createCategoryDto) {
-        
+    public function createCategory(CreateCategoryDto $createCategoryDto) {
+        return $this->categoryRepository->create([
+            "name"=> $createCategoryDto->name,
+            "slug"=> $createCategoryDto->name,
+            "description"=> $createCategoryDto->description,
+            'banner_url' => "img",
+        ]);
     }
 
     public function updateCategory($id, UpdateCategoryDto $updateCategoryDto) {

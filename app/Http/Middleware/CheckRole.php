@@ -19,11 +19,11 @@ class CheckRole
         }
 
         $role = Auth::user()->role;
-    
+
         if ($role === $admin || $role === $staff || $role === $customer) {
             return $next($request);
         }
-    
+
         return abort(403);
     }
 }

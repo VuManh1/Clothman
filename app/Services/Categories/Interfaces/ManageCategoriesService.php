@@ -13,7 +13,7 @@ interface ManageCategoriesService
     /**
      * Create a category
      */
-    public function createCategory($id, CreateCategoryDto $createCategoryDto);
+    public function createCategory(CreateCategoryDto $createCategoryDto);
 
     /**
      * Update a category
