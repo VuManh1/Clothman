@@ -12,6 +12,12 @@ export default defineConfig({
                 'resources/js/MultiItemCarousel.js',
                 'resources/js/product-detail.js',
                 'resources/js/QuantityBox.js',
+                
+                // 1 - Assets of admin
+                'resources/admin/css/materialdesignicons.min.css',
+                'resources/admin/css/lineicons.css',
+                'resources/admin/scss/admin.scss',
+                'resources/admin/js/admin.js',
             ],
             refresh: true,
         }),

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -23,7 +24,7 @@ Route::get("/", function () {
 });
 
 /*
-* Auth route
+* Auth routes
 */
 Route::prefix('auth')->group(function () {
     // Login route
@@ -51,5 +52,12 @@ Route::prefix('auth')->group(function () {
     Route::post('/reset-password', [ResetPasswordController::class, "update"])->middleware('guest')->name('password.update');
 });
 
-Route::resource('products', ProductsController::class);
+// Admin routes
+Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(function () {
+    Route::get("/dashboard", [DashboardController::class, 'dashboard'])->name("admin.dashboard");
+
+    Route::resource('products', ProductsController::class);
+
+});
+
 

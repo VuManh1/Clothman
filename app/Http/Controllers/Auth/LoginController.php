@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
+use App\Utils\Role;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -32,9 +33,10 @@ class LoginController extends Controller
             'email' => $request->email,
             'password' => $request->password,
         ], $request->remember)) {
+            $user = Auth::user();
 
             // check if user is locked
-            if (Auth::user()->is_locked === 1) {
+            if ($user->is_locked === 1) {
                 Auth::logout();
  
                 return back()->withErrors([
@@ -44,6 +46,10 @@ class LoginController extends Controller
 
             $request->session()->regenerate();
  
+            if ($user->role === Role::ADMIN || $user->role === Role::STAFF) {
+                return redirect()->intended(RouteServiceProvider::ADMIN_DASHBOARD);
+            }
+
             return redirect()->intended(RouteServiceProvider::HOME);
         }
  
