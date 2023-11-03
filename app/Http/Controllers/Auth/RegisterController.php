@@ -32,7 +32,7 @@ class RegisterController extends Controller
         try {
             Auth::login($user = User::create([
                 'name' => $request->name,
-                'phonenumber' => $request->phonenumber,
+                'phone_number' => $request->phonenumber,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]));

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Services\Products\Implementations;
 
 use App\Repositories\Interfaces\ProductRepository;
 use App\Services\Products\Interfaces\GetProductsService;

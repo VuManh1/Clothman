@@ -10,8 +10,4 @@ class EloquentProductRepository extends EloquentRepository implements ProductRep
     public function __construct() {
         parent::__construct(Product::class);
     }
-
-    public function get() {
-
-    }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Account;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class UpdateAccountRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email:rfc,dns',
-            'password' => 'required'
+            'name' => 'required',
+            'phonenumber' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/'],
         ];
     }
 
@@ -37,9 +37,9 @@ class LoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'password.required' => 'Mật khẩu không được để trống',
-            'email.required' => 'Email không được để trống',
-            'email.email' => 'Email không hợp lệ',
+            'name.required' => 'Tên người dùng không được để trống',
+            'phonenumber.required' => 'Số điện thoại không được để trống',
+            'phonenumber.regex' => "Số điện thoại không hợp lệ"
         ];
     }
 }

@@ -12,15 +12,20 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 	<link rel="stylesheet" href="{{ Vite::asset('resources/admin/css/lineicons.css') }}" />
 	<link rel="stylesheet" href="{{ Vite::asset('resources/admin/css/materialdesignicons.min.css') }}" />
+	{{-- <link rel="stylesheet" href="{{ Vite::asset('resources/admin/css/fullcalendar.min.css') }}" /> --}}
 
     {{-- <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/css/lineicons.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="assets/css/fullcalendar.css" />
     <link rel="stylesheet" href="assets/css/fullcalendar.css" />
     <link rel="stylesheet" href="assets/css/main.css" /> --}}
 
 	@vite('resources/admin/scss/admin.scss')
+
+    <style>
+        .logo {
+            width: 80px;
+            height: 50px;
+        }
+    </style>
 </head>
 
 <body>
@@ -60,7 +65,11 @@
     <script src="assets/js/world-merc.js"></script>
     <script src="assets/js/polyfill.js"></script>
     <script src="assets/js/main.js"></script> --}}
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="{{ Vite::asset('resources/admin/js/admin.js') }}"></script>
 
     <script>

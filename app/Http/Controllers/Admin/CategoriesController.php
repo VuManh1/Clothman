@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\Categories\Interfaces\GetCategoriesService;
+use App\Services\Categories\Interfaces\ManageCategoriesService;
 use Illuminate\Http\Request;
-use App\Services\Products\Interfaces\GetProductsService;
-use App\Services\Products\Interfaces\ManageProductsService;
 
-class ProductsController extends Controller
+class CategoriesController extends Controller
 {
     public function __construct(
-        private GetProductsService $getProductsService,
-        // private ManageProductsService $manageProductsService
+        private GetCategoriesService $getCategoriesService,
+        private ManageCategoriesService $manageCategoriesService,
     ) {}
 
     /**
@@ -19,9 +19,10 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $categories = $this->getCategoriesService->get();
+        return view("admin.categories.index");
     }
 
     /**

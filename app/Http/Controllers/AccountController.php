@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 class AccountController extends Controller
 {
     /**
@@ -10,12 +9,5 @@ class AccountController extends Controller
      */
     public function infor() {
         return view("account.infor");
-    }
-
-    /**
-     * Handle update account information
-     */
-    public function update($request) {
-
     }
 }

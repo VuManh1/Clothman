@@ -41,11 +41,11 @@ class RegisterRequest extends FormRequest
         return [
             'name.required' => 'Tên người dùng không được để trống',
             'email.required' => 'Email không được để trống',
+            'email.email' => "Email không hợp lệ",
             'phonenumber.required' => 'Số điện thoại không được để trống',
+            'phonenumber.regex' => "Số điện thoại không hợp lệ",
             'password.required' => 'Mật khẩu không được để trống',
             'password.min' => "Mật khẩu không được ít hơn 8 ký tự",
-            'email.email' => "Email không hợp lệ",
-            'phonenumber' => "Số điện thoại không hợp lệ"
         ];
     }
 }
