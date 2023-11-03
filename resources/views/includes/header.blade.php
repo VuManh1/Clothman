@@ -65,13 +65,10 @@
                             <img src="https://www.coolmate.me/images/header/icon-account-white-new.svg" alt="account">
                         </a>
                     @else
-                        <a href="#">
+                        <a href="{{ route("account.infor") }}">
                             <img src="https://www.coolmate.me/images/header/icon-account-white-new.svg" alt="account">
+                            <span>{{ Auth::user()->name }}</span>
                         </a>
-                        <form action="{{ route("logout") }}" method="POST">
-                            @csrf
-                            <button type="submit">Logout</button>
-                        </form>
                     @endguest
                     
                     <div class="position-relative">

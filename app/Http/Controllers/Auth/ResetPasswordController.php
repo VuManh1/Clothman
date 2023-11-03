@@ -43,7 +43,7 @@ class ResetPasswordController extends Controller
         );
      
         return $status === Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('status', __("Mật khẩu của bạn đã được đặt lại"))
+                    ? redirect()->route('login')->with('success', __("Mật khẩu của bạn đã được đặt lại"))
                     : back()->withErrors(['email' => [__($status)]]);
     }
 }

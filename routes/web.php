@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Auth\EmailVerificationController;
@@ -60,4 +61,8 @@ Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(fun
 
 });
 
+// Account routes
+Route::prefix('account')->middleware(["auth"])->group(function () {
+    Route::get("/infor", [AccountController::class, "infor"])->name("account.infor");
 
+});

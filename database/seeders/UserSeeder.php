@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class UserSeeder extends Seeder
 {
@@ -24,6 +25,7 @@ class UserSeeder extends Seeder
                     'email' => 'admin1@gmail.com',
                     'password' => Hash::make('11111111'),
                     'role' => "ADMIN",
+                    'email_verified_at' => Carbon::now()
                 ],
                 [
                     'id' => Str::uuid(),
@@ -31,6 +33,7 @@ class UserSeeder extends Seeder
                     'email' => 'staff1@gmail.com',
                     'password' => Hash::make('11111111'),
                     'role' => "STAFF",
+                    'email_verified_at' => Carbon::now()
                 ],
                 [
                     'id' => Str::uuid(),
@@ -38,6 +41,7 @@ class UserSeeder extends Seeder
                     'email' => 'staff2@gmail.com',
                     'password' => Hash::make('11111111'),
                     'role' => "STAFF",
+                    'email_verified_at' => Carbon::now()
                 ],
             ]
         );

@@ -36,6 +36,6 @@ class EmailVerificationController extends Controller
     public function send(Request $request) {
         $request->user()->sendEmailVerificationNotification();
  
-        return back()->with('resent', 'Verification link sent!');
+        return back()->with('success', 'Một liên kết xác minh mới đã được gửi đến địa chỉ email của bạn.');
     }
 }
