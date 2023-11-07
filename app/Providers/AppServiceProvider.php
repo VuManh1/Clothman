@@ -8,8 +8,11 @@ use App\Services\Categories\Interfaces\GetCategoriesService;
 use App\Services\Categories\Interfaces\ManageCategoriesService;
 use App\Services\Products\Implementations\GetProductsServiceImpl;
 use App\Services\Products\Interfaces\GetProductsService;
+use App\Services\Upload\Implementations\LocalUploadService;
+use App\Services\Upload\Interfaces\UploadService;
 use App\Services\Users\Implementations\ManageUsersServiceImpl;
 use App\Services\Users\Interfaces\ManageUsersService;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -30,6 +33,10 @@ class AppServiceProvider extends ServiceProvider
         // Category Services
         $this->app->bind(GetCategoriesService::class, GetCategoriesServiceImpl::class);
         $this->app->bind(ManageCategoriesService::class, ManageCategoriesServiceImpl::class);
+
+        // Upload Service
+        $this->app->bind(UploadService::class, LocalUploadService::class);
+
     }
 
     /**
@@ -39,6 +46,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Paginator::useBootstrapFive();
     }
 }

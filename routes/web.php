@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Api\AccountApiController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
@@ -66,4 +67,5 @@ Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(fun
 // Account routes
 Route::prefix('account')->middleware(["auth"])->group(function () {
     Route::get("/infor", [AccountController::class, "infor"])->name("account.infor");
+    Route::get("/password", [AccountController::class, "password"])->name("account.password");
 });

@@ -18,7 +18,7 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <a href="{{ route("admin.dashboard") }}">Dashboard</a>
+                                        <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         Categories
@@ -39,7 +39,7 @@
                     <div class="col-lg-12">
                         <div class="card-style mb-30">
                             <div>
-                                <a href="{{ route("categories.create") }}" class="btn btn-dark mb-3">Create new category</a>
+                                <a href="{{ route('categories.create') }}" class="btn btn-dark mb-3">Create new category</a>
                             </div>
 
                             <div class="table-wrapper table-responsive">
@@ -52,26 +52,35 @@
                                             <th class="lead-email">
                                                 <h6>Name</h6>
                                             </th>
+                                            <th>
+                                                <h6>Actions</h6>
+                                            </th>
                                         </tr>
                                         <!-- end table row-->
                                     </thead>
                                     <tbody>
-                                            @if (isset($categories) && $categories->isNotEmpty())
-                                                @foreach ($categories as $category)
-                                                    <tr>
-                                                        <td class="min-width">
-                                                            <div class="lead">
-                                                                <div class="lead-text">
-                                                                    <p>{{ $category->id }}</p>
-                                                                </div>
+                                        @if (isset($categories) && $categories->isNotEmpty())
+                                            @foreach ($categories as $category)
+                                                <tr>
+                                                    <td class="min-width">
+                                                        <div class="lead">
+                                                            <div class="lead-text">
+                                                                <p>{{ $category->id }}</p>
                                                             </div>
-                                                        </td>
-                                                        <td class="min-width">
-                                                            <p><a href="#0">{{ $category->name }}</a></p>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @endif
+                                                        </div>
+                                                    </td>
+                                                    <td class="min-width">
+                                                        <p><a href="#0">{{ $category->name }}</a></p>
+                                                    </td>
+                                                    <td>
+                                                        <div class="action gap-2">
+                                                            <a href="{{ route("categories.show", [$category->id]) }}" class="btn btn-success">Detail</a>
+                                                            <a href="{{ route("categories.edit", [$category->id]) }}" class="btn btn-success">Edit</a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                                 <!-- end table -->
@@ -79,7 +88,10 @@
                                 @if (!isset($categories) || !$categories->isNotEmpty())
                                     <div>Không có kết quả</div>
                                 @endif
+
                             </div>
+
+                            {{ $categories->appends(request()->query())->links() }}
                         </div>
                         <!-- end card -->
                     </div>

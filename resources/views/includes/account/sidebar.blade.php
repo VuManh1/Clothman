@@ -1,5 +1,5 @@
 <aside class="col col-12 col-md-3 d-flex flex-column gap-2">
-    <a href="{{ route("account.infor") }}" class="account-sidebar-item active">
+    <a href="{{ route("account.infor") }}" class="account-sidebar-item {{ $page === "infor" ? "active" : "" }}">
         <div class="account-sidebar-item-icon">
             <i class="bi bi-person-circle"></i>
         </div>
@@ -8,7 +8,7 @@
             <i class="bi bi-arrow-right"></i>
         </div>
     </a>
-    <a href="#" class="account-sidebar-item">
+    <a href="{{ route("account.password") }}" class="account-sidebar-item {{ $page === "password" ? "active" : "" }}">
         <div class="account-sidebar-item-icon">
             <i class="bi bi-shield-lock-fill"></i>
         </div>

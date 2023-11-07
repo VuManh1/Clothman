@@ -93,6 +93,7 @@ main {
     font-weight: 700;
 }
 
+/* ======= Items in header ========= */
 .cart-quantity {
     display: flex;
     justify-content: center;
@@ -108,6 +109,38 @@ main {
     font-size: 10px;
     font-weight: 700;
     pointer-events: none;
+}
+
+.profile-box {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    text-decoration: none;
+}
+
+.profile-box .profile-name {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: white;
+}
+
+/* ======= Loadable Button ========== */
+.loadable-btn .loadable-content {
+    display: block;
+}
+
+.loadable-btn .spinner {
+    display: none;
+}
+
+.loadable-btn.loading .loadable-content {
+    display: none;
+}
+
+.loadable-btn.loading .spinner {
+    display: inline-block;
 }
 
 /* ======= Account Order History items ========= */

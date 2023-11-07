@@ -61,13 +61,13 @@
                 </form>
                 <div class="d-flex gap-2 ms-md-2 my-4 my-md-0">
                     @guest
-                        <a href="{{ route("login") }}">
+                        <a href="{{ route("login") }}" class="mx-2">
                             <img src="https://www.coolmate.me/images/header/icon-account-white-new.svg" alt="account">
                         </a>
                     @else
-                        <a href="{{ route("account.infor") }}">
+                        <a href="{{ route("account.infor") }}" class="profile-box mx-3">
                             <img src="https://www.coolmate.me/images/header/icon-account-white-new.svg" alt="account">
-                            <span>{{ Auth::user()->name }}</span>
+                            <span class="profile-name">{{ Auth::user()->name }}</span>
                         </a>
                     @endguest
                     

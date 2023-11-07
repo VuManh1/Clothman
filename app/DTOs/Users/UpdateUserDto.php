@@ -8,9 +8,9 @@ class UpdateUserDto
 {
     public string $name;
     public string $phoneNumber;
-    public string $address;
+    public ?string $address;
 
-    public function __construct(string $name, string $phoneNumber, string $address)
+    public function __construct(string $name, string $phoneNumber, ?string $address)
     {
         $this->name = $name;
         $this->phoneNumber = $phoneNumber;

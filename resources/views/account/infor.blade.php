@@ -4,9 +4,7 @@
 @section('account-content')
     <h1 class="title mb-3">Thông tin tài khoản</h1>
 
-    <form action="{{ route("account.infor") }}" id="update-account-form">
-        @method('PUT')
-        
+    <form id="update-account-form">
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
             <input type="email" class="form-control" id="email" disabled value="{{ Auth::user()->email }}">
@@ -24,7 +22,14 @@
             <input type="text" class="form-control" id="address" name="address" value="{{ Auth::user()->address }}">
         </div>
         
-        <button type="submit" class="btn btn-dark rounded-pill w-100">Cập nhật</button>
+        <button id="submit-btn" type="submit" class="btn btn-dark rounded-pill w-100 loadable-btn">
+            <div class="loadable-content">
+                Cập nhật
+            </div>
+            <div class="spinner spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </button>
     </form>
 @endsection
 
@@ -60,26 +65,27 @@
                 e.preventDefault();
 
                 if ($(this).valid()) {
+                    $("#submit-btn").addClass("loading");
+                    $("#submit-btn").attr("disabled", true);
+
                     $.ajax({
-                        url: "{{ route('account.update') }}", 
+                        url: "{{ route('api.account.infor.update') }}", 
                         data: {
                             _token: '{{ csrf_token() }}',
                             name: $("#name").val(),
                             phonenumber: $("#phonenumber").val(),
                             address: $("#address").val(),
                         },
-                        headers: {
-                            'X-CSRF-Token': '{{ csrf_token() }}',
-                        },
-                        xhrFields: {
-                            withCredentials: true
-                        },
                         type: "PUT",
                         success(result) {
                             toastr.success("Tài khoản của bạn đã được cập nhập");
+                            $("#submit-btn").removeClass("loading");
+                            $("#submit-btn").attr("disabled", false);
                         },
                         error(xhr,status,error) {
                             toastr.error("Có lỗi xảy ra, vui lòng thử lại");
+                            $("#submit-btn").removeClass("loading");
+                            $("#submit-btn").attr("disabled", false);
                         }
                     });
                 }

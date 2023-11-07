@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DTOs\Categories\CategoryParamsDto;
 use App\DTOs\Categories\CreateCategoryDto;
+use App\DTOs\Categories\UpdateCategoryDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\CreateCategoryRequest;
+use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Services\Categories\Interfaces\GetCategoriesService;
 use App\Services\Categories\Interfaces\ManageCategoriesService;
 use Illuminate\Http\Request;
@@ -14,7 +17,9 @@ class CategoriesController extends Controller
     public function __construct(
         private GetCategoriesService $getCategoriesService,
         private ManageCategoriesService $manageCategoriesService,
-    ) {}
+    ) {
+        $this->middleware('role:ADMIN,null,null')->only(['destroy']);
+    }
 
     /**
      * Display a listing of the resource.
@@ -23,7 +28,9 @@ class CategoriesController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = $this->getCategoriesService->get();
+        $params = CategoryParamsDto::fromRequest($request);
+        $categories = $this->getCategoriesService->getCategories($params);
+
         return view("admin.categories.index", ["categories" => $categories]);
     }
 
@@ -34,7 +41,8 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        return view("admin.categories.create");
+        $categories = $this->getCategoriesService->getCategories();
+        return view("admin.categories.create", ["categories" => $categories]);
     }
 
     /**
@@ -51,7 +59,7 @@ class CategoriesController extends Controller
 
         $category = $this->manageCategoriesService->createCategory($createCategoryDto);
 
-        return redirect()->route("categories.index")->with("success","");
+        return redirect()->route("categories.index")->with("success", $category->name." created !");
     }
 
     /**
@@ -62,7 +70,9 @@ class CategoriesController extends Controller
      */
     public function show($id)
     {
-        //
+        $category = $this->getCategoriesService->getCategoryById($id);
+
+        return view("admin.categories.show", compact("category"));
     }
 
     /**
@@ -73,7 +83,10 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = $this->getCategoriesService->getCategoryById($id);
+        $categories = $this->getCategoriesService->getCategories();
+
+        return view("admin.categories.edit", compact("category", "categories"));
     }
 
     /**
@@ -83,9 +96,15 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCategoryRequest $request, $id)
     {
-        //
+        $request->validated();
+
+        $updateCateDto = UpdateCategoryDto::fromRequest($request);
+
+        $category = $this->manageCategoriesService->updateCategory($id, $updateCateDto);
+
+        return redirect()->route("categories.index")->with("success", $category->name." updated !");
     }
 
     /**
@@ -96,6 +115,8 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->manageCategoriesService->deleteCategory($id);
+
+        return redirect()->route("categories.index")->with("success", "Category deleted !");
     }
 }

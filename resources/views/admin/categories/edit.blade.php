@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Create Category')
+@section('title', 'Edit Category ' . $category->name)
 
 @section('content')
     <div class="container-fluid">
@@ -8,7 +8,7 @@
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="title">
-                        <h2>Create Category</h2>
+                        <h2>Edit Category: {{ $category->name }}</h2>
                     </div>
                 </div>
                 <!-- end col -->
@@ -23,7 +23,7 @@
                                     <a href="{{ route('categories.index') }}">Categories</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
-                                    Create Category
+                                    Edit Category
                                 </li>
                             </ol>
                         </nav>
@@ -42,32 +42,48 @@
                     @include('includes.errors')
 
                     <div class="card-style mb-30">
-                        <form action="{{ route('categories.store') }}" method="POST" id="create-cate-form" enctype="multipart/form-data">
+                        <form action="{{ route('categories.update', [$category->id]) }}" method="POST"
+                            id="create-cate-form" enctype="multipart/form-data">
+                            @method('PUT')
                             @csrf
 
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="name" name="name">
+                                <input type="text" class="form-control" id="name" name="name"
+                                    value="{{ $category->name }}">
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
-                                <input type="text" class="form-control" id="description" name="description">
+                                <input type="text" class="form-control" id="description" name="description"
+                                    value="{{ $category->description }}">
                             </div>
                             <div class="mb-3">
                                 <label for="parent_id" class="form-label">Select parent category</label>
-                                <select class="mb-3 form-select" name="parent_id" id="parent_id" value="{{ old('parent_id') }}">
+                                <select class="mb-3 form-select" name="parent_id" id="parent_id"
+                                    value="{{ $category->parent_id }}">
                                     <option selected value="">NULL</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @foreach ($categories as $cate)
+                                        <option value="{{ $cate->id }}" @selected($category->parent_id === $cate->id)>
+                                            {{ $cate->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
+
+                            <div>Banner</div>
+                            <img src="{{ asset($category->banner_url) }}" alt="{{ $category->name }}" class="w-100">
                             <div class="form-group mb-3">
                                 <label for="banner" class="form-label">Attach a banner image</label>
                                 <input type="file" name="banner" id="banner" class="form-control">
                             </div>
 
-                            <button type="submit" class="btn btn-success">Create</button>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="display_in_home" name="display_in_home"
+                                    @checked($category->display_in_home)>
+                                <label class="form-check-label" for="display_in_home">Display in home page</label>
+                            </div>
+
+                            <button type="submit" class="btn btn-success">Edit</button>
                         </form>
                     </div>
                     <!-- end card -->
@@ -91,7 +107,6 @@
                         required: true,
                     },
                     "banner": {
-                        required: true,
                         extension: "png|jpg|jpeg|webp"
                     }
                 },
@@ -100,7 +115,6 @@
                         required: "Name không được để trống",
                     },
                     "banner": {
-                        required: "Banner không được để trống",
                         extension: "Banner phải có phần mở rộng là .png .jpg .jpeg hoặc .webp"
                     }
                 }

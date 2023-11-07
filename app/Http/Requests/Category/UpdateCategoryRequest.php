@@ -4,7 +4,7 @@ namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateCategoryRequest extends FormRequest
+class UpdateCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class CreateCategoryRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'banner' => 'required|image|mimes:jpeg,png,jpg,webp'
+            'banner' => 'image|mimes:jpeg,png,jpg,webp'
         ];
     }
 
@@ -38,7 +38,6 @@ class CreateCategoryRequest extends FormRequest
     {
         return [
             'name.required' => 'Tên thể loại không được để trống',
-            'banner.required' => 'Banner là bắt buộc',
             'banner.image' => 'Banner phải có phần mở rộng là .png .jpg .jpeg hoặc .webp',
             'banner.mimes' => 'Banner phải có phần mở rộng là .png .jpg .jpeg hoặc .webp',
         ];

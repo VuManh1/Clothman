@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Api\AccountApiController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,11 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 // Account routes
 Route::prefix('account')->middleware(["auth"])->group(function () {
-    Route::put("/infor", [AccountApiController::class, "update"])->name("account.update");
+    Route::put("/infor", [AccountApiController::class, "updateInfor"])->name("api.account.infor.update");
+    Route::patch("/password", [AccountApiController::class, "changePassword"])->name("api.account.password.update");
 });

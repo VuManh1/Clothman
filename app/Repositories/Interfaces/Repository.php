@@ -2,48 +2,46 @@
 
 namespace App\Repositories\Interfaces;
 
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface Repository
 {
     /**
-     * Get all entities
-     * @return mixed
+     * Get all entities from database
      */
-    public function getAll();
+    public function getAll(): Collection;
 
     /**
-     * Get one entity
-     * @param $id
-     * @return mixed
+     * Get one entity by ID
      */
-    public function findById($id);
+    public function findById(string $id, array $includes = null): ?Model;
 
     /**
-     * Get entities
-     * @return LengthAwarePaginator
+     * Get one entity by filters
      */
-    public function find(array $filters, array $sorts, int $limit, array $includes): LengthAwarePaginator;
+    public function first(array $filters, array $includes = null): ?Model;
 
     /**
-     * Create an entity
-     * @param array $attributes
-     * @return mixed
+     * Get entities from database
      */
-    public function create(array $attributes);
+    public function find(int $limit, array $filters = null, array $sorts = null, array $includes = null): LengthAwarePaginator;
 
     /**
-     * Update an entity
-     * @param $id
-     * @param array $attributes
-     * @return mixed
+     * Insert an entity to database
      */
-    public function update($id, array $attributes);
+    public function create(array $attributes): Model;
 
     /**
-     * Delete an entity
-     * @param $id
-     * @return mixed
+     * Update an entity from database
+     * @throws \ModelNotFoundException
      */
-    public function delete($id);
+    public function update(string $id, array $attributes): Model;
+
+    /**
+     * Delete an entity from database
+     * @throws \ModelNotFoundException
+     */
+    public function delete(string $id): bool;
 }
