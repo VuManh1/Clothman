@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\ColorsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Auth\EmailVerificationController;
@@ -60,6 +61,7 @@ Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(fun
 
     Route::resource('products', ProductsController::class);
     Route::resource('categories', CategoriesController::class);
+    Route::resource('colors', ColorsController::class);
 
 });
 
