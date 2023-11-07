@@ -41,6 +41,9 @@
                     <li>
                         <a href="{{ route("categories.index") }}"> Categories </a>
                     </li>
+                    <li>
+                        <a href="{{ route("colors.index") }}"> Colors </a>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item">
