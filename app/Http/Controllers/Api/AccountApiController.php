@@ -18,6 +18,7 @@ class AccountApiController extends Controller
 
     /**
      * Handle update account information
+     * @return \Illuminate\Http\JsonResponse
      */
     public function updateInfor(UpdateAccountRequest $request) {
         $request->validated();
@@ -32,6 +33,7 @@ class AccountApiController extends Controller
 
     /**
      * Handle change password
+     * @return \Illuminate\Http\JsonResponse
      */
     public function changePassword(ChangePasswordRequest $request) {
         $request->validated();

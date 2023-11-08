@@ -18,6 +18,7 @@ interface GetCategoriesService
     /**
      * Get one category by ID
      * @return \App\Models\Category
+     * @throws \App\Exceptions\Categories\CategoryNotFoundException
      */
     public function getCategoryById(string $id): Category;
 }
