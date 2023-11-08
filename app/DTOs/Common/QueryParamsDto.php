@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 class QueryParamsDto
 {
     public function __construct(
+        public int $page,
         public int $limit,
         public ?string $sort,
         public ?string $by,
@@ -20,6 +21,7 @@ class QueryParamsDto
         $sort = $request->sort ? explode(".", $request->sort) : null;
 
         return new QueryParamsDto(
+            $request->page ?? 1,
             $request->limit ?? 10,
             $sort ? $sort[0] : null,
             $sort && isset($sort[1]) ? $sort[1] : "asc",

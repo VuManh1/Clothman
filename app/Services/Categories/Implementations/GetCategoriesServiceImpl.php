@@ -34,6 +34,7 @@ class GetCategoriesServiceImpl implements GetCategoriesService
         }
 
         $categories = $this->categoryRepository->find(
+            $params->page,
             $params->limit,
             $filters,
             $sorts

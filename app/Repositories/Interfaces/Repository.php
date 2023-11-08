@@ -26,7 +26,13 @@ interface Repository
     /**
      * Get entities from database
      */
-    public function find(int $limit, array $filters = null, array $sorts = null, array $includes = null): LengthAwarePaginator;
+    public function find(
+        int $page, 
+        int $limit, 
+        array $filters = null, 
+        array $sorts = null, 
+        array $includes = null
+    ): LengthAwarePaginator;
 
     /**
      * Insert an entity to database
