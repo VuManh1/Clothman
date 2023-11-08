@@ -91,7 +91,7 @@
 
                             </div>
 
-                            {{ $categories->appends(request()->query())->links() }}
+                            {{ $categories->links() }}
                         </div>
                         <!-- end card -->
                     </div>

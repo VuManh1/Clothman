@@ -31,6 +31,8 @@ class CategoriesController extends Controller
         $params = CategoryParamsDto::fromRequest($request);
         $categories = $this->getCategoriesService->getCategories($params);
 
+        $this->appendPaginatorUrl($categories);
+
         return view("admin.categories.index", ["categories" => $categories]);
     }
 

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
 
 abstract class EloquentRepository implements Repository
 {
@@ -81,7 +80,7 @@ abstract class EloquentRepository implements Repository
         $count = $query->count();
         $items = $query->forPage($page, $limit)->get();
 
-        return new LengthAwarePaginator($items, $count, $limit, $page, ['path' => url()->current()]); 
+        return new LengthAwarePaginator($items, $count, $limit, $page); 
     }
 
     public function create(array $attributes): Model {

@@ -25,6 +25,11 @@ interface Repository
 
     /**
      * Get entities from database
+     * @param int $page
+     * @param int $limit
+     * @param array $filters (column, operator, value) 
+     * @param array $sorts (column, by)
+     * @param array $includes
      */
     public function find(
         int $page, 
