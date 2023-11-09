@@ -36,7 +36,7 @@
                 </a>
                 <ul id="ddmenu_2" class="collapse dropdown-nav">
                     <li>
-                        <a href="settings.html"> Products </a>
+                        <a href="{{ route("products.index") }}"> Products </a>
                     </li>
                     <li>
                         <a href="{{ route("categories.index") }}"> Categories </a>

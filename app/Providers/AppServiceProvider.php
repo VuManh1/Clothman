@@ -11,7 +11,9 @@ use App\Services\Colors\Implementations\ManageColorsServiceImpl;
 use App\Services\Colors\Interfaces\GetColorsService;
 use App\Services\Colors\Interfaces\ManageColorsService;
 use App\Services\Products\Implementations\GetProductsServiceImpl;
+use App\Services\Products\Implementations\ManageProductsServiceImpl;
 use App\Services\Products\Interfaces\GetProductsService;
+use App\Services\Products\Interfaces\ManageProductsService;
 use App\Services\Upload\Implementations\LocalUploadService;
 use App\Services\Upload\Interfaces\UploadService;
 use App\Services\Users\Implementations\ManageUsersServiceImpl;
@@ -33,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Product Services
         $this->app->bind(GetProductsService::class, GetProductsServiceImpl::class);
+        $this->app->bind(ManageProductsService::class, ManageProductsServiceImpl::class);
 
         // Category Services
         $this->app->bind(GetCategoriesService::class, GetCategoriesServiceImpl::class);

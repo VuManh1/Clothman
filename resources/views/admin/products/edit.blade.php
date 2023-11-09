@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Edit Category ' . $category->name)
+@section('title', 'Edit Product ' . $product->name)
 
 @section('content')
     <div class="container-fluid">
@@ -8,7 +8,7 @@
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="title">
-                        <h2>Edit Category: {{ $category->name }}</h2>
+                        <h2>Edit Product: {{ $product->name }}</h2>
                     </div>
                 </div>
                 <!-- end col -->
@@ -20,10 +20,10 @@
                                     <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('categories.index') }}">Categories</a>
+                                    <a href="{{ route('products.index') }}">Products</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
-                                    Edit Category
+                                    Edit Product
                                 </li>
                             </ol>
                         </nav>
@@ -42,45 +42,32 @@
                     @include('includes.errors')
 
                     <div class="card-style mb-30">
-                        <form action="{{ route('categories.update', [$category->id]) }}" method="POST"
-                            id="edit-cate-form" enctype="multipart/form-data">
+                        <form action="{{ route('products.update', [$product->id]) }}" method="POST"
+                            id="edit-product-form" enctype="multipart/form-data">
                             @method('PUT')
                             @csrf
 
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    value="{{ $category->name }}">
+                                    value="{{ $product->name }}">
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
                                 <input type="text" class="form-control" id="description" name="description"
-                                    value="{{ $category->description }}">
+                                    value="{{ $product->description }}">
                             </div>
                             <div class="mb-3">
-                                <label for="parent_id" class="form-label">Select parent category</label>
-                                <select class="mb-3 form-select" name="parent_id" id="parent_id"
-                                    value="{{ $category->parent_id }}">
+                                <label for="category_id" class="form-label">Select category</label>
+                                <select class="mb-3 form-select" name="category_id" id="category_id"
+                                    value="{{ $product->category_id }}">
                                     <option selected value="">NULL</option>
-                                    @foreach ($categories as $cate)
-                                        <option value="{{ $cate->id }}" @selected($category->parent_id === $cate->id)>
-                                            {{ $cate->name }}
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}" @selected($product->category_id === $category->id)>
+                                            {{ $category->name }}
                                         </option>
                                     @endforeach
                                 </select>
-                            </div>
-
-                            <div>Banner</div>
-                            <img src="{{ asset($category->banner_url) }}" alt="{{ $category->name }}" class="w-100">
-                            <div class="form-group mb-3">
-                                <label for="banner" class="form-label">Attach a banner image</label>
-                                <input type="file" name="banner" id="banner" class="form-control">
-                            </div>
-
-                            <div class="mb-3 form-check">
-                                <input type="checkbox" class="form-check-input" id="display_in_home" name="display_in_home"
-                                    @checked($category->display_in_home)>
-                                <label class="form-check-label" for="display_in_home">Display in home page</label>
                             </div>
 
                             <button type="submit" class="btn btn-success">Edit</button>
@@ -101,22 +88,16 @@
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
     <script>
         $().ready(function() {
-            $("#edit-cate-form").validate({
+            $("#edit-product-form").validate({
                 rules: {
                     "name": {
                         required: true,
                     },
-                    "banner": {
-                        extension: "png|jpg|jpeg|webp"
-                    }
                 },
                 messages: {
                     "name": {
                         required: "Name không được để trống",
                     },
-                    "banner": {
-                        extension: "Banner phải có phần mở rộng là .png .jpg .jpeg hoặc .webp"
-                    }
                 }
             });
         });
