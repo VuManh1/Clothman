@@ -25,7 +25,15 @@ class CreateColorRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            // 'hex_code'=> 'required',
+            'hex_code'=> 'required',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name' => 'Tên là bắt buộc',
+            'hex_code' => 'Mã Màu là bắt buộc',
         ];
     }
 }

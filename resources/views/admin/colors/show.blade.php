@@ -1,8 +1,8 @@
 @extends('layouts.admin')
-@section('title', 'Color' . $color->name)
+@section('title', 'Color ' . $color->name)
 
 @section('content')
-    <x-modals.delete-modal id="delete-cate-modal" title="Delete this Color?"
+    <x-modals.delete-modal id="delete-color-modal" title="Delete this Color?"
         body="Are you sure you want to delete this Color?" action="{{ route('colors.destroy', [$color->id]) }}" />
 
     <div class="container-fluid">
@@ -26,7 +26,7 @@
                                     <a href="{{ route('colors.index') }}">Colors</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
-                                    {{ $color->name }}
+                                    Color {{ $color->name }}
                                 </li>
                             </ol>
                         </nav>
@@ -44,7 +44,7 @@
                 <div class="col-lg-12">
                     <div class="card-style mb-30">
                         @if (Auth::user()->role === "ADMIN")
-                            <button class="btn btn-danger mb-4" data-bs-toggle="modal" data-bs-target="#delete-cate-modal">
+                            <button class="btn btn-danger mb-4" data-bs-toggle="modal" data-bs-target="#delete-color-modal">
                                 Delete this Color
                             </button>
                         @else

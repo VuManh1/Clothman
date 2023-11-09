@@ -8,24 +8,11 @@ use App\DTOs\Colors\ColorParamsDto;
 use App\Exceptions\Colors\ColorNotFoundException;
 use App\Models\Color;
 
-/**
- * Summary of GetColorsServiceImpl
- */
-
-
-
 class GetColorsServiceImpl implements GetColorsService
 {
-    /**
-     * Summary of __construct
-     * @param \App\Repositories\Interfaces\ColorRepository $colorRepository
-     */
     public function __construct(
         private ColorRepository $colorRepository
     ) {}
-
-
-
 
     public function getColors(ColorParamsDto $params = null) {
         if (!$params) {
@@ -57,7 +44,7 @@ class GetColorsServiceImpl implements GetColorsService
     }
 
     public function getColorsById(string $id): Color {
-        $color = $this->colorRepository->findById($id, ['parent']);
+        $color = $this->colorRepository->findById($id);
 
         if (!$color) throw new ColorNotFoundException();
 

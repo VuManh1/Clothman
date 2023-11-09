@@ -13,10 +13,9 @@ class CreateColorDto
         $this->hex_code = $hex_code;
     }
 
-    // public static function fromRequest(Request $request) {
-    //     return new self($request->name, $request->hex_code);
-    // }
-
+    /**
+     * Map request to CreateColorDto object
+     */
     public static function fromRequest(Request $request) {
         $name = $request->input('name');
         $hex_code = $request->input('hex_code');

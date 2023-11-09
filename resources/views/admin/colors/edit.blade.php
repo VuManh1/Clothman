@@ -43,7 +43,7 @@
 
                     <div class="card-style mb-30">
                         <form action="{{ route('colors.update', [$color->id]) }}" method="POST"
-                            id="create-cate-form" enctype="multipart/form-data">
+                            id="edit-color-form" enctype="multipart/form-data">
                             @method('PUT')
                             @csrf
 
@@ -76,15 +76,21 @@
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
     <script>
         $().ready(function() {
-            $("#create-cate-form").validate({
+            $("#edit-color-form").validate({
                 rules: {
                     "name": {
+                        required: true,
+                    },
+                    "hex_code": {
                         required: true,
                     }
                 },
                 messages: {
                     "name": {
                         required: "Name không được để trống",
+                    },
+                    "hex_code": {
+                        required: "Code không được để trống",
                     }
                 }
             });

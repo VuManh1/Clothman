@@ -14,6 +14,7 @@ class UpdateColorRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'hex_code'=> 'required',
         ];
     }
 
@@ -21,6 +22,7 @@ class UpdateColorRequest extends FormRequest
     {
         return [
             'name' => 'Tên là bắt buộc',
-            ];
+            'hex_code' => 'Mã Màu là bắt buộc',
+        ];
     }
 }

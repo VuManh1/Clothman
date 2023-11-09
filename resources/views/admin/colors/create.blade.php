@@ -40,7 +40,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card-style mb-30">
-                        <form action="{{ route('colors.store') }}" method="POST" id="create-cate-form">
+                        <form action="{{ route('colors.store') }}" method="POST" id="create-color-form">
                             @csrf
 
                             <div class="mb-3">
@@ -69,22 +69,22 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js"></script>
     <script>
         $().ready(function() {
-            $("#create-cate-form").validate({
+            $("#create-color-form").validate({
                 rules: {
                     "name": {
                         required: true,
                     },
-                    // "hex_code": {
-                    //     required: true,
-                    // },
+                    "hex_code": {
+                        required: true,
+                    },
                 },
                 messages: {
                     "name": {
                         required: "Name không được để trống",
                     },
-                    // "hex_code":{
-                    //     required: "hex_code không được để trống",
-                    // },
+                    "hex_code":{
+                        required: "hex_code không được để trống",
+                    },
                 }
             });
         });
