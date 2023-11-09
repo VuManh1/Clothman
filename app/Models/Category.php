@@ -42,4 +42,12 @@ class Category extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    /**
+     * Get the child categories for the category.
+     */
+    public function childs(): HasMany
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
 }

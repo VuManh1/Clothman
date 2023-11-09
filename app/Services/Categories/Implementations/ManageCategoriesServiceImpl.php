@@ -4,7 +4,7 @@ namespace App\Services\Categories\Implementations;
 
 use App\DTOs\Categories\CreateCategoryDto;
 use App\DTOs\Categories\UpdateCategoryDto;
-use App\Exceptions\Categories\CategoryNotFoundException;
+use App\Exceptions\Categories\CategoryCanNotDeleteException;
 use App\Models\Category;
 use App\Repositories\Interfaces\CategoryRepository;
 use App\Services\Categories\Interfaces\ManageCategoriesService;
@@ -66,6 +66,13 @@ class ManageCategoriesServiceImpl implements ManageCategoriesService
     }
 
     public function deleteCategory($id): bool {
+        $isChildExists = $this->categoryRepository->checkChildExists($id);
+
+        // not allow to delete category if it have child category
+        if ($isChildExists) {
+            throw new CategoryCanNotDeleteException("Không thể xóa thể loại này vì có ít nhất một thể loại con !");
+        }
+
         return $this->categoryRepository->delete($id);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\DTOs\Categories\CategoryParamsDto;
 use App\DTOs\Categories\CreateCategoryDto;
 use App\DTOs\Categories\UpdateCategoryDto;
+use App\Exceptions\Categories\CategoryCanNotDeleteException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\CreateCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
@@ -117,7 +118,11 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        $this->manageCategoriesService->deleteCategory($id);
+        try {
+            $this->manageCategoriesService->deleteCategory($id);
+        } catch (CategoryCanNotDeleteException $ex) {
+            return back()->with('error', $ex->getMessage());
+        }
 
         return redirect()->route("categories.index")->with("success", "Category deleted !");
     }
