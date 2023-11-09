@@ -5,7 +5,7 @@ namespace App\Services\Categories\Implementations;
 use App\DTOs\Categories\CreateCategoryDto;
 use App\DTOs\Categories\UpdateCategoryDto;
 use App\Exceptions\Categories\CategoryCanNotDeleteException;
-use App\Exceptions\Categories\CategoryDuplicateException;
+use App\Exceptions\Categories\CategoryDuplicatedException;
 use App\Models\Category;
 use App\Repositories\Interfaces\CategoryRepository;
 use App\Services\Categories\Interfaces\ManageCategoriesService;
@@ -39,7 +39,7 @@ class ManageCategoriesServiceImpl implements ManageCategoriesService
             // if have any error, delete the file created previous
             $this->uploadService->deleteFile($uploadResult['path']);
 
-            throw new CategoryDuplicateException();
+            throw new CategoryDuplicatedException();
         }
     }
 
@@ -71,7 +71,7 @@ class ManageCategoriesServiceImpl implements ManageCategoriesService
                 $this->uploadService->deleteFile($uploadResult['path']);
             }
 
-            throw new CategoryDuplicateException();
+            throw new CategoryDuplicatedException();
         }
     }
 
