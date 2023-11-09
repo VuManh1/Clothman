@@ -38,7 +38,7 @@ class ManageUsersServiceImpl implements ManageUsersService
 
         $this->userRepository->update($id, [
             'password' => Hash::make($changePasswordDto->password)
-        ]);            
+        ]);
 
         return true;
     }

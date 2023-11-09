@@ -47,7 +47,7 @@ class GetCategoriesServiceImpl implements GetCategoriesService
         $category = $this->categoryRepository->findById($id, ['parent']);
 
         if (!$category) throw new CategoryNotFoundException();
-        
+
         return $category;
     }
 }
