@@ -43,7 +43,7 @@ class GetColorsServiceImpl implements GetColorsService
         return $colors;
     }
 
-    public function getColorsById(string $id): Color {
+    public function getColorById(string $id): Color {
         $color = $this->colorRepository->findById($id);
 
         if (!$color) throw new ColorNotFoundException();

@@ -4,7 +4,6 @@ namespace App\Exceptions\Users;
  
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class PasswordNotMatchException extends Exception
 {

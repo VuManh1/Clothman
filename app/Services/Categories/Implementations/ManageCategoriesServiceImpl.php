@@ -5,12 +5,12 @@ namespace App\Services\Categories\Implementations;
 use App\DTOs\Categories\CreateCategoryDto;
 use App\DTOs\Categories\UpdateCategoryDto;
 use App\Exceptions\Categories\CategoryCanNotDeleteException;
+use App\Exceptions\Categories\CategoryDuplicateException;
 use App\Models\Category;
 use App\Repositories\Interfaces\CategoryRepository;
 use App\Services\Categories\Interfaces\ManageCategoriesService;
 use App\Services\Upload\Interfaces\UploadService;
 use App\Utils\UploadFolder;
-use Error;
 use Illuminate\Support\Str;
 
 class ManageCategoriesServiceImpl implements ManageCategoriesService
@@ -35,11 +35,11 @@ class ManageCategoriesServiceImpl implements ManageCategoriesService
                 'banner_url' => $uploadResult['path'],
                 'parent_id' => $createCategoryDto->parentId ?? null
             ]);
-        } catch (\Throwable $th) {
+        } catch (\Illuminate\Database\QueryException $th) {
             // if have any error, delete the file created previous
             $this->uploadService->deleteFile($uploadResult['path']);
 
-            throw new Error();
+            throw new CategoryDuplicateException();
         }
     }
 
@@ -54,6 +54,7 @@ class ManageCategoriesServiceImpl implements ManageCategoriesService
         ];
 
         // if have an image, upload it and assign path to $data
+        $uploadResult = null;
         if ($updateCategoryDto->banner) {
             $uploadResult = $this->uploadService->uploadFile($updateCategoryDto->banner, [
                 'folder' => UploadFolder::CATEGORY_BANNERS
@@ -62,7 +63,16 @@ class ManageCategoriesServiceImpl implements ManageCategoriesService
             $data['banner_url'] = $uploadResult['path'];
         }
 
-        return $this->categoryRepository->update($id, $data);
+        try {
+            return $this->categoryRepository->update($id, $data);
+        } catch (\Illuminate\Database\QueryException $ex) {
+            // if have any error, delete the file created previous if have
+            if ($uploadResult) {
+                $this->uploadService->deleteFile($uploadResult['path']);
+            }
+
+            throw new CategoryDuplicateException();
+        }
     }
 
     public function deleteCategory($id): bool {

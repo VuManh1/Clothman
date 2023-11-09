@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DTOs\Colors\ColorParamsDto;
 use App\DTOs\Colors\UpdateColorDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Color\UpdateColorRequest;
 use Illuminate\Http\Request;
 use App\DTOs\Colors\CreateColorDto;
+use App\Exceptions\Colors\ColorDuplicateException;
 use App\Http\Requests\Color\CreateColorRequest;
 use App\Services\Colors\Interfaces\GetColorsService;
 use App\Services\Colors\Interfaces\ManageColorsService;
-
 
 class ColorsController extends Controller
 {
     public function __construct(
         private GetColorsService $getColorsService,
         private ManageColorsService $manageColorsService,
-    ) {}
+    ) {
+        $this->middleware('role:ADMIN,null,null')->only(['destroy']);
+    }
 
     /**
      * Display a listing of the resource.
@@ -26,7 +29,11 @@ class ColorsController extends Controller
      */
     public function index(Request $request)
     {
-        $colors = $this->getColorsService->getColors();
+        $params = ColorParamsDto::fromRequest($request);
+        $colors = $this->getColorsService->getColors($params);
+
+        $this->appendPaginatorURL($colors);
+
         return view("admin.colors.index", ["colors" => $colors]);
     }
 
@@ -40,18 +47,9 @@ class ColorsController extends Controller
         return view("admin.colors.create");
     }
 
-    public function show($id)
-    {
-        $color = $this->getColorsService->getColorsById($id);
-
-        return view("admin.colors.show", compact("color"));
-    }
-
-
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(CreateColorRequest $request)
@@ -60,37 +58,68 @@ class ColorsController extends Controller
 
         $createColorDto = CreateColorDto::fromRequest($request);
 
-        $color = $this->manageColorsService->createColor($createColorDto);
+        try {
+            $color = $this->manageColorsService->createColor($createColorDto);
+        } catch (ColorDuplicateException $ex) {
+            return back()->with('error', $ex->getMessage())->onlyInput('name', 'hex_code');
+        }
 
-
-        return redirect()->route("colors.index")->with("success","");
+        return redirect()->route("colors.index")->with("success", $color->name." created !");
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $color = $this->getColorsService->getColorById($id);
+
+        return view("admin.colors.show", compact("color"));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function edit($id)
     {
-        $color = $this->getColorsService->getColorsById($id);
-        $colors = $this->getColorsService->getColors();
+        $color = $this->getColorsService->getColorById($id);
 
-
-        return view("admin.colors.edit", compact("color", "colors"));
+        return view("admin.colors.edit", compact("color"));
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function update(UpdateColorRequest $request, $id)
     {
         $request->validated();
 
         $updateColorDto = UpdateColorDto::fromRequest($request);
 
-        $color = $this->manageColorsService->updateColor($id, $updateColorDto);
+        try {
+            $color = $this->manageColorsService->updateColor($id, $updateColorDto);
+        } catch (ColorDuplicateException $ex) {
+            return back()->with('error', $ex->getMessage());
+        }
 
         return redirect()->route("colors.index")->with("success", $color->name." updated !");
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
     {
         $this->manageColorsService->deleteColor($id);
 
         return redirect()->route("colors.index")->with("success", "Color deleted !");
     }
-
 }

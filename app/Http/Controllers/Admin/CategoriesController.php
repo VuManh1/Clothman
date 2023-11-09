@@ -6,6 +6,7 @@ use App\DTOs\Categories\CategoryParamsDto;
 use App\DTOs\Categories\CreateCategoryDto;
 use App\DTOs\Categories\UpdateCategoryDto;
 use App\Exceptions\Categories\CategoryCanNotDeleteException;
+use App\Exceptions\Categories\CategoryDuplicateException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\CreateCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
@@ -51,7 +52,6 @@ class CategoriesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(CreateCategoryRequest $request)
@@ -60,7 +60,11 @@ class CategoriesController extends Controller
 
         $createCategoryDto = CreateCategoryDto::fromRequest($request);
 
-        $category = $this->manageCategoriesService->createCategory($createCategoryDto);
+        try {
+            $category = $this->manageCategoriesService->createCategory($createCategoryDto);
+        } catch (CategoryDuplicateException $ex) {
+            return back()->with('error', $ex->getMessage());
+        }
 
         return redirect()->route("categories.index")->with("success", $category->name." created !");
     }
@@ -68,7 +72,6 @@ class CategoriesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -81,7 +84,6 @@ class CategoriesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -95,8 +97,6 @@ class CategoriesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateCategoryRequest $request, $id)
@@ -105,7 +105,11 @@ class CategoriesController extends Controller
 
         $updateCateDto = UpdateCategoryDto::fromRequest($request);
 
-        $category = $this->manageCategoriesService->updateCategory($id, $updateCateDto);
+        try {
+            $category = $this->manageCategoriesService->updateCategory($id, $updateCateDto);
+        } catch (CategoryDuplicateException $ex) {
+            return back()->with('error', $ex->getMessage());
+        }
 
         return redirect()->route("categories.index")->with("success", $category->name." updated !");
     }
@@ -113,7 +117,6 @@ class CategoriesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

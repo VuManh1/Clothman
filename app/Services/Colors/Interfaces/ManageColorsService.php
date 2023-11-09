@@ -13,20 +13,20 @@ interface ManageColorsService
 {
     /**
      * Create a color
+     * 
+     * @throws \App\Exceptions\Colors\ColorDuplicateException
      */
     public function createColor(CreateColorDto $createColorDto): Color;
 
     /**
      * edit a color
+     * 
+     * @throws \App\Exceptions\Colors\ColorDuplicateException
      */
     public function updateColor($id, UpdateColorDto $updateColorDto): Color;
 
     /**
      * Delete a color
      */
-
     public function deleteColor($id): bool;
-
-    // public function updateColor(UpdateColorDto $updateColorDto);
-    // public function deleteColor(DeleteColorDto $deleteColorDto);
 }

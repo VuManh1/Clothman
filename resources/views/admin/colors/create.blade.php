@@ -45,11 +45,11 @@
 
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="name" name="name">
+                                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="hex_code" class="form-label">Hex_code</label>
-                                <input type="text" class="form-control" id="hex_code" name="hex_code">
+                                <input type="text" class="form-control" id="hex_code" name="hex_code" value="{{ old('hex_code') }}">
                             </div>
 
                             <button type="submit" class="btn btn-success">Create</button>

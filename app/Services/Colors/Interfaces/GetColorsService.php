@@ -15,6 +15,10 @@ interface GetColorsService
      */
     public function getColors(ColorParamsDto $params = null);
 
-    public function getColorsById(string $id): Color;
-
+    /**
+     * Get one color by ID
+     * @return \App\Models\Color
+     * @throws \App\Exceptions\Colors\ColorNotFoundException
+     */
+    public function getColorById(string $id): Color;
 }
