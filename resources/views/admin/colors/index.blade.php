@@ -52,10 +52,14 @@
                                             <th class="lead-info">
                                                 <h6>hex_code</h6>
                                             </th>
+                                            <th>
+                                                <h6>Actions</h6>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @if (isset($colors) && $colors->isNotEmpty())
+
                                             @foreach ($colors as $color)
                                                 <tr>
                                                     <td class="min-width">
@@ -66,9 +70,17 @@
                                                         </div>
                                                     </td>
                                                     <td class="min-width">
-                                                        <p>{{ $color->hex_code }}</p>
+                                                        <div style="background-color: {{ $color->hex_code }}; width: 50px; height: 50px"></div>
+                                                    </td>
+
+                                                    <td>
+                                                        <div class="action gap-2">
+                                                            <a href="{{ route("colors.show", [$color->id]) }}" class="btn btn-success">Detail</a>
+                                                            <a href="{{ route("colors.edit", [$color->id]) }}" class="btn btn-success">Edit</a>
+                                                        </div>
                                                     </td>
                                                 </tr>
+
                                             @endforeach
                                         @endif
                                     </tbody>

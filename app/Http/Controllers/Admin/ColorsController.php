@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DTOs\Colors\UpdateColorDto;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Color\UpdateColorRequest;
 use Illuminate\Http\Request;
 use App\DTOs\Colors\CreateColorDto;
 use App\Http\Requests\Color\CreateColorRequest;
@@ -24,7 +26,7 @@ class ColorsController extends Controller
      */
     public function index(Request $request)
     {
-        $colors = $this->getColorsService->get();
+        $colors = $this->getColorsService->getColors();
         return view("admin.colors.index", ["colors" => $colors]);
     }
 
@@ -37,6 +39,14 @@ class ColorsController extends Controller
     {
         return view("admin.colors.create");
     }
+
+    public function show($id)
+    {
+        $color = $this->getColorsService->getColorsById($id);
+
+        return view("admin.colors.show", compact("color"));
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -52,7 +62,35 @@ class ColorsController extends Controller
 
         $color = $this->manageColorsService->createColor($createColorDto);
 
+
         return redirect()->route("colors.index")->with("success","");
+    }
+
+    public function edit($id)
+    {
+        $color = $this->getColorsService->getColorsById($id);
+        $colors = $this->getColorsService->getColors();
+
+
+        return view("admin.colors.edit", compact("color", "colors"));
+    }
+
+    public function update(UpdateColorRequest $request, $id)
+    {
+        $request->validated();
+
+        $updateColorDto = UpdateColorDto::fromRequest($request);
+
+        $color = $this->manageColorsService->updateColor($id, $updateColorDto);
+
+        return redirect()->route("colors.index")->with("success", $color->name." updated !");
+    }
+
+    public function destroy($id)
+    {
+        $this->manageColorsService->deleteColor($id);
+
+        return redirect()->route("colors.index")->with("success", "Color deleted !");
     }
 
 }
