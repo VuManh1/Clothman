@@ -92,6 +92,8 @@
                                     <div>Không có kết quả</div>
                                 @endif
                             </div>
+
+                            {{ $colors->links() }}
                         </div>
                         <!-- end card -->
                     </div>
