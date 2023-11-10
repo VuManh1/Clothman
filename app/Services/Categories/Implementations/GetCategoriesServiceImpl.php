@@ -37,7 +37,8 @@ class GetCategoriesServiceImpl implements GetCategoriesService
             $params->page,
             $params->limit,
             $filters,
-            $sorts
+            $sorts,
+            $params->includes
         );
 
         return $categories;

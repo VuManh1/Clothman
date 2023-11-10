@@ -37,7 +37,8 @@ class GetProductsServiceImpl implements GetProductsService
             $params->page,
             $params->limit,
             $filters,
-            $sorts
+            $sorts,
+            $params->includes
         );
     }
 
@@ -47,5 +48,13 @@ class GetProductsServiceImpl implements GetProductsService
         if (!$product) throw new ProductNotFoundException();
 
         return $product;
+    }
+
+    public function getProductByIdWithAllDetails(string $id): Product {
+        $product = $this->productRepository->findById($id, ['category', 'productVariants', 'images']);
+
+        if (!$product) throw new ProductNotFoundException();
+
+        return $product; 
     }
 }

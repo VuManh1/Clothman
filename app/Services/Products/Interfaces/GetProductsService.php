@@ -22,4 +22,11 @@ interface GetProductsService
      * @throws \App\Exceptions\Products\ProductNotFoundException
      */
     public function getProductById(string $id): Product;
+
+    /**
+     * Get one product by ID with all of it's relationships
+     * @return \App\Models\Product
+     * @throws \App\Exceptions\Products\ProductNotFoundException
+     */
+    public function getProductByIdWithAllDetails(string $id): Product;
 }

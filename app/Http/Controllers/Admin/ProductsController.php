@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\DTOs\Products\CreateProductDto;
 use App\DTOs\Products\ProductParamsDto;
+use App\DTOs\Products\UpdateProductDto;
 use App\Exceptions\UniqueFieldException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\CreateProductRequest;
+use App\Http\Requests\Product\UpdateProductRequest;
 use App\Services\Categories\Interfaces\GetCategoriesService;
 use App\Services\Colors\Interfaces\GetColorsService;
 use Illuminate\Http\Request;
@@ -32,6 +34,8 @@ class ProductsController extends Controller
     public function index(Request $request)
     {
         $params = ProductParamsDto::fromRequest($request);
+        $params->includes = ['category']; // load product's category
+
         $products = $this->getProductsService->getProducts($params);
 
         $this->appendPaginatorURL($products);
@@ -79,7 +83,7 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        $product = $this->getProductsService->getProductById($id);
+        $product = $this->getProductsService->getProductByIdWithAllDetails($id);
 
         return view("admin.products.show", ['product' => $product]);
     }
@@ -91,10 +95,13 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        $product = $this->getProductsService->getProductById($id);
+        $product = $this->getProductsService->getProductByIdWithAllDetails($id);
+        
+        // get categories and colors for product to select
         $categories = $this->getCategoriesService->getCategories();
+        $colors = $this->getColorsService->getColors();
 
-        return view("admin.products.edit", compact('product', 'categories'));
+        return view("admin.products.edit", compact('product', 'categories', 'colors'));
     }
 
     /**
@@ -102,9 +109,18 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateProductRequest $request, $id)
     {
-        //
+        $request->validated();
+        $updateProductDto = UpdateProductDto::fromRequest($request);
+
+        try {
+            $product = $this->manageProductsService->updateProduct($id, $updateProductDto);
+        } catch (UniqueFieldException $ex) {
+            return back()->with('error', $ex->getMessage());
+        }
+
+        return redirect()->route("products.index")->with('success', $product->name.' created!');
     }
 
     /**

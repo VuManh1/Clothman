@@ -12,7 +12,8 @@ class CategoryParamsDto extends QueryParamsDto
         public int $limit,
         public ?string $sort,
         public ?string $by,
-        public ?string $keyword
+        public ?string $keyword,
+        public ?array $includes
     ) {
         parent::__construct($page, $limit, $sort, $by, $keyword);
     }
@@ -29,6 +30,7 @@ class CategoryParamsDto extends QueryParamsDto
             $paramsDto->sort,
             $paramsDto->by,
             $paramsDto->keyword,
+            null
         );
     }
 }

@@ -31,6 +31,8 @@ class CategoriesController extends Controller
     public function index(Request $request)
     {
         $params = CategoryParamsDto::fromRequest($request);
+        $params->includes = ['parent']; // load parent category
+
         $categories = $this->getCategoriesService->getCategories($params);
 
         $this->appendPaginatorUrl($categories);

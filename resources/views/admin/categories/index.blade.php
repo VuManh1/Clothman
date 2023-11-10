@@ -52,6 +52,9 @@
                                             <th class="lead-email">
                                                 <h6>Name</h6>
                                             </th>
+                                            <th class="lead-email">
+                                                <h6>Parent</h6>
+                                            </th>
                                             <th>
                                                 <h6>Actions</h6>
                                             </th>
@@ -70,7 +73,10 @@
                                                         </div>
                                                     </td>
                                                     <td class="min-width">
-                                                        <p><a href="#0">{{ $category->name }}</a></p>
+                                                        <p>{{ $category->name }}</p>
+                                                    </td>
+                                                    <td class="min-width">
+                                                        <p>{{ $category->parent ? $category->parent->name : "NULL" }}</p>
                                                     </td>
                                                     <td>
                                                         <div class="action gap-2">

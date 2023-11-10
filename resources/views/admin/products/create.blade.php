@@ -185,6 +185,7 @@
             //     success: "valid"
             // });
 
+            // validate form submit
             $("#create-product-form").validate({
                 rules: {
                     "name": {
@@ -217,6 +218,7 @@
                     }
                 },
                 submitHandler: function(form) {
+                    // Check if have at least 1 product variant
                     if ($("#colors-container").children().length > 0) {
                         form.submit();
                     } else {
@@ -228,6 +230,7 @@
                 }
             }).settings.ignore = [];
 
+            // Event click on color select button on modal
             $(".color-select").click(function () {
                 resetColorSelect();
                 $(this).addClass("selected");
@@ -236,18 +239,17 @@
                 selectingColorCode = $(this).data("colorcode");
                 selectingColorName = $(this).data("colorname");
 
-                changeColorName(selectingColorName);
+                $(".modal-color-name").html(selectingColorName);
+
             });
         });
 
+        // remove .selected class in all color select buttons
         function resetColorSelect() {
             $(".color-select.selected").removeClass("selected");
         }
 
-        function changeColorName(colorName) {
-            $(".modal-color-name").html(colorName);
-        }
-
+        // Event click on OK button of colors modal
         function onClickColorsModal(e) {
             if (selectedColors.includes(selectingColor)) {
                 toastr.error("Màu này đã được chọn!");
@@ -257,6 +259,7 @@
             selectedColors.push(selectingColor);
             colorsModal.hide();
 
+            // Generate size tabs of a color
             let sizeTabs = sizes.map(size => `
                 <div class="col-lg-3">
                     <div class="border">
@@ -280,6 +283,7 @@
                 </div>
                 `).join("");
 
+            // Append color variant html
             $('#colors-container').prepend(`
             <div  class="color-item" data-colorid="${selectingColor}" style="border: 1px solid ${selectingColorCode}; box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);">
                 <div style="background-color: ${selectingColorCode};" class="p-3">
@@ -312,9 +316,11 @@
             </div>
             `);
 
+            // Set event click on remove button of new color variant
             $('.remove-color-btn').click(onClickRemoveColor);
         }
 
+        // Event click on remove button of color variants
         function onClickRemoveColor() {
             const id = $(this).parents('.color-item').data("colorid");
             selectedColors = selectedColors.filter(c => c !== id);

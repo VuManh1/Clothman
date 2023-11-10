@@ -50,7 +50,16 @@
                                                 <h6>#</h6>
                                             </th>
                                             <th class="lead-email">
+                                                <h6>Thumbnail</h6>
+                                            </th>
+                                            <th>
                                                 <h6>Name</h6>
+                                            </th>
+                                            <th>
+                                                <h6>Category</h6>
+                                            </th>
+                                            <th>
+                                                <h6>Price</h6>
                                             </th>
                                             <th>
                                                 <h6>Actions</h6>
@@ -62,15 +71,22 @@
                                         @if (isset($products) && $products->isNotEmpty())
                                             @foreach ($products as $product)
                                                 <tr>
+                                                    <td>{{ $product->code }}</td>
                                                     <td class="min-width">
                                                         <div class="lead">
-                                                            <div class="lead-image">
+                                                            <div class="lead-image" style="border-radius: 0">
                                                                 <img src="{{ asset($product->thumbnail_url) }}" alt="{{ $product->name }}" />
                                                             </div>
                                                         </div>
                                                     </td>
                                                     <td class="min-width">
-                                                        <p><a href="#0">{{ $product->name }}</a></p>
+                                                        <p>{{ $product->name }}</p>
+                                                    </td>
+                                                    <td class="min-width">
+                                                        <p>{{ $product->category->name }}</p>
+                                                    </td>
+                                                    <td class="min-width">
+                                                        <p>{{ $product->price }}đ</p>
                                                     </td>
                                                     <td>
                                                         <div class="action gap-2">

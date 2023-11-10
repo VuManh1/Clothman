@@ -12,7 +12,8 @@ class ProductParamsDto extends QueryParamsDto
         public int $limit,
         public ?string $sort,
         public ?string $by,
-        public ?string $keyword
+        public ?string $keyword,
+        public ?array $includes
     ) {
         parent::__construct($page, $limit, $sort, $by, $keyword);
     }
@@ -29,6 +30,7 @@ class ProductParamsDto extends QueryParamsDto
             $paramsDto->sort,
             $paramsDto->by,
             $paramsDto->keyword,
+            null
         );
     }
 }

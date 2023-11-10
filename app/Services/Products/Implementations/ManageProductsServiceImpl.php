@@ -76,6 +76,7 @@ class ManageProductsServiceImpl implements ManageProductsService
                     $totalQuantity += $createProductDto->colorQuantity[$color];
                 }
 
+                // Upload images of color variant
                 if ($createProductDto->colorImages && $createProductDto->colorImages[$color]) {
                     foreach ($createProductDto->colorImages[$color] as $image) {
                         $result = $this->uploadService->uploadFile($image, ['folder' => UploadFolder::PRODUCT_IMAGES]);
