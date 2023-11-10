@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DTOs\Products\CreateProductDto;
 use App\DTOs\Products\ProductParamsDto;
+use App\Exceptions\UniqueFieldException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Product\CreateProductRequest;
 use App\Services\Categories\Interfaces\GetCategoriesService;
+use App\Services\Colors\Interfaces\GetColorsService;
 use Illuminate\Http\Request;
 use App\Services\Products\Interfaces\GetProductsService;
 use App\Services\Products\Interfaces\ManageProductsService;
@@ -13,6 +17,7 @@ class ProductsController extends Controller
 {
     public function __construct(
         private GetCategoriesService $getCategoriesService,
+        private GetColorsService $getColorsService,
         private GetProductsService $getProductsService,
         private ManageProductsService $manageProductsService
     ) {
@@ -41,8 +46,11 @@ class ProductsController extends Controller
      */
     public function create()
     {
+        // get categories and colors for product to select
         $categories = $this->getCategoriesService->getCategories();
-        return view("admin.products.create", compact('categories'));
+        $colors = $this->getColorsService->getColors();
+
+        return view("admin.products.create", compact('categories', 'colors'));
     }
 
     /**
@@ -50,9 +58,18 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateProductRequest $request)
     {
-        //
+        $request->validated();
+        $createProductDto = CreateProductDto::fromRequest($request);
+
+        try {
+            $product = $this->manageProductsService->createProduct($createProductDto);
+        } catch (UniqueFieldException $ex) {
+            return back()->with('error', $ex->getMessage());
+        }
+
+        return redirect()->route("products.index")->with('success', $product->name.' created!');
     }
 
     /**

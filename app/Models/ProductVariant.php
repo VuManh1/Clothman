@@ -11,6 +11,8 @@ class ProductVariant extends Model
 {
     use HasFactory, HasUuids;
 
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *

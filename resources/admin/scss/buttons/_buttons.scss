@@ -616,3 +616,17 @@
     background: rgba($orange, 0.1);
   }
 }
+
+/* ======= Color select buttons ========= */
+.color-select {
+  width: 51px;
+  height: 30px;
+  border-radius: 9999px;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.color-select.selected {
+  border: 3px solid white;
+  outline: 3px solid blue;
+}

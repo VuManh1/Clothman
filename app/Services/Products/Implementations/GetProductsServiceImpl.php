@@ -19,9 +19,25 @@ class GetProductsServiceImpl implements GetProductsService
             return $this->productRepository->getAll();
         }
 
+        $filters = null;
+        if ($params->keyword) {
+            $filters = [
+                'column' => 'name',
+                'operator' => 'LIKE',
+                'value' => '%'.$params->keyword.'%'
+            ];
+        }
+
+        $sorts = null;
+        if ($params->sort) {
+            $sorts = ['column' => $params->sort, 'by' => $params->by];
+        }
+
         return $this->productRepository->find(
             $params->page,
             $params->limit,
+            $filters,
+            $sorts
         );
     }
 

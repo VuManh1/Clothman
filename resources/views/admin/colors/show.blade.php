@@ -60,7 +60,7 @@
                         <div class="mb-2">
                             Hex_code:
                             <strong>{{ $color->hex_code ?? 'NULL' }}</strong>
-                            <div style="background-color: {{ $color->hex_code }}; width: 50px; height: 50px"></div>
+                            <div style="background-color: {{ $color->hex_code }}; width: 50px; height: 50px; box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);"></div>
                         </div>
 
                     </div>

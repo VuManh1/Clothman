@@ -3,19 +3,24 @@
 namespace App\DTOs\Products;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 
 class CreateProductDto
 {
     public function __construct(
         public string $name,
-        public string $code,
         public string $categoryId,
         public ?string $description,
         public ?string $material,
         public ?int $price,
         public ?int $discount,
-        public ?string $sizeGuildUrl,
-        public ?int $quantity,
+        public ?UploadedFile $thumbnail,
+        public ?UploadedFile $sizeGuild,
+        public array $colors,
+        public ?array $colorSizes,
+        public array $colorQuantity,
+        public array $colorSizeQuantity,
+        public ?array $colorImages,
     ) {}
 
     /**
@@ -24,14 +29,18 @@ class CreateProductDto
     public static function fromRequest(Request $request) {
         return new self(
             $request->name, 
-            $request->code,
-            $request->categor_id,
+            $request->category_id,
             $request->description,
             $request->material,
             $request->price,
             $request->discount,
-            $request->sizeGuildUrl,
-            $request->quantity,
+            $request->thumbnail,
+            $request->size_guild,
+            $request->colors,
+            $request->color_sizes,
+            $request->color_quantity,
+            $request->color_size_quantity,
+            $request->color_images,
         );
     }
 }
