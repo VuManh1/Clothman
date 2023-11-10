@@ -4,7 +4,7 @@ namespace App\Services\Colors\Implementations;
 
 use App\DTOs\Colors\CreateColorDto;
 use App\DTOs\Colors\UpdateColorDto;
-use App\Exceptions\Colors\ColorDuplicatedException;
+use App\Exceptions\UniqueFieldException;
 use App\Repositories\Interfaces\ColorRepository;
 use App\Services\Colors\Interfaces\ManageColorsService;
 use App\Models\Color;
@@ -22,7 +22,7 @@ class ManageColorsServiceImpl implements ManageColorsService
                 "hex_code"=> $createColorDto->hex_code,
             ]);
         } catch (\Illuminate\Database\QueryException $th) {
-            throw new ColorDuplicatedException();
+            throw new UniqueFieldException();
         }
     }
 
@@ -35,7 +35,7 @@ class ManageColorsServiceImpl implements ManageColorsService
         try {
             return $this->colorRepository->update($id, $data);
         } catch (\Illuminate\Database\QueryException $th) {
-            throw new ColorDuplicatedException();
+            throw new UniqueFieldException();
         }
     }
 

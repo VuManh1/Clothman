@@ -6,7 +6,7 @@ use App\DTOs\Categories\CategoryParamsDto;
 use App\DTOs\Categories\CreateCategoryDto;
 use App\DTOs\Categories\UpdateCategoryDto;
 use App\Exceptions\Categories\CategoryCanNotDeleteException;
-use App\Exceptions\Categories\CategoryDuplicatedException;
+use App\Exceptions\UniqueFieldException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\CreateCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
@@ -62,7 +62,7 @@ class CategoriesController extends Controller
 
         try {
             $category = $this->manageCategoriesService->createCategory($createCategoryDto);
-        } catch (CategoryDuplicatedException $ex) {
+        } catch (UniqueFieldException $ex) {
             return back()->with('error', $ex->getMessage());
         }
 
@@ -107,7 +107,7 @@ class CategoriesController extends Controller
 
         try {
             $category = $this->manageCategoriesService->updateCategory($id, $updateCateDto);
-        } catch (CategoryDuplicatedException $ex) {
+        } catch (UniqueFieldException $ex) {
             return back()->with('error', $ex->getMessage());
         }
 

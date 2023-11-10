@@ -14,14 +14,14 @@ interface ManageColorsService
     /**
      * Create a color
      * 
-     * @throws \App\Exceptions\Colors\ColorDuplicatedException
+     * @throws \App\Exceptions\UniqueFieldException
      */
     public function createColor(CreateColorDto $createColorDto): Color;
 
     /**
      * edit a color
      * 
-     * @throws \App\Exceptions\Colors\ColorDuplicatedException
+     * @throws \App\Exceptions\UniqueFieldException
      */
     public function updateColor($id, UpdateColorDto $updateColorDto): Color;
 

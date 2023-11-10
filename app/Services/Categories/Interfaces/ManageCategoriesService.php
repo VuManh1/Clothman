@@ -14,14 +14,14 @@ interface ManageCategoriesService
     /**
      * Create a category
      * 
-     * @throws \App\Exceptions\Categories\CategoryDuplicatedException
+     * @throws \App\Exceptions\UniqueFieldException
      */
     public function createCategory(CreateCategoryDto $createCategoryDto): Category;
 
     /**
      * Update a category
      * 
-     * @throws \App\Exceptions\Categories\CategoryDuplicatedException
+     * @throws \App\Exceptions\UniqueFieldException
      */
     public function updateCategory($id, UpdateCategoryDto $updateCategoryDto): Category;
 

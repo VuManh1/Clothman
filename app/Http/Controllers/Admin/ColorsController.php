@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Color\UpdateColorRequest;
 use Illuminate\Http\Request;
 use App\DTOs\Colors\CreateColorDto;
-use App\Exceptions\Colors\ColorDuplicatedException;
+use App\Exceptions\UniqueFieldException;
 use App\Http\Requests\Color\CreateColorRequest;
 use App\Services\Colors\Interfaces\GetColorsService;
 use App\Services\Colors\Interfaces\ManageColorsService;
@@ -60,7 +60,7 @@ class ColorsController extends Controller
 
         try {
             $color = $this->manageColorsService->createColor($createColorDto);
-        } catch (ColorDuplicatedException $ex) {
+        } catch (UniqueFieldException $ex) {
             return back()->with('error', $ex->getMessage())->onlyInput('name', 'hex_code');
         }
 
@@ -104,7 +104,7 @@ class ColorsController extends Controller
 
         try {
             $color = $this->manageColorsService->updateColor($id, $updateColorDto);
-        } catch (ColorDuplicatedException $ex) {
+        } catch (UniqueFieldException $ex) {
             return back()->with('error', $ex->getMessage());
         }
 

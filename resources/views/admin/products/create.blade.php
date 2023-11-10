@@ -53,11 +53,6 @@
                                         aria-controls="main-infor-tab-pane" aria-selected="true">Main</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="images-tab" data-bs-toggle="tab"
-                                        data-bs-target="#images-tab-pane" type="button" role="tab"
-                                        aria-controls="images-tab-pane" aria-selected="false">Images</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="variants-tab" data-bs-toggle="tab"
                                         data-bs-target="#variants-tab-pane" type="button" role="tab"
                                         aria-controls="variants-tab-pane" aria-selected="false">Variants</button>
@@ -84,10 +79,6 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
-                                <div class="tab-pane fade" id="images-tab-pane" role="tabpanel" aria-labelledby="images-tab"
-                                    tabindex="0">
-                                    images
                                 </div>
                                 <div class="tab-pane fade" id="variants-tab-pane" role="tabpanel" aria-labelledby="variants-tab"
                                     tabindex="0">

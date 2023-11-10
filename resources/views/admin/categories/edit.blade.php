@@ -63,9 +63,11 @@
                                     value="{{ $category->parent_id }}">
                                     <option selected value="">NULL</option>
                                     @foreach ($categories as $cate)
-                                        <option value="{{ $cate->id }}" @selected($category->parent_id === $cate->id)>
-                                            {{ $cate->name }}
-                                        </option>
+                                        @if ($cate->id !== $category->id)
+                                            <option value="{{ $cate->id }}" @selected($category->parent_id === $cate->id)>
+                                                {{ $cate->name }}
+                                            </option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
