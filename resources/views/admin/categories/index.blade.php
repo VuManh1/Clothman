@@ -7,10 +7,13 @@
             <!-- ========== title-wrapper start ========== -->
             <div class="title-wrapper pt-30">
                 <div class="row align-items-center">
-                    <div class="col-md-6">
+                    <div class="col-md-6 d-flex gap-2">
                         <div class="title">
                             <h2>Categories</h2>
                         </div>
+                        <form role="search" method="GET">
+                            <input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search" required>
+                        </form>
                     </div>
                     <!-- end col -->
                     <div class="col-md-6">
@@ -37,6 +40,17 @@
             <div class="tables-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
+                        {{-- Filter --}}
+                        <form class="filter-form mb-2" method="GET">
+                            <select name="sort" class="p-1 mx-1 select">
+                                <option value="">Sort By</option>
+                                <option value="name.asc">Name</option>
+                                <option value="created_at.desc">Created At</option>
+                            </select>
+                            
+                            <button type="submit" class="btn btn-success m-1">Filter</button>
+                        </form>
+                        
                         <div class="card-style mb-30">
                             <div>
                                 <a href="{{ route('categories.create') }}" class="btn btn-dark mb-3">Create new category</a>

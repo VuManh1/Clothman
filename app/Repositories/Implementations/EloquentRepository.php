@@ -47,7 +47,7 @@ abstract class EloquentRepository implements Repository
             $query->with($includes);
         }
 
-        if ($filters) {
+        if ($filters && !empty($filters)) {
             // wrap filters in array if it is Associative arrays
             if (! is_array(reset($filters))) {
                 $filters = [$filters];
@@ -55,7 +55,7 @@ abstract class EloquentRepository implements Repository
 
             foreach ($filters as $filter) {
                 $column = $filter['column'];
-                $operator = $filter['operator'];
+                $operator = isset($filter['operator']) ? $filter['operator'] : null;
                 $value = $filter['value'];
 
                 if ($operator) {
@@ -66,14 +66,15 @@ abstract class EloquentRepository implements Repository
             }
         }
 
-        if ($sorts) {
+        if ($sorts && !empty($sorts)) {
             // wrap sorts in array if it is Associative arrays
             if (! is_array(reset($sorts))) {
                 $sorts = [$sorts];
             }
 
             foreach ($sorts as $sort) {
-                $query->orderBy($sort['column'], $sort['by'] ?? "asc");
+                $by = isset($sort['by']) ? $sort['by'] : "asc";
+                $query->orderBy($sort['column'], $by);
             }
         }
 

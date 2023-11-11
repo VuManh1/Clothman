@@ -4,6 +4,7 @@ namespace App\Services\Products\Implementations;
 
 use App\DTOs\Products\CreateProductDto;
 use App\DTOs\Products\UpdateProductDto;
+use App\Exceptions\Products\ProductCanNotDeleteException;
 use App\Exceptions\UniqueFieldException;
 use App\Models\Product;
 use App\Repositories\Interfaces\ImageRepository;
@@ -100,12 +101,45 @@ class ManageProductsServiceImpl implements ManageProductsService
     }
 
     public function updateProduct($id, UpdateProductDto $updateProductDto): Product {
-        $slug = Str::slug($updateProductDto->name);
+        $data = [
+            'name' => $updateProductDto->name,
+            'slug' => Str::slug($updateProductDto->name),
+            'category_id' => $updateProductDto->categoryId,
+            'description' => $updateProductDto->description,
+            'material' => $updateProductDto->material,
+            'price' => $updateProductDto->price,
+            'discount' => $updateProductDto->discount,
+        ];
 
-        return $this->productRepository->update($id, []);
+        if ($updateProductDto->thumbnail) {
+            $thumbnailUploadedResult = $this->uploadService->uploadFile($updateProductDto->thumbnail, [
+                'folder' => UploadFolder::PRODUCT_IMAGES
+            ]);
+
+            $data['thumbnail_url'] = $thumbnailUploadedResult['path'];
+        }
+
+        if ($updateProductDto->sizeGuild) {
+            $sizeGuildUploadedResult = $this->uploadService->uploadFile($updateProductDto->sizeGuild, [
+                'folder' => UploadFolder::PRODUCT_IMAGES
+            ]);
+        
+            $data['size_guild_url'] = $sizeGuildUploadedResult['path'];
+        }
+
+        try {
+            $product = $this->productRepository->update($id, $data);
+        } catch (\Illuminate\Database\QueryException $ex) {
+            throw new UniqueFieldException();
+        }
+
+        return $product;
     }
 
     public function deleteProduct($id): bool {
+        $haveOrder = $this->productRepository->checkHaveOrder($id);
+
+        if ($haveOrder) throw new ProductCanNotDeleteException("Can not delete product");
 
         return $this->productRepository->delete($id);
     }

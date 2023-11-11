@@ -170,10 +170,6 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
     <script>
-        let selectingColor = '';
-        let selectingColorCode = '';
-        let selectingColorName = '';
-        const sizes = ['S', 'M', 'L', 'XL', '2XL', '3XL'];
         let selectedColors = [];
         const colorsModal = new bootstrap.Modal('#colorsModal', {
             keyboard: false
@@ -232,25 +228,21 @@
 
             // Event click on color select button on modal
             $(".color-select").click(function () {
-                resetColorSelect();
+                $(".color-select.selected").removeClass("selected");
                 $(this).addClass("selected");
     
-                selectingColor = $(this).data("colorid");
-                selectingColorCode = $(this).data("colorcode");
-                selectingColorName = $(this).data("colorname");
-
-                $(".modal-color-name").html(selectingColorName);
-
+                const colorName = $(this).data("colorname");
+                $(".modal-color-name").html(colorName);
             });
         });
 
-        // remove .selected class in all color select buttons
-        function resetColorSelect() {
-            $(".color-select.selected").removeClass("selected");
-        }
-
         // Event click on OK button of colors modal
         function onClickColorsModal(e) {
+            // Get color infor from selected color button
+            const selectingColor = $(".color-select.selected").data("colorid");
+            const selectingColorCode = $(".color-select.selected").data("colorcode");
+            const selectingColorName = $(".color-select.selected").data("colorname");
+
             if (selectedColors.includes(selectingColor)) {
                 toastr.error("Màu này đã được chọn!");
                 return;
@@ -259,65 +251,71 @@
             selectedColors.push(selectingColor);
             colorsModal.hide();
 
-            // Generate size tabs of a color
-            let sizeTabs = sizes.map(size => `
-                <div class="col-lg-3">
-                    <div class="border">
-                        <div class="m-2">
-                            <table>
-                                <tr>
-                                    <td class="p-1">Size: <strong>${size}</strong></td>
-                                    <td class="p-1">
-                                        <div class="form-check checkbox-style">
-                                            <input type="checkbox" name="color_sizes[${selectingColor}][]" value="${size}" class="form-check-input">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="p-1">Quantity</td>
-                                    <td class="p-1"><input type="number" name="color_size_quantity[${selectingColor}][${size}]" class="form-control" min="0" value="0"></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>  
-                </div>
-                `).join("");
+            // Prepend color variant html
+            prependColorVariant(selectingColor, selectingColorName, selectingColorCode);
+        }
 
-            // Append color variant html
+        // Event click on remove button of color variants
+        function onClickRemoveColorVariant() {
+            const id = $(this).parents('.color-variant').data("colorid");
+            selectedColors = selectedColors.filter(c => c !== id);
+            $(this).parents('.color-variant').remove();
+        }
+
+        // Event click on add size button of color variants
+        function onClickAddSize() {
+            const colorId = $(this).parents('.color-variant').data('colorid');
+            const sizeInput = $(this).prev('input');
+            const size = sizeInput.val();
+
+            if (!size || !size.trim()) {
+                toastr.error("Chưa nhập size");
+                sizeInput.css('border', '1px solid red');
+                return;
+            }
+
+            appendSizeToColorVariant(colorId, size);
+
+            sizeInput.css('border', '1px solid black');
+            sizeInput.val("");
+        }
+
+        // Prepend color variant to #colors-container
+        function prependColorVariant(colorId, colorName, colorCode) {
             $('#colors-container').prepend(`
-            <div class="color-item" data-colorid="${selectingColor}" style="border: 1px solid ${selectingColorCode}; box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);">
-                <div style="background-color: ${selectingColorCode};" class="p-3">
+                <div class="color-variant" data-colorid="${colorId}" style="border: 1px solid ${colorCode}; box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);">
+                    <div style="background-color: ${colorCode};" class="p-3">
+                    </div>
+                    
+                    <input type="text" name="colors[]" value="${colorId}" hidden>
+                    
+                    <div class="p-3">
+                        <h3 class="mb-3">Màu: <strong>${colorName}</strong></h3>
+
+                        <button type="button" class="btn btn-danger mb-3 remove-color-btn">
+                            Remove
+                        </button>
+
+                        <div class="form-group mb-3">
+                            <label class="form-label">Attach images for this color: </label>
+                            <input type="file" multiple name="color_images[${colorId}][]" class="form-control">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="form-label">Quantity: <small>Ignore this if product have sizes</small></label>
+                            <td class="p-1"><input type="number" name="color_quantity[${colorId}]" class="form-control" min="0"></td>
+                        </div>
+
+                        <div class="mb-1">Sizes: </div>
+                        <div class="mb-2 d-flex gap-2">
+                            <input type="text" class="px-2 color-input" placeholder="Enter size">
+                            <button type="button" class="btn btn-success ml-3 add-size-btn">Add Size</button>    
+                        </div>
+                        <div class="row gy-2 sizes-container">
+
+                        </div>
+                    </div>
                 </div>
-                
-                <input type="text" name="colors[]" value="${selectingColor}" hidden>
-                
-                <div class="p-3">
-                    <h3 class="mb-3">Màu: <strong>${selectingColorName}</strong></h3>
-
-                    <button type="button" class="btn btn-danger mb-3 remove-color-btn">
-                        Remove
-                    </button>
-
-                    <div class="form-group mb-3">
-                        <label class="form-label">Attach images for this color: </label>
-                        <input type="file" multiple name="color_images[${selectingColor}][]" class="form-control">
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label class="form-label">Quantity: <small>Ignore this if product have sizes</small></label>
-                        <td class="p-1"><input type="number" name="color_quantity[${selectingColor}]" class="form-control" min="0"></td>
-                    </div>
-
-                    <div class="mb-1">Sizes: </div>
-                    <div class="mb-2 d-flex gap-2">
-                        <input type="text" class="px-2 color-input" placeholder="Enter size">
-                        <button type="button" class="btn btn-success ml-3 add-size-btn">Add Size</button>    
-                    </div>
-                    <div class="row gy-2 sizes-container">
-
-                    </div>
-                </div>
-            </div>
             `);
 
             $('.remove-color-btn').off('click');
@@ -325,7 +323,7 @@
             $(".color-input").off('keydown');
             
             // Set event click on remove button of new color variant
-            $('.remove-color-btn').on('click', onClickRemoveColor);
+            $('.remove-color-btn').on('click', onClickRemoveColorVariant);
             $('.add-size-btn').on('click', onClickAddSize);
 
             // Disable submit form if press enter on color input
@@ -337,51 +335,31 @@
             });
         }
 
-        // Event click on remove button of color variants
-        function onClickRemoveColor() {
-            const id = $(this).parents('.color-item').data("colorid");
-            selectedColors = selectedColors.filter(c => c !== id);
-            $(this).parents('.color-item').remove();
-        }
-
-        // Event click on add size button of color variants
-        function onClickAddSize() {
-            const colorId = $(this).parents('.color-item').data('colorid');
-            const sizesContainer = $(this).parents('.color-item').find('.sizes-container');
-            const sizeInput = $(this).prev('input');
-            const size = sizeInput.val();
-
-            if (!size || !size.trim()) {
-                toastr.error("Chưa nhập size");
-                sizeInput.css('border', '1px solid red');
-                return;
-            }
+        function appendSizeToColorVariant(colorId, size) {
+            const sizesContainer = $(`.color-variant[data-colorid="${colorId}"]`).find('.sizes-container');
 
             sizesContainer.append(`
-            <div class="col-lg-3">
-                <div class="border">
-                    <div class="m-2">
-                        <table>
-                            <tr>
-                                <td class="p-1">Size: <strong>${size}</strong></td>
-                                <td class="p-1">
-                                    <div class="form-check checkbox-style">
-                                        <input type="checkbox" name="color_sizes[${colorId}][]" value="${size}" class="form-check-input" checked>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="p-1">Quantity</td>
-                                <td class="p-1"><input type="number" name="color_size_quantity[${colorId}][${size}]" class="form-control" min="0" value="0"></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>  
-            </div>
+                <div class="col-lg-3">
+                    <div class="border">
+                        <div class="m-2">
+                            <table>
+                                <tr>
+                                    <td class="p-1">Size: <strong>${size}</strong></td>
+                                    <td class="p-1">
+                                        <div class="form-check checkbox-style">
+                                            <input type="checkbox" name="color_sizes[${colorId}][]" value="${size}" class="form-check-input" checked>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-1">Quantity</td>
+                                    <td class="p-1"><input type="number" name="color_size_quantity[${colorId}][${size}]" class="form-control" min="0" value="0"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>  
+                </div>
             `);
-
-            sizeInput.css('border', '1px solid black');
-            sizeInput.val("");
         }
     </script>
 @endsection

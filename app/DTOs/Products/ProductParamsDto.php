@@ -13,7 +13,8 @@ class ProductParamsDto extends QueryParamsDto
         public ?string $sort,
         public ?string $by,
         public ?string $keyword,
-        public ?array $includes
+        public ?string $category,
+        public ?array $includes,
     ) {
         parent::__construct($page, $limit, $sort, $by, $keyword);
     }
@@ -30,7 +31,8 @@ class ProductParamsDto extends QueryParamsDto
             $paramsDto->sort,
             $paramsDto->by,
             $paramsDto->keyword,
-            null
+            $request->query('category'),
+            null,
         );
     }
 }

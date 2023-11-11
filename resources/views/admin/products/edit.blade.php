@@ -42,8 +42,9 @@
                     @include('includes.errors')
 
                     <div class="card-style mb-30">
-                        <form action="{{ route('products.store') }}" method="POST" id="create-product-form"
+                        <form action="{{ route('products.update', [$product->id]) }}" method="POST" id="create-product-form"
                             enctype="multipart/form-data">
+                            @method('PUT')
                             @csrf
 
                             <ul class="nav nav-tabs" id="product-tabs" role="tablist">
@@ -152,12 +153,31 @@
                     "name": {
                         required: true,
                     },
+                    "category_id": {
+                        required: true
+                    },
+                    "thumbnail": {
+                        extension: "png|jpg|jpeg|webp"
+                    },
+                    "size_guild": {
+                        extension: "png|jpg|jpeg|webp"
+                    },
+                    'price': {
+                        required: true,
+                        digits: true
+                    },
+                    'discount': {
+                        digits: true
+                    }
                 },
                 messages: {
                     "name": {
                         required: "Name không được để trống",
                     },
-                }
+                    "category_id": {
+                        required: "Chưa chọn thể loại"
+                    }
+                },
             });
         });
     </script>

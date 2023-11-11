@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\DTOs\Products\CreateProductDto;
 use App\DTOs\Products\ProductParamsDto;
 use App\DTOs\Products\UpdateProductDto;
+use App\Exceptions\Products\ProductCanNotDeleteException;
 use App\Exceptions\UniqueFieldException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\CreateProductRequest;
@@ -37,10 +38,11 @@ class ProductsController extends Controller
         $params->includes = ['category']; // load product's category
 
         $products = $this->getProductsService->getProducts($params);
+        $categories = $this->getCategoriesService->getCategories();
 
         $this->appendPaginatorURL($products);
 
-        return view("admin.products.index", ['products' => $products]);
+        return view("admin.products.index", compact('products', 'categories'));
     }
 
     /**
@@ -120,7 +122,7 @@ class ProductsController extends Controller
             return back()->with('error', $ex->getMessage());
         }
 
-        return redirect()->route("products.index")->with('success', $product->name.' created!');
+        return redirect()->route("products.index")->with('success', $product->name.' updated!');
     }
 
     /**
@@ -130,6 +132,12 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $this->manageProductsService->deleteProduct($id);
+        } catch (ProductCanNotDeleteException $ex) {
+            return back()->with('error', $ex->getMessage());
+        }
+
+        return redirect()->route("products.index")->with("success", "Product deleted !");
     }
 }

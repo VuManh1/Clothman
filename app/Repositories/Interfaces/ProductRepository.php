@@ -9,4 +9,9 @@ use App\Repositories\Interfaces\Repository;
  */
 interface ProductRepository extends Repository
 {
+    /**
+     * Check if a product have at least one order
+     * @param string $id (id of product to check)
+     */
+    public function checkHaveOrder(string $id): bool;
 }

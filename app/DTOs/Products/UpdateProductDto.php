@@ -16,11 +16,6 @@ class UpdateProductDto
         public ?int $discount,
         public ?UploadedFile $thumbnail,
         public ?UploadedFile $sizeGuild,
-        public array $colors,
-        public ?array $colorSizes,
-        public array $colorQuantity,
-        public array $colorSizeQuantity,
-        public ?array $colorImages,
     ) {}
 
     /**
@@ -36,11 +31,6 @@ class UpdateProductDto
             $request->discount,
             $request->thumbnail,
             $request->size_guild,
-            $request->colors,
-            $request->color_sizes,
-            $request->color_quantity,
-            $request->color_size_quantity,
-            $request->color_images,
         );
     }
 }
