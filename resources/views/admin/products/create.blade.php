@@ -285,7 +285,7 @@
 
             // Append color variant html
             $('#colors-container').prepend(`
-            <div  class="color-item" data-colorid="${selectingColor}" style="border: 1px solid ${selectingColorCode}; box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);">
+            <div class="color-item" data-colorid="${selectingColor}" style="border: 1px solid ${selectingColorCode}; box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);">
                 <div style="background-color: ${selectingColorCode};" class="p-3">
                 </div>
                 
@@ -308,16 +308,33 @@
                         <td class="p-1"><input type="number" name="color_quantity[${selectingColor}]" class="form-control" min="0"></td>
                     </div>
 
-                    <div class="mb-1">Choose sizes: </div>
-                    <div class="row gy-2">
-                        ${sizeTabs}
+                    <div class="mb-1">Sizes: </div>
+                    <div class="mb-2 d-flex gap-2">
+                        <input type="text" class="px-2 color-input" placeholder="Enter size">
+                        <button type="button" class="btn btn-success ml-3 add-size-btn">Add Size</button>    
+                    </div>
+                    <div class="row gy-2 sizes-container">
+
                     </div>
                 </div>
             </div>
             `);
 
+            $('.remove-color-btn').off('click');
+            $('.add-size-btn').off('click');
+            $(".color-input").off('keydown');
+            
             // Set event click on remove button of new color variant
-            $('.remove-color-btn').click(onClickRemoveColor);
+            $('.remove-color-btn').on('click', onClickRemoveColor);
+            $('.add-size-btn').on('click', onClickAddSize);
+
+            // Disable submit form if press enter on color input
+            $(".color-input").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    $(this).next().click();
+                }
+            });
         }
 
         // Event click on remove button of color variants
@@ -325,6 +342,46 @@
             const id = $(this).parents('.color-item').data("colorid");
             selectedColors = selectedColors.filter(c => c !== id);
             $(this).parents('.color-item').remove();
+        }
+
+        // Event click on add size button of color variants
+        function onClickAddSize() {
+            const colorId = $(this).parents('.color-item').data('colorid');
+            const sizesContainer = $(this).parents('.color-item').find('.sizes-container');
+            const sizeInput = $(this).prev('input');
+            const size = sizeInput.val();
+
+            if (!size || !size.trim()) {
+                toastr.error("Chưa nhập size");
+                sizeInput.css('border', '1px solid red');
+                return;
+            }
+
+            sizesContainer.append(`
+            <div class="col-lg-3">
+                <div class="border">
+                    <div class="m-2">
+                        <table>
+                            <tr>
+                                <td class="p-1">Size: <strong>${size}</strong></td>
+                                <td class="p-1">
+                                    <div class="form-check checkbox-style">
+                                        <input type="checkbox" name="color_sizes[${colorId}][]" value="${size}" class="form-check-input" checked>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-1">Quantity</td>
+                                <td class="p-1"><input type="number" name="color_size_quantity[${colorId}][${size}]" class="form-control" min="0" value="0"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>  
+            </div>
+            `);
+
+            sizeInput.css('border', '1px solid black');
+            sizeInput.val("");
         }
     </script>
 @endsection

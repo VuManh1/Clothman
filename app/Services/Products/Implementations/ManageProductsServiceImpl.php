@@ -37,6 +37,7 @@ class ManageProductsServiceImpl implements ManageProductsService
             ]);
         }
 
+        DB::beginTransaction();
         try {
             $product = $this->productRepository->create([
                 'name' => $createProductDto->name,
@@ -52,50 +53,46 @@ class ManageProductsServiceImpl implements ManageProductsService
             ]);
 
             $totalQuantity = 0;
-            foreach ($createProductDto->colors as $color) {
-                
-                if ($createProductDto->colorSizes) {
-                    $sizes = $createProductDto->colorSizes[$color];
+            $createProductDto->variants ??= [];
+            foreach ($createProductDto->variants as $variant) {
+                $this->productVariantRepository->create([
+                    'product_id' => $product->id,
+                    'color_id' => $variant['colorId'],
+                    'size' => $variant['size'] ?? "NONE",
+                    'quantity' => $variant['quantity'],
+                ]);
 
-                    foreach ($sizes as $size) {
-                        $this->productVariantRepository->create([
-                            'product_id' => $product->id,
-                            'color_id' => $color,
-                            'size' => $size,
-                            'quantity' => $createProductDto->colorSizeQuantity[$color][$size],
-                        ]);
+                $totalQuantity += $variant['quantity'];
+            }
 
-                        $totalQuantity += $createProductDto->colorSizeQuantity[$color][$size];
-                    }
-                } else {
-                    $this->productVariantRepository->create([
-                        'product_id' => $product->id,
-                        'color_id' => $color,
-                        'quantity' => $createProductDto->colorQuantity[$color],
-                    ]);
+            // Upload color images
+            $createProductDto->colorImages ??= [];
+            foreach ($createProductDto->colorImages as $colorImage) {
+                $uploadResult = $this->uploadService->uploadFile($colorImage['image'], [
+                    'folder' => UploadFolder::PRODUCT_IMAGES
+                ]);
 
-                    $totalQuantity += $createProductDto->colorQuantity[$color];
-                }
-
-                // Upload images of color variant
-                if ($createProductDto->colorImages && $createProductDto->colorImages[$color]) {
-                    foreach ($createProductDto->colorImages[$color] as $image) {
-                        $result = $this->uploadService->uploadFile($image, ['folder' => UploadFolder::PRODUCT_IMAGES]);
-
-                        $this->imageRepository->create([
-                            'product_id' => $product->id,
-                            'color_id' => $color,
-                            'image_url' => $result['path'] 
-                        ]);
-                    }
-                }
+                $this->imageRepository->create([
+                    'product_id' => $product->id,
+                    'color_id' => $colorImage['colorId'],
+                    'image_url' => $uploadResult['path'],
+                ]);
             }
 
             $this->productRepository->update($product->id, [
                 'quantity' => $totalQuantity
             ]);
+
+            DB::commit();
         } catch (\Illuminate\Database\QueryException $ex) {
- 
+            DB::rollBack();
+            // If have any error, delete files create previout
+            $this->uploadService->deleteFile($thumbnailUploadedResult['path']);
+            
+            if (isset($sizeGuildUploadedResult)) {
+                $this->uploadService->deleteFile($sizeGuildUploadedResult['path']);
+            }
+            
             throw new UniqueFieldException();
         }
 
