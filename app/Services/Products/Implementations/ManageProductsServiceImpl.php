@@ -71,7 +71,6 @@ class ManageProductsServiceImpl implements ManageProductsService
                     $this->productVariantRepository->create([
                         'product_id' => $product->id,
                         'color_id' => $color,
-                        'size' => null,
                         'quantity' => $createProductDto->colorQuantity[$color],
                     ]);
 
