@@ -55,7 +55,9 @@ class ManageProductsServiceImpl implements ManageProductsService
             foreach ($createProductDto->colors as $color) {
                 
                 if ($createProductDto->colorSizes) {
-                    foreach ($createProductDto->colorSizes[$color] as $size) {
+                    $sizes = $createProductDto->colorSizes[$color];
+
+                    foreach ($sizes as $size) {
                         $this->productVariantRepository->create([
                             'product_id' => $product->id,
                             'color_id' => $color,
