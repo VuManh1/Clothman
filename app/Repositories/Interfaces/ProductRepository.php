@@ -3,15 +3,21 @@
 namespace App\Repositories\Interfaces;
 
 use App\DTOs\Products\ProductParamsDto;
+use App\Models\Product;
 use App\Repositories\Interfaces\Repository;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 /**
  * Repository for product entity
  */
 interface ProductRepository extends Repository
 {
+    /**
+     * Find one product by slug
+     */
+    public function findBySlug(string $slug, array $includes = null): ?Product;
+
     /**
      * Get products by ProductParamsDto
      */
@@ -24,9 +30,16 @@ interface ProductRepository extends Repository
     public function checkHaveOrder(string $id): bool;
 
     /**
-     * Get latest products
+     * Get products order by updated at desc
      * 
      * @param int $count  (number of products)
      */
-    public function getLatestProducts(int $count): Collection;
+    public function getProductsOrderByUpdatedAtDesc(int $count): Collection;
+
+    /**
+     * Get products order by sold count
+     * 
+     * @param int $count  (number of products)
+     */
+    public function getProductsOrderBySoldDesc(int $count): Collection;
 }

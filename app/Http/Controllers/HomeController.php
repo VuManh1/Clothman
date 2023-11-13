@@ -23,7 +23,17 @@ class HomeController extends Controller
     public function index() {
         $latestProducts = $this->getProductsService->getLatestProducts($this->PRODUCTS_PER_SECTION);
         $homeCategories = $this->getCategoriesService->getHomeCategories($this->PRODUCTS_PER_SECTION);
+        $topSoldProducts = $this->getProductsService->getTopSoldProducts($this->PRODUCTS_PER_SECTION);
 
-        return view('home', compact('latestProducts', 'homeCategories'));
+        return view('home', compact('latestProducts', 'homeCategories', 'topSoldProducts'));
+    }
+
+    /**
+     * Show the product detail page view
+     */
+    public function productDetail(Request $request) {
+        $product = $this->getProductsService->getProductBySlugWithAllDetails($request->slug);
+
+        return view('product-detail', compact('product'));
     }
 }

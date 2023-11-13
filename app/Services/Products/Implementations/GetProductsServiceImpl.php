@@ -7,7 +7,7 @@ use App\Exceptions\Products\ProductNotFoundException;
 use App\Models\Product;
 use App\Repositories\Interfaces\ProductRepository;
 use App\Services\Products\Interfaces\GetProductsService;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 class GetProductsServiceImpl implements GetProductsService
 {
@@ -37,6 +37,14 @@ class GetProductsServiceImpl implements GetProductsService
         return $product;
     }
 
+    public function getProductBySlugWithAllDetails(string $slug): Product {
+        $product = $this->productRepository->findBySlug($slug, ['category', 'productVariants', 'images']);
+
+        if (!$product) throw new ProductNotFoundException();
+
+        return $product;
+    }
+
     public function getProductByIdWithAllDetails(string $id): Product {
         $product = $this->productRepository->findById($id, ['category', 'productVariants', 'images']);
 
@@ -46,6 +54,10 @@ class GetProductsServiceImpl implements GetProductsService
     }
 
     public function getLatestProducts(int $count): Collection {
-        return $this->productRepository->getLatestProducts($count);
+        return $this->productRepository->getProductsOrderByUpdatedAtDesc($count);
+    }
+
+    public function getTopSoldProducts(int $count): Collection {
+        return $this->productRepository->getProductsOrderBySoldDesc($count);
     }
 }

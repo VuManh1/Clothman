@@ -4,7 +4,7 @@ namespace App\Services\Categories\Interfaces;
 
 use App\DTOs\Categories\CategoryParamsDto;
 use App\Models\Category;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 /**
  * Service Interface for category to deal with Read operations

@@ -4,8 +4,8 @@ namespace App\Repositories\Interfaces;
 
 use App\DTOs\Categories\CategoryParamsDto;
 use App\Repositories\Interfaces\Repository;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 /**
  * Repository for Category entity

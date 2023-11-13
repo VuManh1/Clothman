@@ -69,158 +69,11 @@
 
         <div id="topSoldProductsCarousel" class="carousel multi-item-carousel">
             <div class="carousel-inner">
-                <div class="carousel-item">
-                    <a href="#" class="card product-item">
-                        <img src="https://media.coolmate.me/cdn-cgi/image/width=672,height=990,quality=85,format=auto/uploads/October2023/ST002.updat.1_82.jpg"
-                            class="card-img-top product-image" alt="...">
-                            
-                        <div class="card-body">
-                            <h5 class="card-title">Áo nỉ chui đầu Lifewear</h5>
-
-                            <div class="card-text d-flex gap-2 align-items-center flex-wrap">
-                                <div class="text-black fw-medium">239.000đ</div>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="text-secondary text-decoration-line-through fw-medium">269.000đ
-                                    </div>
-                                    <div class="text-danger fw-medium">-11%</div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="carousel-item">
-                    <a href="#" class="card product-item">
-                        <img src="https://media.coolmate.me/cdn-cgi/image/width=672,height=990,quality=85,format=auto/uploads/October2023/ST002.updat.1_82.jpg"
-                            class="card-img-top product-image" alt="...">
-                            
-                        <div class="card-body">
-                            <h5 class="card-title">Áo nỉ chui đầu Lifewear</h5>
-
-                            <div class="card-text d-flex gap-2 align-items-center flex-wrap">
-                                <div class="text-black fw-medium">239.000đ</div>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="text-secondary text-decoration-line-through fw-medium">269.000đ
-                                    </div>
-                                    <div class="text-danger fw-medium">-11%</div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="carousel-item">
-                    <a href="#" class="card product-item">
-                        <img src="https://media.coolmate.me/cdn-cgi/image/width=672,height=990,quality=85,format=auto/uploads/October2023/ST002.updat.1_82.jpg"
-                            class="card-img-top product-image" alt="...">
-                            
-                        <div class="card-body">
-                            <h5 class="card-title">Áo nỉ chui đầu Lifewear</h5>
-
-                            <div class="card-text d-flex gap-2 align-items-center flex-wrap">
-                                <div class="text-black fw-medium">239.000đ</div>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="text-secondary text-decoration-line-through fw-medium">269.000đ
-                                    </div>
-                                    <div class="text-danger fw-medium">-11%</div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="carousel-item">
-                    <a href="#" class="card product-item">
-                        <img src="https://media.coolmate.me/cdn-cgi/image/width=672,height=990,quality=85,format=auto/uploads/October2023/ST002.updat.1_82.jpg"
-                            class="card-img-top product-image" alt="...">
-                            
-                        <div class="card-body">
-                            <h5 class="card-title">Áo nỉ chui đầu Lifewear</h5>
-
-                            <div class="card-text d-flex gap-2 align-items-center flex-wrap">
-                                <div class="text-black fw-medium">239.000đ</div>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="text-secondary text-decoration-line-through fw-medium">269.000đ
-                                    </div>
-                                    <div class="text-danger fw-medium">-11%</div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="carousel-item">
-                    <a href="#" class="card product-item">
-                        <img src="https://media.coolmate.me/cdn-cgi/image/width=672,height=990,quality=85,format=auto/uploads/October2023/ST002.updat.1_82.jpg"
-                            class="card-img-top product-image" alt="...">
-                            
-                        <div class="card-body">
-                            <h5 class="card-title">Áo nỉ chui đầu Lifewear</h5>
-
-                            <div class="card-text d-flex gap-2 align-items-center flex-wrap">
-                                <div class="text-black fw-medium">239.000đ</div>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="text-secondary text-decoration-line-through fw-medium">269.000đ
-                                    </div>
-                                    <div class="text-danger fw-medium">-11%</div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="carousel-item">
-                    <a href="#" class="card product-item">
-                        <img src="https://media.coolmate.me/cdn-cgi/image/width=672,height=990,quality=85,format=auto/uploads/October2023/ST002.updat.1_82.jpg"
-                            class="card-img-top product-image" alt="...">
-                            
-                        <div class="card-body">
-                            <h5 class="card-title">Áo nỉ chui đầu Lifewear</h5>
-
-                            <div class="card-text d-flex gap-2 align-items-center flex-wrap">
-                                <div class="text-black fw-medium">239.000đ</div>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="text-secondary text-decoration-line-through fw-medium">269.000đ
-                                    </div>
-                                    <div class="text-danger fw-medium">-11%</div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="carousel-item">
-                    <a href="#" class="card product-item">
-                        <img src="https://media.coolmate.me/cdn-cgi/image/width=672,height=990,quality=85,format=auto/uploads/October2023/ST002.updat.1_82.jpg"
-                            class="card-img-top product-image" alt="...">
-                            
-                        <div class="card-body">
-                            <h5 class="card-title">Áo nỉ chui đầu Lifewear</h5>
-
-                            <div class="card-text d-flex gap-2 align-items-center flex-wrap">
-                                <div class="text-black fw-medium">239.000đ</div>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="text-secondary text-decoration-line-through fw-medium">269.000đ
-                                    </div>
-                                    <div class="text-danger fw-medium">-11%</div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="carousel-item">
-                    <a href="#" class="card product-item">
-                        <img src="https://media.coolmate.me/cdn-cgi/image/width=672,height=990,quality=85,format=auto/uploads/October2023/ST002.updat.1_82.jpg"
-                            class="card-img-top product-image" alt="...">
-                            
-                        <div class="card-body">
-                            <h5 class="card-title">Áo nỉ chui đầu Lifewear</h5>
-
-                            <div class="card-text d-flex gap-2 align-items-center flex-wrap">
-                                <div class="text-black fw-medium">239.000đ</div>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="text-secondary text-decoration-line-through fw-medium">269.000đ
-                                    </div>
-                                    <div class="text-danger fw-medium">-11%</div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                @foreach ($topSoldProducts as $product)
+                    <div class="carousel-item">
+                        <x-product-card :product="$product" />
+                    </div>
+                @endforeach
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#topSoldProductsCarousel"
                 data-bs-slide="prev">
@@ -247,13 +100,12 @@
                 </h3>
 
                 <div id="categoryOneCarousel" class="carousel multi-item-carousel">
-                    @foreach ($homeCategory->products as $product)
-                        
-                    @endforeach
                     <div class="carousel-inner">
-                        <div class="carousel-item">
-                            <x-product-card :product="$product" />
-                        </div>
+                        @foreach ($homeCategory->products as $product)
+                            <div class="carousel-item">
+                                <x-product-card :product="$product" />
+                            </div>
+                        @endforeach
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#categoryOneCarousel"
                         data-bs-slide="prev">

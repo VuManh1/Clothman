@@ -6,8 +6,8 @@ use App\DTOs\Products\ProductParamsDto;
 use App\Exceptions\Products\ProductNotFoundException;
 use App\Models\Product;
 use App\Repositories\Interfaces\ProductRepository;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class EloquentProductRepository extends EloquentRepository implements ProductRepository
 {
@@ -39,6 +39,14 @@ class EloquentProductRepository extends EloquentRepository implements ProductRep
         return $this->toPaginator($query, $params->page, $params->limit);
     }
 
+    public function findBySlug(string $slug, array $includes = null): ?Product {
+        if ($includes) {
+            return $this->model->with($includes)->where('slug', $slug)->first();
+        }
+
+        return $this->model->where('slug', $slug)->first();
+    }
+
     public function checkHaveOrder(string $id): bool {
         $product = $this->findById($id);
 
@@ -47,7 +55,11 @@ class EloquentProductRepository extends EloquentRepository implements ProductRep
         return $product->orders()->exists();
     }
 
-    public function getLatestProducts(int $count): Collection {
+    public function getProductsOrderByUpdatedAtDesc(int $count): Collection {
         return $this->model->orderBy('updated_at', 'desc')->take($count)->get();
+    }
+
+    public function getProductsOrderBySoldDesc(int $count): Collection {
+        return $this->model->orderBy('sold', 'desc')->take($count)->get();
     }
 }

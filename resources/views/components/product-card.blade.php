@@ -1,4 +1,4 @@
-<a href="#" class="card product-item">
+<a href="{{ route('product.detail', [$product->slug]) }}" class="card product-item">
     <img src="{{ $product->thumbnail_url }}"
         class="card-img-top product-image" alt="...">
         

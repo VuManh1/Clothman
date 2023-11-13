@@ -7,7 +7,7 @@ use App\Exceptions\Categories\CategoryNotFoundException;
 use App\Models\Category;
 use App\Repositories\Interfaces\CategoryRepository;
 use App\Services\Categories\Interfaces\GetCategoriesService;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 class GetCategoriesServiceImpl implements GetCategoriesService
 {

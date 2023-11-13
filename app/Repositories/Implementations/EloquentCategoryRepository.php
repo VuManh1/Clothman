@@ -6,9 +6,9 @@ use App\DTOs\Categories\CategoryParamsDto;
 use App\Exceptions\Categories\CategoryNotFoundException;
 use App\Models\Category;
 use App\Repositories\Interfaces\CategoryRepository;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 class EloquentCategoryRepository extends EloquentRepository implements CategoryRepository
 {

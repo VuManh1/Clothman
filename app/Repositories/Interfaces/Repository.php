@@ -2,9 +2,9 @@
 
 namespace App\Repositories\Interfaces;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 /**
  * Base repository interface for all Entities
@@ -25,10 +25,10 @@ interface Repository
      * Get entities from database
      * @param int $page
      * @param int $limit
-     * @param array $sorts (column, by)
+     * @param array $sorts (column, order)
      * @param array $includes
      */
-    public function find(
+    public function get(
         int $page, 
         int $limit, 
         array $sorts = null, 

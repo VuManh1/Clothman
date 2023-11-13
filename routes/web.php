@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Route;
 * Client routes
 */
 Route::get("/", [HomeController::class, 'index'])->name('home');
+Route::get("/products/{slug}", [HomeController::class, 'productDetail'])->name('product.detail');
 
 /*
 * Auth routes

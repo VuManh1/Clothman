@@ -26,7 +26,8 @@ class ViewComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         Facades\View::composer([
-            'home'
+            'home',
+            'product-detail'
         ], CategoryComposer::class);
     }
 }

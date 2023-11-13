@@ -4,10 +4,10 @@ namespace App\Repositories\Implementations;
 
 use App\Repositories\Interfaces\Repository;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 abstract class EloquentRepository implements Repository
 {
@@ -40,7 +40,7 @@ abstract class EloquentRepository implements Repository
         return $this->model->find($id);
     }
 
-    public function find(int $page, int $limit, array $sorts = null, array $includes = null): LengthAwarePaginator {
+    public function get(int $page, int $limit, array $sorts = null, array $includes = null): LengthAwarePaginator {
         $query = $this->model->query();
 
         if ($includes) {
@@ -54,7 +54,7 @@ abstract class EloquentRepository implements Repository
             }
 
             foreach ($sorts as $sort) {
-                $by = isset($sort['by']) ? $sort['by'] : "asc";
+                $by = isset($sort['order']) ? $sort['order'] : "asc";
                 $query->orderBy($sort['column'], $by);
             }
         }
