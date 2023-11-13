@@ -38,4 +38,5 @@ class GetCategoriesServiceImpl implements GetCategoriesService
 
         return $categories;
     }
+
 }

@@ -41,7 +41,7 @@ class EloquentCategoryRepository extends EloquentRepository implements CategoryR
 
         if (!$category) throw new CategoryNotFoundException();
 
-        return $category->childs()->exists();
+        return $category->childs()->take(1)->exists();
     }
 
     public function getAllParentCategories(): Collection
