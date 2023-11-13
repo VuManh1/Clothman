@@ -24,6 +24,6 @@ class CategoryComposer
      */
     public function compose(View $view)
     {
-        $view->with('parentCategories', $this->getCategoriesService->getAllParentCategories());
+        $view->with('parentCategories', $this->getCategoriesService->getParentCategoriesWithChilds());
     }
 }

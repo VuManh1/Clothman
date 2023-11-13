@@ -26,10 +26,12 @@ interface CategoryRepository extends Repository
     /**
      * Get all categories that have no parent
      */
-    public function getAllParentCategories(): Collection;
+    public function getAllParentCategories(array $includes = null): Collection;
 
     /**
-     * Get all categories that have no parent
+     * Get home categories 
+     * 
+     * @param int $productsCount (amount of products will be loaded with category)
      */
-    // public function getHomeCategories(): Collection;
+    public function getHomeCategories(int $productsCount): Collection;
 }

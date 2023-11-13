@@ -33,10 +33,11 @@ class GetCategoriesServiceImpl implements GetCategoriesService
         return $category;
     }
 
-    public function getAllParentCategories(): Collection {
-        $categories = $this->categoryRepository->getAllParentCategories();
-
-        return $categories;
+    public function getParentCategoriesWithChilds(): Collection {
+        return $this->categoryRepository->getAllParentCategories(['childs']);
     }
 
+    public function getHomeCategories(int $productsCount): Collection {
+        return $this->categoryRepository->getHomeCategories($productsCount);
+    }
 }

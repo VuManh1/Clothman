@@ -24,7 +24,14 @@ interface GetCategoriesService
     public function getCategoryById(string $id): Category;
 
     /**
-     * Get all categories that have no parent
+     * Get all parent categories include child categories
      */
-    public function getAllParentCategories(): Collection;
+    public function getParentCategoriesWithChilds(): Collection;
+
+    /**
+     * Get home categories
+     * 
+     * @param int $productsCount (amount of products loaded with category)
+     */
+    public function getHomeCategories(int $productsCount): Collection;
 }

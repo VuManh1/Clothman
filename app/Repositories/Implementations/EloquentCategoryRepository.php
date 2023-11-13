@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Repositories\Interfaces\CategoryRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class EloquentCategoryRepository extends EloquentRepository implements CategoryRepository
 {
@@ -44,8 +45,17 @@ class EloquentCategoryRepository extends EloquentRepository implements CategoryR
         return $category->childs()->take(1)->exists();
     }
 
-    public function getAllParentCategories(): Collection
-    {
-        return $this->model->with('childs')->where('parent_id', null)->get();
+    public function getAllParentCategories(array $includes = null): Collection {
+        if ($includes) {
+            return $this->model->with($includes)->where('parent_id', null)->get();
+        }
+
+        return $this->model->where('parent_id', null)->get();
+    }
+
+    public function getHomeCategories(int $productsCount): Collection {
+        return $this->model->with(['products' => function (Builder $query) use($productsCount) {
+            $query->orderBy('sold', 'desc')->take($productsCount);
+        }])->where('display_in_home', true)->get();
     }
 }
