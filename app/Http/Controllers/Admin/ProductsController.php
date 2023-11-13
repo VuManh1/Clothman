@@ -35,14 +35,12 @@ class ProductsController extends Controller
     public function index(Request $request)
     {
         $params = ProductParamsDto::fromRequest($request);
-        $params->includes = ['category']; // load product's category
 
         $products = $this->getProductsService->getProducts($params);
-        $categories = $this->getCategoriesService->getCategories();
 
         $this->appendPaginatorURL($products);
 
-        return view("admin.products.index", compact('products', 'categories'));
+        return view("admin.products.index", compact('products'));
     }
 
     /**

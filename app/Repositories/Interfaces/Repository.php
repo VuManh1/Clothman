@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
+/**
+ * Base repository interface for all Entities
+ */
 interface Repository
 {
     /**
@@ -19,22 +22,15 @@ interface Repository
     public function findById(string $id, array $includes = null): ?Model;
 
     /**
-     * Get one entity by filters
-     */
-    public function first(array $filters, array $includes = null): ?Model;
-
-    /**
      * Get entities from database
      * @param int $page
      * @param int $limit
-     * @param array $filters (column, operator, value) 
      * @param array $sorts (column, by)
      * @param array $includes
      */
     public function find(
         int $page, 
         int $limit, 
-        array $filters = null, 
         array $sorts = null, 
         array $includes = null
     ): LengthAwarePaginator;

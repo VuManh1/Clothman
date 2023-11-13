@@ -19,28 +19,7 @@ class GetColorsServiceImpl implements GetColorsService
             return $this->colorRepository->getAll();
         }
 
-        $filters = null;
-        if ($params->keyword) {
-            $filters = [
-                'column' => 'name',
-                'operator' => 'LIKE',
-                'value' => '%'.$params->keyword.'%'
-            ];
-        }
-
-        $sorts = null;
-        if ($params->sort) {
-            $sorts = ['column' => $params->sort, 'by' => $params->by];
-        }
-
-        $colors = $this->colorRepository->find(
-            $params->page,
-            $params->limit,
-            $filters,
-            $sorts
-        );
-
-        return $colors;
+        return $this->colorRepository->getColorsByParams($params);
     }
 
     public function getColorById(string $id): Color {

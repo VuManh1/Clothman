@@ -41,21 +41,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         {{-- Filter --}}
-                        <form class="filter-form mb-2" method="GET">
-                            <select name="category" class="p-1 ml-1 select">
-                                <option value="">Category</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                            <select name="sort" class="p-1 mx-1 select">
-                                <option value="">Sort By</option>
-                                <option value="created_at.desc">Created At</option>
-                                <option value="price.desc">Price</option>
-                            </select>
-                            
-                            <button type="submit" class="btn btn-success m-1">Filter</button>
-                        </form>
+                        <x-admin.filters.products-filter action="{{ route('products.index') }}" />
 
                         <div class="card-style mb-30">
                             <div>

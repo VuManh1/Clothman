@@ -9,8 +9,8 @@ class QueryParamsDto
     public function __construct(
         public int $page,
         public int $limit,
-        public ?string $sort,
-        public ?string $by,
+        public ?string $sortColumn,
+        public ?string $sortOrder,
         public ?string $keyword
     ) {}
 

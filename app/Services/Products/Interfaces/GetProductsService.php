@@ -4,6 +4,7 @@ namespace App\Services\Products\Interfaces;
 
 use App\DTOs\Products\ProductParamsDto;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Service Interface for product to deal with Read operations
@@ -29,4 +30,11 @@ interface GetProductsService
      * @throws \App\Exceptions\Products\ProductNotFoundException
      */
     public function getProductByIdWithAllDetails(string $id): Product;
+
+    /**
+     * Get latest products
+     * 
+     * @param int $count  (number of products)
+     */
+    public function getLatestProducts(int $count): Collection;
 }

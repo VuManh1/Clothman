@@ -5,12 +5,12 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\ColorsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductsController;
-use App\Http\Controllers\Api\AccountApiController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,9 +23,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get("/", function () {
-    return view("home");
-});
+
+/*
+* Client routes
+*/
+Route::get("/", [HomeController::class, 'index'])->name('home');
 
 /*
 * Auth routes
