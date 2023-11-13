@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Color\UpdateColorRequest;
 use Illuminate\Http\Request;
 use App\DTOs\Colors\CreateColorDto;
-use App\Exceptions\UniqueFieldException;
 use App\Http\Requests\Color\CreateColorRequest;
 use App\Services\Colors\Interfaces\GetColorsService;
 use App\Services\Colors\Interfaces\ManageColorsService;
@@ -58,11 +57,7 @@ class ColorsController extends Controller
 
         $createColorDto = CreateColorDto::fromRequest($request);
 
-        try {
-            $color = $this->manageColorsService->createColor($createColorDto);
-        } catch (UniqueFieldException $ex) {
-            return back()->with('error', $ex->getMessage())->onlyInput('name', 'hex_code');
-        }
+        $color = $this->manageColorsService->createColor($createColorDto);
 
         return redirect()->route("colors.index")->with("success", $color->name." created !");
     }
@@ -102,11 +97,7 @@ class ColorsController extends Controller
 
         $updateColorDto = UpdateColorDto::fromRequest($request);
 
-        try {
-            $color = $this->manageColorsService->updateColor($id, $updateColorDto);
-        } catch (UniqueFieldException $ex) {
-            return back()->with('error', $ex->getMessage());
-        }
+        $color = $this->manageColorsService->updateColor($id, $updateColorDto);
 
         return redirect()->route("colors.index")->with("success", $color->name." updated !");
     }
