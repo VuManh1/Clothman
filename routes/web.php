@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Admin\BannersController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\ColorsController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Models\Banner;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,6 +65,7 @@ Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(fun
     Route::resource('products', ProductsController::class);
     Route::resource('categories', CategoriesController::class);
     Route::resource('colors', ColorsController::class);
+    Route::resource('banners', BannersController::class);
 
 });
 
