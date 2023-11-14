@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\DTOs\Banners\BannerParamsDto;
 use App\Repositories\Interfaces\Repository;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Repository for Banner entity
@@ -10,8 +12,7 @@ use App\Repositories\Interfaces\Repository;
 interface BannerRepository extends Repository
 {
     /**
-     * Check if a Banner have at least one child
-     * @param string $id (id of Banner to check)
+     * Find banners by BannerParamsDto
      */
-    public function checkChildExists(string $id): bool;
+    public function findByParams(BannerParamsDto $params): LengthAwarePaginator;
 }

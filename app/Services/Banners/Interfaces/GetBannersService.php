@@ -4,6 +4,7 @@ namespace App\Services\Banners\Interfaces;
 
 use App\DTOs\Banners\BannerParamsDto;
 use App\Models\Banner;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface GetBannersService
 {
@@ -11,7 +12,7 @@ interface GetBannersService
      * Summary of getBanners
      * @param mixed $params
      */
-    public function getBanners(?BannerParamsDto $params);
+    public function getBannersByParams(BannerParamsDto $params): LengthAwarePaginator;
 
     /**
      * Summary of getBannerById

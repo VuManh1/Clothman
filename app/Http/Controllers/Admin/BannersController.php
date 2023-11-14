@@ -31,7 +31,7 @@ class BannersController extends Controller
     public function index(Request $request)
     {
         $params = BannerParamsDto::fromRequest($request);
-        $banners = $this->getBannersService->getBanners($params);
+        $banners = $this->getBannersService->getBannersByParams($params);
 
         $this->appendPaginatorUrl($banners);
 
@@ -68,7 +68,6 @@ class BannersController extends Controller
     public function edit($id)
     {
         $banner = $this->getBannersService->getBannerById($id);
-        $banners = $this->getBannersService->getBanners();
 
         return view("admin.banners.edit", compact("banner", "banners"));
     }
