@@ -2,12 +2,15 @@
 
 namespace App\Providers;
 
+use App\Models\Banner;
+use App\Repositories\Implementations\EloquentBannerRepository;
 use App\Repositories\Implementations\EloquentCategoryRepository;
 use App\Repositories\Implementations\EloquentColorRepository;
 use App\Repositories\Implementations\EloquentImageRepository;
 use App\Repositories\Implementations\EloquentProductRepository;
 use App\Repositories\Implementations\EloquentProductVariantRepository;
 use App\Repositories\Implementations\EloquentUserRepository;
+use App\Repositories\Interfaces\BannerRepository;
 use App\Repositories\Interfaces\CategoryRepository;
 use App\Repositories\Interfaces\ColorRepository;
 use App\Repositories\Interfaces\ImageRepository;
@@ -31,6 +34,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ColorRepository::class, EloquentColorRepository::class);
         $this->app->bind(ImageRepository::class, EloquentImageRepository::class);
         $this->app->bind(ProductVariantRepository::class, EloquentProductVariantRepository::class);
+        $this->app->bind(BannerRepository::class, EloquentBannerRepository::class);
+
     }
 
     /**

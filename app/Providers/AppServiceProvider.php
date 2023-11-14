@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Services\Banners\Implementations\GetBannersServiceImpl;
+use App\Services\Banners\Implementations\ManageBannersServiceImpl;
+use App\Services\Banners\Interfaces\GetBannersService;
+use App\Services\Banners\Interfaces\ManageBannersService;
 use App\Services\Categories\Implementations\GetCategoriesServiceImpl;
 use App\Services\Categories\Implementations\ManageCategoriesServiceImpl;
 use App\Services\Colors\Implementations\GetColorsServiceImpl;
@@ -43,10 +47,14 @@ class AppServiceProvider extends ServiceProvider
 
         // Upload Service
         $this->app->bind(UploadService::class, LocalUploadService::class);
-        
+
         // color services
         $this->app->bind(GetColorsService::class, GetColorsServiceImpl::class);
         $this->app->bind(ManageColorsService::class, ManageColorsServiceImpl::class);
+
+        //Banner services
+        $this->app->bind(GetBannersService::class, GetBannersServiceImpl::class);
+        $this->app->bind(ManageBannersService::class, ManageBannersServiceImpl::class);
     }
 
     /**
