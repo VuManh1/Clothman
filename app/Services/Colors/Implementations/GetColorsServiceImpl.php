@@ -7,6 +7,8 @@ use App\Services\Colors\Interfaces\GetColorsService;
 use App\DTOs\Colors\ColorParamsDto;
 use App\Exceptions\Colors\ColorNotFoundException;
 use App\Models\Color;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class GetColorsServiceImpl implements GetColorsService
 {
@@ -14,12 +16,12 @@ class GetColorsServiceImpl implements GetColorsService
         private ColorRepository $colorRepository
     ) {}
 
-    public function getColors(ColorParamsDto $params = null) {
-        if (!$params) {
-            return $this->colorRepository->getAll();
-        }
+    public function getAllColors(): Collection {
+        return $this->colorRepository->getAll();
+    }
 
-        return $this->colorRepository->getColorsByParams($params);
+    public function getColorsByParams(ColorParamsDto $params): LengthAwarePaginator {
+        return $this->colorRepository->findByParams($params);
     }
 
     public function getColorById(string $id): Color {

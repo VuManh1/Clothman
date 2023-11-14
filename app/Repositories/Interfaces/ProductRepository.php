@@ -19,9 +19,9 @@ interface ProductRepository extends Repository
     public function findBySlug(string $slug, array $includes = null): ?Product;
 
     /**
-     * Get products by ProductParamsDto
+     * Find products by ProductParamsDto
      */
-    public function getProductsByParams(ProductParamsDto $paramms): LengthAwarePaginator;
+    public function findByParams(ProductParamsDto $paramms): LengthAwarePaginator;
     
     /**
      * Check if a product have at least one order
@@ -30,16 +30,11 @@ interface ProductRepository extends Repository
     public function checkHaveOrder(string $id): bool;
 
     /**
-     * Get products order by updated at desc
+     * Get products order by a column
      * 
+     * @param string $column  (column to order)
+     * @param string $order  (asc, desc)
      * @param int $count  (number of products)
      */
-    public function getProductsOrderByUpdatedAtDesc(int $count): Collection;
-
-    /**
-     * Get products order by sold count
-     * 
-     * @param int $count  (number of products)
-     */
-    public function getProductsOrderBySoldDesc(int $count): Collection;
+    public function getProductsOrderBy(string $column, string $order, int $count): Collection;
 }

@@ -13,9 +13,9 @@ use Illuminate\Support\Collection;
 interface CategoryRepository extends Repository
 {
     /**
-     * Get categories by CategoryParamsDto
+     * Find categories by CategoryParamsDto
      */
-    public function getCategoriesByParams(CategoryParamsDto $params): LengthAwarePaginator;
+    public function findByParams(CategoryParamsDto $params): LengthAwarePaginator;
 
     /**
      * Check if a category have at least one child
@@ -24,9 +24,9 @@ interface CategoryRepository extends Repository
     public function checkChildExists(string $id): bool;
 
     /**
-     * Get all categories that have no parent
+     * Find categories by parent id
      */
-    public function getAllParentCategories(array $includes = null): Collection;
+    public function findByParentId(?string $parentId, array $includes = null): Collection;
 
     /**
      * Get home categories 

@@ -30,7 +30,7 @@ class CategoriesController extends Controller
     {
         $params = CategoryParamsDto::fromRequest($request);
 
-        $categories = $this->getCategoriesService->getCategories($params);
+        $categories = $this->getCategoriesService->getCategoriesByParams($params);
 
         $this->appendPaginatorUrl($categories);
 
@@ -44,7 +44,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        $categories = $this->getCategoriesService->getCategories();
+        $categories = $this->getCategoriesService->getAllCategories();
         return view("admin.categories.create", ["categories" => $categories]);
     }
 
@@ -71,7 +71,7 @@ class CategoriesController extends Controller
      */
     public function show($id)
     {
-        $category = $this->getCategoriesService->getCategoryById($id);
+        $category = $this->getCategoriesService->getCategoryById($id, ['parent']);
 
         return view("admin.categories.show", compact("category"));
     }
@@ -83,8 +83,8 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
-        $category = $this->getCategoriesService->getCategoryById($id);
-        $categories = $this->getCategoriesService->getCategories();
+        $category = $this->getCategoriesService->getCategoryById($id, ['parent']);
+        $categories = $this->getCategoriesService->getAllCategories();
 
         return view("admin.categories.edit", compact("category", "categories"));
     }

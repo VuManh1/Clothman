@@ -13,7 +13,7 @@ class EloquentColorRepository extends EloquentRepository implements ColorReposit
         parent::__construct(Color::class);
     }
 
-    public function getColorsByParams(ColorParamsDto $params): LengthAwarePaginator {
+    public function findByParams(ColorParamsDto $params): LengthAwarePaginator {
         $query = $this->model->query();
 
         if ($params->keyword) {

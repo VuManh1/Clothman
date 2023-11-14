@@ -16,7 +16,7 @@ class EloquentCategoryRepository extends EloquentRepository implements CategoryR
         parent::__construct(Category::class);
     }
 
-    public function getCategoriesByParams(CategoryParamsDto $params): LengthAwarePaginator {
+    public function findByParams(CategoryParamsDto $params): LengthAwarePaginator {
         $query = $this->model->query();
 
         if ($params->includes) {
@@ -45,12 +45,12 @@ class EloquentCategoryRepository extends EloquentRepository implements CategoryR
         return $category->childs()->take(1)->exists();
     }
 
-    public function getAllParentCategories(array $includes = null): Collection {
+    public function findByParentId(?string $parentId, array $includes = null): Collection {
         if ($includes) {
-            return $this->model->with($includes)->where('parent_id', null)->get();
+            return $this->model->with($includes)->where('parent_id', $parentId)->get();
         }
 
-        return $this->model->where('parent_id', null)->get();
+        return $this->model->where('parent_id', $parentId)->get();
     }
 
     public function getHomeCategories(int $productsCount): Collection {

@@ -7,6 +7,7 @@ use App\Exceptions\Categories\CategoryNotFoundException;
 use App\Models\Category;
 use App\Repositories\Interfaces\CategoryRepository;
 use App\Services\Categories\Interfaces\GetCategoriesService;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 class GetCategoriesServiceImpl implements GetCategoriesService
@@ -15,18 +16,18 @@ class GetCategoriesServiceImpl implements GetCategoriesService
         private CategoryRepository $categoryRepository
     ) {}
 
-    public function getCategories(CategoryParamsDto $params = null) {
-        if (!$params) {
-            return $this->categoryRepository->getAll();
-        }
-
-        $params->includes = ['parent'];
-
-        return $this->categoryRepository->getCategoriesByParams($params);
+    public function getAllCategories(): Collection {
+        return $this->categoryRepository->getAll();
     }
 
-    public function getCategoryById(string $id): Category {
-        $category = $this->categoryRepository->findById($id, ['parent']);
+    public function getCategoriesByParams(CategoryParamsDto $params): LengthAwarePaginator {
+        $params->includes = ['parent'];
+        
+        return $this->categoryRepository->findByParams($params);
+    }
+
+    public function getCategoryById(string $id, array $includes = null): Category {
+        $category = $this->categoryRepository->findById($id, $includes);
 
         if (!$category) throw new CategoryNotFoundException();
 
@@ -34,7 +35,7 @@ class GetCategoriesServiceImpl implements GetCategoriesService
     }
 
     public function getParentCategoriesWithChilds(): Collection {
-        return $this->categoryRepository->getAllParentCategories(['childs']);
+        return $this->categoryRepository->findByParentId(null, ['childs']);
     }
 
     public function getHomeCategories(int $productsCount): Collection {

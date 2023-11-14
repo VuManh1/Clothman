@@ -7,6 +7,7 @@ use App\Exceptions\Products\ProductNotFoundException;
 use App\Models\Product;
 use App\Repositories\Interfaces\ProductRepository;
 use App\Services\Products\Interfaces\GetProductsService;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 class GetProductsServiceImpl implements GetProductsService
@@ -15,49 +16,37 @@ class GetProductsServiceImpl implements GetProductsService
         private ProductRepository $productRepository
     ) {}
 
-    public function getProducts(?ProductParamsDto $params) { 
-        if (!$params) {
-            return $this->productRepository->getAll();
-        }
-
+    public function getProductsByParams(ProductParamsDto $params): LengthAwarePaginator { 
         $params->includes = ['category'];
         if (!$params->sortColumn) {
             $params->sortColumn = "updated_at";
             $params->sortOrder = "desc";
         }
 
-        return $this->productRepository->getProductsByParams($params);
+        return $this->productRepository->findByParams($params);
     }
 
-    public function getProductById(string $id): Product {
-        $product = $this->productRepository->findById($id);
+    public function getProductById(string $id, array $includes = null): Product {
+        $product = $this->productRepository->findById($id, $includes);
 
         if (!$product) throw new ProductNotFoundException();
 
         return $product;
     }
 
-    public function getProductBySlugWithAllDetails(string $slug): Product {
-        $product = $this->productRepository->findBySlug($slug, ['category', 'productVariants', 'images']);
+    public function getProductBySlug(string $slug, array $includes = null): Product {
+        $product = $this->productRepository->findBySlug($slug, $includes);
 
         if (!$product) throw new ProductNotFoundException();
 
         return $product;
-    }
-
-    public function getProductByIdWithAllDetails(string $id): Product {
-        $product = $this->productRepository->findById($id, ['category', 'productVariants', 'images']);
-
-        if (!$product) throw new ProductNotFoundException();
-
-        return $product; 
     }
 
     public function getLatestProducts(int $count): Collection {
-        return $this->productRepository->getProductsOrderByUpdatedAtDesc($count);
+        return $this->productRepository->getProductsOrderBy('updated_at', 'desc', $count);
     }
 
     public function getTopSoldProducts(int $count): Collection {
-        return $this->productRepository->getProductsOrderBySoldDesc($count);
+        return $this->productRepository->getProductsOrderBy('sold', 'desc', $count);
     }
 }
