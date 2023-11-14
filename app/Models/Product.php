@@ -42,6 +42,20 @@ class Product extends Model
     }
 
     /**
+     * Get the formated string of price
+     */
+    public function getFormatedPrice() {
+        return number_format($this->price, 0, '.', '.');
+    }
+
+    /**
+     * Get the formated string of discount price
+     */
+    public function getFormatedDiscountPrice() {
+        return number_format($this->getDiscountPrice(), 0, '.', '.');
+    }
+
+    /**
      * Get the category of the product.
      */
     public function category(): BelongsTo

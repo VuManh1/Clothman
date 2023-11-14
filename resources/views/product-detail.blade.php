@@ -90,12 +90,12 @@
 
                 <div class="d-flex gap-3 align-items-center flex-wrap">
                     @if ($product->discount > 0)
-                        <div class="fs-5 fw-bold">{{ $product->getDiscountPrice() }}đ</div>
-                        <div class="text-secondary text-decoration-line-through fs-5 fw-medium">{{ $product->price }}đ
+                        <div class="fs-5 fw-bold">{{ $product->getFormatedDiscountPrice() }}đ</div>
+                        <div class="text-secondary text-decoration-line-through fs-5 fw-medium">{{ $product->getFormatedPrice() }}đ
                         </div>
                         <div class="text-danger fs-6 fw-medium">-{{ $product->discount }}%</div>
                     @else
-                        <div class="fs-5 fw-bold">{{ $product->price }}đ</div>
+                        <div class="fs-5 fw-bold">{{ $product->getFormatedPrice() }}đ</div>
                     @endif
                 </div>
 
