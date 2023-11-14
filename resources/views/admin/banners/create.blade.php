@@ -42,7 +42,7 @@
                     @include('includes.errors')
 
                     <div class="card-style mb-30">
-                        <form action="{{ route('banners.store') }}" method="POST" id="create-cate-form" enctype="multipart/form-data">
+                        <form action="{{ route('banners.store') }}" method="POST" id="create-banner-form" enctype="multipart/form-data">
                             @csrf
 
                             <div class="mb-3">
@@ -54,8 +54,8 @@
                                 <input type="text" class="form-control" id="link" name="link">
                             </div>
                             <div class="form-group mb-3">
-                                <label for="image_url" class="form-label">Attach a image url</label>
-                                <input type="file" name="image_url" id="image_url" class="form-control">
+                                <label for="image" class="form-label">Attach an image</label>
+                                <input type="file" name="image" id="image" class="form-control">
                             </div>
 
                             <button type="submit" class="btn btn-success">Create</button>
@@ -76,12 +76,12 @@
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
     <script>
         $().ready(function() {
-            $("#create-cate-form").validate({
+            $("#create-banner-form").validate({
                 rules: {
                     "name": {
                         required: true,
                     },
-                    "image_url": {
+                    "image": {
                         required: true,
                         extension: "png|jpg|jpeg|webp"
                     }
@@ -90,7 +90,7 @@
                     "name": {
                         required: "Name không được để trống",
                     },
-                    "image_url": {
+                    "image": {
                         required: "Ảnh không được để trống",
                         extension: "Ảnh phải có phần mở rộng là .png .jpg .jpeg hoặc .webp"
                     }

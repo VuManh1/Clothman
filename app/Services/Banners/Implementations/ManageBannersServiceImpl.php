@@ -4,43 +4,33 @@ namespace App\Services\Banners\Implementations;
 
 use App\DTOs\Banners\CreateBannerDto;
 use App\DTOs\Banners\UpdateBannerDto;
-use App\Exceptions\UniqueFieldException;
+use App\Exceptions\Banners\BannerNotFoundException;
 use App\Models\Banner;
 use App\Repositories\Interfaces\BannerRepository;
 use App\Services\Banners\Interfaces\ManageBannersService;
 use App\Services\Upload\Interfaces\UploadService;
 use App\Utils\UploadFolder;
-use Illuminate\Support\Str;
 
 class ManageBannersServiceImpl implements ManageBannersService
 {
     public function __construct(
-        private BannerRepository $BannerRepository,
+        private BannerRepository $bannerRepository,
         private UploadService $uploadService
     ) {}
 
     public function createBanner(CreateBannerDto $createBannerDto): Banner {
-
-        $uploadResult = $this->uploadService->uploadFile($createBannerDto->image_url, [
+        $uploadResult = $this->uploadService->uploadFile($createBannerDto->image, [
             'folder' => UploadFolder::IMAGE_BANNER_PATH,
         ]);
 
-        try {
-            return $this->BannerRepository->create([
-                "name"=> $createBannerDto->name,
-                "link"=> $createBannerDto->link,
-                'image_url' => $uploadResult['path'],
-            ]);
-        } catch (\Illuminate\Database\QueryException $th) {
-            // if have any error, delete the file created previous
-            $this->uploadService->deleteFile($uploadResult['path']);
-
-            throw new UniqueFieldException();
-        }
+        return $this->bannerRepository->create([
+            "name"=> $createBannerDto->name,
+            "link"=> $createBannerDto->link,
+            'image_url' => $uploadResult['path'],
+        ]);
     }
 
     public function updateBanner($id, UpdateBannerDto $updateBannerDto): Banner {
-        $slug = Str::slug($updateBannerDto->name);
         $data = [
             "name"=> $updateBannerDto->name,
             "link"=> $updateBannerDto->link,
@@ -49,29 +39,28 @@ class ManageBannersServiceImpl implements ManageBannersService
 
         // if have an image, upload it and assign path to $data
         $uploadResult = null;
-        if ($updateBannerDto->image_url) {
-            $uploadResult = $this->uploadService->uploadFile($updateBannerDto->image_url, [
+        if ($updateBannerDto->image) {
+            $uploadResult = $this->uploadService->uploadFile($updateBannerDto->image, [
                 'folder' => UploadFolder::IMAGE_BANNER_PATH
             ]);
 
             $data['image_url'] = $uploadResult['path'];
         }
 
-        try {
-            return $this->BannerRepository->update($id, $data);
-        } catch (\Illuminate\Database\QueryException $ex) {
-            // if have any error, delete the file created previous if have
-            if ($uploadResult) {
-                $this->uploadService->deleteFile($uploadResult['path']);
-            }
-
-            throw new UniqueFieldException();
-        }
+        return $this->bannerRepository->update($id, $data);
     }
 
     public function deleteBanner($id): bool {
-        $isChildExists = $this->BannerRepository->checkChildExists($id);
+        $banner = $this->bannerRepository->findById($id);
 
-        return $this->BannerRepository->delete($id);
+        if (!$banner) {
+            throw new BannerNotFoundException();
+        }
+
+        if ($banner->image_url) {
+            $this->uploadService->deleteFile($banner->image_url);
+        }
+
+        return $this->bannerRepository->delete($id);
     }
 }

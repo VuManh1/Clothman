@@ -43,7 +43,7 @@
 
                     <div class="card-style mb-30">
                         <form action="{{ route('banners.update', [$banner->id]) }}" method="POST"
-                            id="edit-cate-form" enctype="multipart/form-data">
+                            id="edit-banner-form" enctype="multipart/form-data">
                             @method('PUT')
                             @csrf
 
@@ -61,14 +61,14 @@
                             <div>Image_url</div>
                             <img src="{{ asset($banner->image_url) }}" alt="{{ $banner->name }}" class="w-100">
                             <div class="form-group mb-3">
-                                <label for="image_url" class="form-label">Attach a image_url</label>
-                                <input type="file" name="image_url" id="image_url" class="form-control">
+                                <label for="image" class="form-label">Attach an image</label>
+                                <input type="file" name="image" id="image" class="form-control">
                             </div>
 
                             <div class="mb-3 form-check">
                                 <input type="checkbox" class="form-check-input" id="is_active" name="is_active"
                                     @checked($banner->is_active)>
-                                <label class="form-check-label" for="is_active">Display in home page</label>
+                                <label class="form-check-label" for="is_active">Active</label>
                             </div>
 
                             <button type="submit" class="btn btn-success">Edit</button>
@@ -89,13 +89,12 @@
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
     <script>
         $().ready(function() {
-            $("#edit-cate-form").validate({
+            $("#edit-banner-form").validate({
                 rules: {
                     "name": {
                         required: true,
                     },
-                    "image_url": {
-                        required: true,
+                    "image": {
                         extension: "png|jpg|jpeg|webp"
                     }
                 },
@@ -103,8 +102,7 @@
                     "name": {
                         required: "Name không được để trống",
                     },
-                    "image_url": {
-                        required: "Ảnh không được để trống",
+                    "image": {
                         extension: "Ảnh phải có phần mở rộng là .png .jpg .jpeg hoặc .webp"
                     }
                 }

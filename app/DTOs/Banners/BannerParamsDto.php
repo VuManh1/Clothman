@@ -26,8 +26,8 @@ class BannerParamsDto extends QueryParamsDto
         return new BannerParamsDto(
             $paramsDto->page,
             $paramsDto->limit,
-            $paramsDto->sort,
-            $paramsDto->by,
+            $paramsDto->sortColumn,
+            $paramsDto->sortOrder,
             $paramsDto->keyword,
         );
     }

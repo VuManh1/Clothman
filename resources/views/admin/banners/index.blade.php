@@ -47,7 +47,7 @@
                                     <thead>
                                         <tr>
                                             <th class="lead-info">
-                                                <h6>ID</h6>
+                                                <h6>#</h6>
                                             </th>
                                             <th class="lead-email">
                                                 <h6>Name</h6>
@@ -67,10 +67,13 @@
                                                 <tr>
                                                     <td class="min-width">
                                                         <div class="lead">
-                                                            <div class="lead-text">
-                                                                <p>{{ $banner->id }}</p>
+                                                            <div class="lead-image" style="border-radius: 0">
+                                                                <img src="{{ asset($banner->image_url) }}" alt="{{ $banner->name }}" />
                                                             </div>
                                                         </div>
+                                                    </td>
+                                                    <td class="min-width">
+                                                        <p>{{ $banner->name }}</p>
                                                     </td>
                                                     <td class="min-width">
                                                         <div class="lead">
@@ -78,10 +81,6 @@
                                                                 <p>{{ $banner->link }}</p>
                                                             </div>
                                                         </div>
-
-                                                    </td>
-                                                    <td class="min-width">
-                                                        <p><a href="#0">{{ $banner->name }}</a></p>
                                                     </td>
                                                     <td>
                                                         <div class="action gap-2">

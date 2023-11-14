@@ -25,7 +25,7 @@ class CreateBannerRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'image_url' => 'required|image|mimes:jpeg,png,jpg,webp'
+            'image' => 'required|image|mimes:jpeg,png,jpg,webp'
         ];
     }
 
@@ -37,9 +37,9 @@ class CreateBannerRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Tên thể loại không được để trống',
-            'image_url.image' => 'Banner phải có phần mở rộng là .png .jpg .jpeg hoặc .webp',
-            'image_url.mimes' => 'image_url phải có phần mở rộng là .png .jpg .jpeg hoặc .webp',
+            'name.required' => 'Tên banner không được để trống',
+            'image.image' => 'Banner phải có phần mở rộng là .png .jpg .jpeg hoặc .webp',
+            'image.mimes' => 'Banner phải có phần mở rộng là .png .jpg .jpeg hoặc .webp',
         ];
     }
 }

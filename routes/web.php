@@ -11,11 +11,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
-<<<<<<< HEAD
-use App\Models\Banner;
-=======
 use App\Http\Controllers\HomeController;
->>>>>>> ac789a9ac37943fe15518027f81788f6881f322f
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -71,8 +67,8 @@ Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(fun
     Route::resource('products', ProductsController::class);
     Route::resource('categories', CategoriesController::class);
     Route::resource('colors', ColorsController::class);
-    Route::resource('banners', BannersController::class);
 
+    Route::resource('banners', BannersController::class)->middleware(['role:ADMIN,null,null']);
 });
 
 // Account routes

@@ -20,7 +20,7 @@ class ProductsFilter extends Component
         private GetCategoriesService $getCategoriesService
     )
     {
-        $this->categories = $this->getCategoriesService->getCategories();
+        $this->categories = $this->getCategoriesService->getAllCategories();
     }
 
     /**

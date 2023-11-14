@@ -9,8 +9,8 @@ class CreateBannerDto
 {
     public function __construct(
         public string $name,
-        public string $link,
-        public ?UploadedFile $image_url,
+        public ?string $link,
+        public UploadedFile $image,
     ) {}
 
     /**
@@ -20,7 +20,7 @@ class CreateBannerDto
         return new self(
             $request->name,
             $request->link,
-            $request->image_url,
+            $request->image,
         );
     }
 }

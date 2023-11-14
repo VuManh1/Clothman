@@ -19,7 +19,7 @@ interface ManageBannersService
     /**
      * Update a Banner
      */
-    public function updateBanner($id, UpdateBannerDto  $updateBannerDto): Banner;
+    public function updateBanner($id, UpdateBannerDto $updateBannerDto): Banner;
 
     /**
      * Delete a Banner

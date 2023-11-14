@@ -5,13 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\DTOs\Banners\BannerParamsDto;
 use App\DTOs\Banners\CreateBannerDto;
 use App\DTOs\Banners\UpdateBannerDto;
-use App\Exceptions\UniqueFieldException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Banner\CreateBannerRequest;
 use App\Http\Requests\Banner\UpdateBannerRequest;
 use App\Services\Banners\Interfaces\GetBannersService;
 use App\Services\Banners\Interfaces\ManageBannersService;
-use App\Services\Categories\Interfaces\GetCategoriesService;
 use Illuminate\Http\Request;
 
 class BannersController extends Controller
@@ -20,7 +18,7 @@ class BannersController extends Controller
         private GetBannersService $getBannersService,
         private ManageBannersService $manageBannersService,
     ) {
-        $this->middleware('role:ADMIN,null,null')->only(['destroy']);
+
     }
 
     /**
@@ -49,11 +47,7 @@ class BannersController extends Controller
 
         $createBannerDto = CreateBannerDto::fromRequest($request);
 
-        try {
-            $banner = $this->manageBannersService->createBanner($createBannerDto);
-        } catch (UniqueFieldException $ex) {
-            return back()->with('error', $ex->getMessage());
-        }
+        $banner = $this->manageBannersService->createBanner($createBannerDto);
 
         return redirect()->route("banners.index")->with("success", $banner->name." created !");
     }
@@ -69,7 +63,7 @@ class BannersController extends Controller
     {
         $banner = $this->getBannersService->getBannerById($id);
 
-        return view("admin.banners.edit", compact("banner", "banners"));
+        return view("admin.banners.edit", compact("banner"));
     }
 
     public function update(UpdateBannerRequest $request, $id)
@@ -78,11 +72,7 @@ class BannersController extends Controller
 
         $updateBannerDto = UpdateBannerDto::fromRequest($request);
 
-        try {
-            $banner = $this->manageBannersService->updateBanner($id, $updateBannerDto);
-        } catch (UniqueFieldException $ex) {
-            return back()->with('error', $ex->getMessage());
-        }
+        $banner = $this->manageBannersService->updateBanner($id, $updateBannerDto);
 
         return redirect()->route("banners.index")->with("success", $banner->name." updated !");
     }
@@ -90,7 +80,6 @@ class BannersController extends Controller
     public function destroy($id)
     {
         $this->manageBannersService->deleteBanner($id);
-
 
         return redirect()->route("banners.index")->with("success", "Banner deleted !");
     }
