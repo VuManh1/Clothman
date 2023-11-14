@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\DTOs\Categories\CategoryParamsDto;
 use App\DTOs\Categories\CreateCategoryDto;
 use App\DTOs\Categories\UpdateCategoryDto;
-use App\Exceptions\Categories\CategoryCanNotDeleteException;
-use App\Exceptions\UniqueFieldException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\CreateCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
@@ -31,7 +29,6 @@ class CategoriesController extends Controller
     public function index(Request $request)
     {
         $params = CategoryParamsDto::fromRequest($request);
-        $params->includes = ['parent']; // load parent category
 
         $categories = $this->getCategoriesService->getCategories($params);
 
@@ -62,11 +59,7 @@ class CategoriesController extends Controller
 
         $createCategoryDto = CreateCategoryDto::fromRequest($request);
 
-        try {
-            $category = $this->manageCategoriesService->createCategory($createCategoryDto);
-        } catch (UniqueFieldException $ex) {
-            return back()->with('error', $ex->getMessage());
-        }
+        $category = $this->manageCategoriesService->createCategory($createCategoryDto);
 
         return redirect()->route("categories.index")->with("success", $category->name." created !");
     }
@@ -107,11 +100,7 @@ class CategoriesController extends Controller
 
         $updateCateDto = UpdateCategoryDto::fromRequest($request);
 
-        try {
-            $category = $this->manageCategoriesService->updateCategory($id, $updateCateDto);
-        } catch (UniqueFieldException $ex) {
-            return back()->with('error', $ex->getMessage());
-        }
+        $category = $this->manageCategoriesService->updateCategory($id, $updateCateDto);
 
         return redirect()->route("categories.index")->with("success", $category->name." updated !");
     }
@@ -123,11 +112,7 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $this->manageCategoriesService->deleteCategory($id);
-        } catch (CategoryCanNotDeleteException $ex) {
-            return back()->with('error', $ex->getMessage());
-        }
+        $this->manageCategoriesService->deleteCategory($id);
 
         return redirect()->route("categories.index")->with("success", "Category deleted !");
     }

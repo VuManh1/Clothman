@@ -8,14 +8,14 @@ use Illuminate\Http\Request;
 class CategoryParamsDto extends QueryParamsDto
 {
     public function __construct(
-        public int $page,
-        public int $limit,
-        public ?string $sort,
-        public ?string $by,
-        public ?string $keyword,
-        public ?array $includes
+        int $page,
+        int $limit,
+        ?string $sortColumn,
+        ?string $sortOrder,
+        ?string $keyword,
+        public ?array $includes,
     ) {
-        parent::__construct($page, $limit, $sort, $by, $keyword);
+        parent::__construct($page, $limit, $sortColumn, $sortOrder, $keyword);
     }
 
     /**
@@ -27,8 +27,8 @@ class CategoryParamsDto extends QueryParamsDto
         return new CategoryParamsDto(
             $paramsDto->page,
             $paramsDto->limit,
-            $paramsDto->sort,
-            $paramsDto->by,
+            $paramsDto->sortColumn,
+            $paramsDto->sortOrder,
             $paramsDto->keyword,
             null
         );

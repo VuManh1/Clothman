@@ -4,6 +4,7 @@ namespace App\Services\Products\Interfaces;
 
 use App\DTOs\Products\ProductParamsDto;
 use App\Models\Product;
+use Illuminate\Support\Collection;
 
 /**
  * Service Interface for product to deal with Read operations
@@ -24,9 +25,30 @@ interface GetProductsService
     public function getProductById(string $id): Product;
 
     /**
+     * Get one product by slug includes all relationship
+     * @return \App\Models\Product
+     * @throws \App\Exceptions\Products\ProductNotFoundException
+     */
+    public function getProductBySlugWithAllDetails(string $slug): Product;
+
+    /**
      * Get one product by ID with all of it's relationships
      * @return \App\Models\Product
      * @throws \App\Exceptions\Products\ProductNotFoundException
      */
     public function getProductByIdWithAllDetails(string $id): Product;
+
+    /**
+     * Get latest products
+     * 
+     * @param int $count  (number of products)
+     */
+    public function getLatestProducts(int $count): Collection;
+
+    /**
+     * Get top sold products
+     * 
+     * @param int $count  (number of products)
+     */
+    public function getTopSoldProducts(int $count): Collection;
 }

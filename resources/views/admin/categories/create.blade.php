@@ -47,18 +47,20 @@
 
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="name" name="name">
+                                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
-                                <input type="text" class="form-control" id="description" name="description">
+                                <input type="text" class="form-control" id="description" name="description" value="{{ old('description') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="parent_id" class="form-label">Select parent category</label>
                                 <select class="mb-3 form-select" name="parent_id" id="parent_id" value="{{ old('parent_id') }}">
                                     <option selected value="">NULL</option>
                                     @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        <option value="{{ $category->id }}" @selected($category->id === old('parent_id'))>
+                                            {{ $category->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>

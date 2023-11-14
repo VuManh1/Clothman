@@ -198,7 +198,12 @@ return [
         /*
          * Repository Service Providers
          */
-        App\Providers\RepositoryServiceProvider::class
+        App\Providers\RepositoryServiceProvider::class,
+
+        /*
+         * View Composer Service Providers
+         */
+        App\Providers\ViewComposerServiceProvider::class,
     ],
 
     /*

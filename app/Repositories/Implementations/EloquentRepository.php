@@ -3,10 +3,11 @@
 namespace App\Repositories\Implementations;
 
 use App\Repositories\Interfaces\Repository;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 abstract class EloquentRepository implements Repository
 {
@@ -20,16 +21,15 @@ abstract class EloquentRepository implements Repository
         $this->model = app()->make($model);
     }
 
-    public function getAll(): Collection {
-        return $this->model->all();
+    protected function toPaginator(Builder $query, int $page, int $limit): LengthAwarePaginator {
+        $count = $query->count();
+        $items = $query->forPage($page, $limit)->get();
+
+        return new LengthAwarePaginator($items, $count, $limit, $page); 
     }
 
-    public function first(array $filters, array $includes = null): ?Model {
-        if ($includes) {
-            return $this->model->with($includes)->firstWhere($filters);
-        }
-
-        return $this->model->firstWhere($filters);
+    public function getAll(): Collection {
+        return $this->model->all();
     }
 
     public function findById(string $id, array $includes = null): ?Model {
@@ -40,30 +40,11 @@ abstract class EloquentRepository implements Repository
         return $this->model->find($id);
     }
 
-    public function find(int $page, int $limit, array $filters = null, array $sorts = null, array $includes = null): LengthAwarePaginator {
+    public function get(int $page, int $limit, array $sorts = null, array $includes = null): LengthAwarePaginator {
         $query = $this->model->query();
 
         if ($includes) {
             $query->with($includes);
-        }
-
-        if ($filters && !empty($filters)) {
-            // wrap filters in array if it is Associative arrays
-            if (! is_array(reset($filters))) {
-                $filters = [$filters];
-            }
-
-            foreach ($filters as $filter) {
-                $column = $filter['column'];
-                $operator = isset($filter['operator']) ? $filter['operator'] : null;
-                $value = $filter['value'];
-
-                if ($operator) {
-                    $query->where($column, $operator, $value);
-                } else {
-                    $query->where($column, $value);
-                }
-            }
         }
 
         if ($sorts && !empty($sorts)) {
@@ -73,15 +54,12 @@ abstract class EloquentRepository implements Repository
             }
 
             foreach ($sorts as $sort) {
-                $by = isset($sort['by']) ? $sort['by'] : "asc";
+                $by = isset($sort['order']) ? $sort['order'] : "asc";
                 $query->orderBy($sort['column'], $by);
             }
         }
 
-        $count = $query->count();
-        $items = $query->forPage($page, $limit)->get();
-
-        return new LengthAwarePaginator($items, $count, $limit, $page); 
+        return $this->toPaginator($query, $page, $limit);
     }
 
     public function create(array $attributes): Model {

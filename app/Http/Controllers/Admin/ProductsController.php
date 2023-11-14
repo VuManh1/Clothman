@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\DTOs\Products\CreateProductDto;
 use App\DTOs\Products\ProductParamsDto;
 use App\DTOs\Products\UpdateProductDto;
-use App\Exceptions\Products\ProductCanNotDeleteException;
-use App\Exceptions\UniqueFieldException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\CreateProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
@@ -35,14 +33,12 @@ class ProductsController extends Controller
     public function index(Request $request)
     {
         $params = ProductParamsDto::fromRequest($request);
-        $params->includes = ['category']; // load product's category
 
         $products = $this->getProductsService->getProducts($params);
-        $categories = $this->getCategoriesService->getCategories();
 
         $this->appendPaginatorURL($products);
 
-        return view("admin.products.index", compact('products', 'categories'));
+        return view("admin.products.index", compact('products'));
     }
 
     /**
@@ -69,11 +65,7 @@ class ProductsController extends Controller
         $request->validated();
         $createProductDto = CreateProductDto::fromRequest($request);
 
-        try {
-            $product = $this->manageProductsService->createProduct($createProductDto);
-        } catch (UniqueFieldException $ex) {
-            return back()->with('error', $ex->getMessage());
-        }
+        $product = $this->manageProductsService->createProduct($createProductDto);
 
         return redirect()->route("products.index")->with('success', $product->name.' created!');
     }
@@ -116,11 +108,7 @@ class ProductsController extends Controller
         $request->validated();
         $updateProductDto = UpdateProductDto::fromRequest($request);
 
-        try {
-            $product = $this->manageProductsService->updateProduct($id, $updateProductDto);
-        } catch (UniqueFieldException $ex) {
-            return back()->with('error', $ex->getMessage());
-        }
+        $product = $this->manageProductsService->updateProduct($id, $updateProductDto);
 
         return redirect()->route("products.index")->with('success', $product->name.' updated!');
     }
@@ -132,11 +120,7 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $this->manageProductsService->deleteProduct($id);
-        } catch (ProductCanNotDeleteException $ex) {
-            return back()->with('error', $ex->getMessage());
-        }
+        $this->manageProductsService->deleteProduct($id);
 
         return redirect()->route("products.index")->with("success", "Product deleted !");
     }

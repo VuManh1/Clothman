@@ -34,6 +34,14 @@ class Product extends Model
     ];
 
     /**
+     * Get price after discount
+     */
+    public function getDiscountPrice() {
+        $decrease = ceil($this->price * ($this->discount / 100));
+        return $this->price - $decrease;
+    }
+
+    /**
      * Get the category of the product.
      */
     public function category(): BelongsTo

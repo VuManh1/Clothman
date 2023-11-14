@@ -98,24 +98,24 @@
                                     aria-labelledby="main-infor-tab" tabindex="0">
                                     <div class="mb-3">
                                         <label for="name" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="name" name="name">
+                                        <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
                                     </div>
                                     <div class="mb-3">
                                         <label for="description" class="form-label">Description</label>
-                                        <input type="text" class="form-control" id="description" name="description">
+                                        <input type="text" class="form-control" id="description" name="description" value="{{ old('description') }}">
                                     </div>
                                     <div class="mb-3">
                                         <label for="material" class="form-label">Material</label>
-                                        <input type="text" class="form-control" id="material" name="material">
+                                        <input type="text" class="form-control" id="material" name="material" value="{{ old('material') }}">
                                     </div>
                                     <div class="d-flex gap-2 mb-3">
                                         <div class="form-group">
                                             <label for="price" class="form-label">Price</label>
-                                            <input type="number" min="0" class="form-control" id="price" name="price">
+                                            <input type="number" min="0" class="form-control" id="price" name="price" value="{{ old('price') }}">
                                         </div>
                                         <div class="form-group">
                                             <label for="discount" class="form-label">Discount</label>
-                                            <input type="number" min="0" class="form-control" id="discount" name="discount" value="0">
+                                            <input type="number" min="0" class="form-control" id="discount" name="discount" value="0" value="{{ old('discount') }}">
                                         </div>
                                     </div>
                                     <div class="mb-3">
@@ -124,7 +124,9 @@
                                             value="{{ old('category_id') }}">
                                             <option selected value="">NULL</option>
                                             @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                <option value="{{ $category->id }}" @selected($category->id === old('category_id'))>
+                                                    {{ $category->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>

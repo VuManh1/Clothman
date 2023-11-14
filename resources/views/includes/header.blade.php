@@ -2,7 +2,7 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="{{ route('home') }}">
                 <img src="{{ asset('images/logo.png') }}" alt="Clothman" class="logo" />
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
@@ -17,37 +17,18 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">SẢN PHẨM</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Áo
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Áo thun</a></li>
-                            <li><a class="dropdown-item" href="#">Áo sơ mi</a></li>
-                            <li><a class="dropdown-item" href="#">Áo polo</a></li>
-                            <li><a class="dropdown-item" href="#">Áo khoác</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Quần
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Quần shorts</a></li>
-                            <li><a class="dropdown-item" href="#">Quần jeans</a></li>
-                            <li><a class="dropdown-item" href="#">Quần dài</a></li>
-                            <li><a class="dropdown-item" href="#">Quần thể thao</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Phụ kiện
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Tất/Vớ</a></li>
-                            <li><a class="dropdown-item" href="#">Nón/Mũ</a></li>
-                        </ul>
-                    </li>
+                    @foreach ($parentCategories as $parent)
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ $parent->name }}
+                            </a>
+                            <ul class="dropdown-menu">
+                                @foreach ($parent->childs as $child)
+                                    <li><a class="dropdown-item" href="#">{{ $child->name }}</a></li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endforeach
                 </ul>
                 <form role="search">
                     <div class="position-relative w-100">

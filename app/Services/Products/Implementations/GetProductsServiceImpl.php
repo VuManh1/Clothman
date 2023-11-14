@@ -7,6 +7,7 @@ use App\Exceptions\Products\ProductNotFoundException;
 use App\Models\Product;
 use App\Repositories\Interfaces\ProductRepository;
 use App\Services\Products\Interfaces\GetProductsService;
+use Illuminate\Support\Collection;
 
 class GetProductsServiceImpl implements GetProductsService
 {
@@ -19,37 +20,25 @@ class GetProductsServiceImpl implements GetProductsService
             return $this->productRepository->getAll();
         }
 
-        $filters = [];
-        if ($params->keyword) {
-            array_push($filters, [
-                'column' => 'name',
-                'operator' => 'LIKE',
-                'value' => '%'.$params->keyword.'%'
-            ]);
-        }
-        if ($params->category) {
-            array_push($filters, [
-                'column' => 'category_id',
-                'value' => $params->category
-            ]);
+        $params->includes = ['category'];
+        if (!$params->sortColumn) {
+            $params->sortColumn = "updated_at";
+            $params->sortOrder = "desc";
         }
 
-        $sorts = null;
-        if ($params->sort) {
-            $sorts = ['column' => $params->sort, 'by' => $params->by];
-        }
-
-        return $this->productRepository->find(
-            $params->page,
-            $params->limit,
-            $filters,
-            $sorts,
-            $params->includes
-        );
+        return $this->productRepository->getProductsByParams($params);
     }
 
     public function getProductById(string $id): Product {
         $product = $this->productRepository->findById($id);
+
+        if (!$product) throw new ProductNotFoundException();
+
+        return $product;
+    }
+
+    public function getProductBySlugWithAllDetails(string $slug): Product {
+        $product = $this->productRepository->findBySlug($slug, ['category', 'productVariants', 'images']);
 
         if (!$product) throw new ProductNotFoundException();
 
@@ -62,5 +51,13 @@ class GetProductsServiceImpl implements GetProductsService
         if (!$product) throw new ProductNotFoundException();
 
         return $product; 
+    }
+
+    public function getLatestProducts(int $count): Collection {
+        return $this->productRepository->getProductsOrderByUpdatedAtDesc($count);
+    }
+
+    public function getTopSoldProducts(int $count): Collection {
+        return $this->productRepository->getProductsOrderBySoldDesc($count);
     }
 }

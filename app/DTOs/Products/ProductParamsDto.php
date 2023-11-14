@@ -8,15 +8,15 @@ use Illuminate\Http\Request;
 class ProductParamsDto extends QueryParamsDto
 {
     public function __construct(
-        public int $page,
-        public int $limit,
-        public ?string $sort,
-        public ?string $by,
-        public ?string $keyword,
+        int $page,
+        int $limit,
+        ?string $sortColumn,
+        ?string $sortOrder,
+        ?string $keyword,
         public ?string $category,
         public ?array $includes,
     ) {
-        parent::__construct($page, $limit, $sort, $by, $keyword);
+        parent::__construct($page, $limit, $sortColumn, $sortOrder, $keyword);
     }
 
     /**
@@ -28,8 +28,8 @@ class ProductParamsDto extends QueryParamsDto
         return new ProductParamsDto(
             $paramsDto->page,
             $paramsDto->limit,
-            $paramsDto->sort,
-            $paramsDto->by,
+            $paramsDto->sortColumn,
+            $paramsDto->sortOrder,
             $paramsDto->keyword,
             $request->query('category'),
             null,
