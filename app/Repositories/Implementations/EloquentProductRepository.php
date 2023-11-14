@@ -15,7 +15,7 @@ class EloquentProductRepository extends EloquentRepository implements ProductRep
         parent::__construct(Product::class);
     }
 
-    public function getProductsByParams(ProductParamsDto $params): LengthAwarePaginator {
+    public function findByParams(ProductParamsDto $params): LengthAwarePaginator {
         $query = $this->model->query();
 
         if ($params->includes) {
@@ -55,11 +55,7 @@ class EloquentProductRepository extends EloquentRepository implements ProductRep
         return $product->orders()->exists();
     }
 
-    public function getProductsOrderByUpdatedAtDesc(int $count): Collection {
-        return $this->model->orderBy('updated_at', 'desc')->take($count)->get();
-    }
-
-    public function getProductsOrderBySoldDesc(int $count): Collection {
-        return $this->model->orderBy('sold', 'desc')->take($count)->get();
+    public function getProductsOrderBy(string $column, string $order, int $count): Collection {
+        return $this->model->orderBy($column, $order)->take($count)->get();
     }
 }

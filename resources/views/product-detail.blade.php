@@ -106,9 +106,11 @@
                     </div>
 
                     <div class="d-flex flex-wrap gap-2">
-                        <div data-colorid="1" class="color-select selected" style="background-color: #000000"></div>
-                        <div data-colorid="2" class="color-select" style="background-color: #ffffff"></div>
-                        <div data-colorid="3" class="color-select" style="background-color: #363735"></div>
+                        @foreach ($product->productVariants->unique('color_id') as $variant)
+                            <div data-colorid="{{ $variant->color->id }}"
+                                class="color-select {{ $loop->first ? 'selected' : '' }}"
+                                style="background-color: {{ $variant->color->hex_code }}"></div>
+                        @endforeach
                     </div>
                 </div>
 

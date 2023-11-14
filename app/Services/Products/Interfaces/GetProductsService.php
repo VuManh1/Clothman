@@ -4,6 +4,7 @@ namespace App\Services\Products\Interfaces;
 
 use App\DTOs\Products\ProductParamsDto;
 use App\Models\Product;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 /**
@@ -13,30 +14,22 @@ interface GetProductsService
 {
     /**
      * Get products
-     * @return mixed
      */
-    public function getProducts(?ProductParamsDto $params);
+    public function getProductsByParams(ProductParamsDto $params): LengthAwarePaginator;
 
     /**
      * Get one product by ID
      * @return \App\Models\Product
      * @throws \App\Exceptions\Products\ProductNotFoundException
      */
-    public function getProductById(string $id): Product;
+    public function getProductById(string $id, array $includes = null): Product;
 
     /**
-     * Get one product by slug includes all relationship
+     * Get one product by slug
      * @return \App\Models\Product
      * @throws \App\Exceptions\Products\ProductNotFoundException
      */
-    public function getProductBySlugWithAllDetails(string $slug): Product;
-
-    /**
-     * Get one product by ID with all of it's relationships
-     * @return \App\Models\Product
-     * @throws \App\Exceptions\Products\ProductNotFoundException
-     */
-    public function getProductByIdWithAllDetails(string $id): Product;
+    public function getProductBySlug(string $slug, array $includes = null): Product;
 
     /**
      * Get latest products

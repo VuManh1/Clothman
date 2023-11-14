@@ -34,7 +34,7 @@ class ProductsController extends Controller
     {
         $params = ProductParamsDto::fromRequest($request);
 
-        $products = $this->getProductsService->getProducts($params);
+        $products = $this->getProductsService->getProductsByParams($params);
 
         $this->appendPaginatorURL($products);
 
@@ -49,8 +49,8 @@ class ProductsController extends Controller
     public function create()
     {
         // get categories and colors for product to select
-        $categories = $this->getCategoriesService->getCategories();
-        $colors = $this->getColorsService->getColors();
+        $categories = $this->getCategoriesService->getAllCategories();
+        $colors = $this->getColorsService->getAllColors();
 
         return view("admin.products.create", compact('categories', 'colors'));
     }
@@ -77,7 +77,7 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        $product = $this->getProductsService->getProductByIdWithAllDetails($id);
+        $product = $this->getProductsService->getProductById($id, ['images', 'productVariants', 'category']);
 
         return view("admin.products.show", ['product' => $product]);
     }
@@ -89,11 +89,11 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        $product = $this->getProductsService->getProductByIdWithAllDetails($id);
+        $product = $this->getProductsService->getProductById($id, ['images', 'productVariants', 'category']);
         
         // get categories and colors for product to select
-        $categories = $this->getCategoriesService->getCategories();
-        $colors = $this->getColorsService->getColors();
+        $categories = $this->getCategoriesService->getAllCategories();
+        $colors = $this->getColorsService->getAllColors();
 
         return view("admin.products.edit", compact('product', 'categories', 'colors'));
     }

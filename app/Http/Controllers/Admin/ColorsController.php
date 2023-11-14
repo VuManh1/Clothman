@@ -29,7 +29,7 @@ class ColorsController extends Controller
     public function index(Request $request)
     {
         $params = ColorParamsDto::fromRequest($request);
-        $colors = $this->getColorsService->getColors($params);
+        $colors = $this->getColorsService->getColorsByParams($params);
 
         $this->appendPaginatorURL($colors);
 

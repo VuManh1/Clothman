@@ -12,7 +12,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 interface ColorRepository extends Repository
 {
     /**
-     * Get colors by ColorParamsDto
+     * Find colors by ColorParamsDto
      */
-    public function getColorsByParams(ColorParamsDto $params): LengthAwarePaginator;
+    public function findByParams(ColorParamsDto $params): LengthAwarePaginator;
 }

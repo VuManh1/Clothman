@@ -32,4 +32,12 @@ class ProductVariant extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    /**
+     * Get the color of the product variant.
+     */
+    public function color(): BelongsTo
+    {
+        return $this->belongsTo(Color::class);
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Services\Categories\Interfaces;
 
 use App\DTOs\Categories\CategoryParamsDto;
 use App\Models\Category;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 /**
@@ -11,17 +12,20 @@ use Illuminate\Support\Collection;
  */
 interface GetCategoriesService
 {
+    /** Get all categories */
+    public function getAllCategories(): Collection;
+
     /**
      * Get categories
      */
-    public function getCategories(CategoryParamsDto $params = null);
+    public function getCategoriesByParams(CategoryParamsDto $params): LengthAwarePaginator;
 
     /**
      * Get one category by ID
      * @return \App\Models\Category
      * @throws \App\Exceptions\Categories\CategoryNotFoundException
      */
-    public function getCategoryById(string $id): Category;
+    public function getCategoryById(string $id, array $includes = null): Category;
 
     /**
      * Get all parent categories include child categories
