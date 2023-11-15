@@ -3,6 +3,7 @@
 namespace App\Repositories\Implementations;
 
 use App\DTOs\Products\ProductParamsDto;
+use App\DTOs\Products\SearchProductsDto;
 use App\Exceptions\Products\ProductNotFoundException;
 use App\Models\Product;
 use App\Repositories\Interfaces\ProductRepository;
@@ -47,6 +48,14 @@ class EloquentProductRepository extends EloquentRepository implements ProductRep
         return $this->model->where('slug', $slug)->first();
     }
 
+    public function findByCategorySlug(string $slug, int $page, int $limit): LengthAwarePaginator {
+        $query = $this->model->query();
+
+        $query->whereRelation('category', 'slug', $slug)->orderBy('updated_at');
+
+        return $this->toPaginator($query, $page, $limit);
+    }
+
     public function checkHaveOrder(string $id): bool {
         $product = $this->findById($id);
 
@@ -57,5 +66,29 @@ class EloquentProductRepository extends EloquentRepository implements ProductRep
 
     public function getProductsOrderBy(string $column, string $order, int $count): Collection {
         return $this->model->orderBy($column, $order)->take($count)->get();
+    }
+
+    public function searchProducts(SearchProductsDto $params): LengthAwarePaginator {
+        $query = $this->model->query();
+
+        if ($params->keyword) {
+            $query->where(function ($q) use($params) {
+                $q->where("name", "LIKE", "%".$params->keyword."%")
+                  ->orWhere("description", "LIKE", "%".$params->keyword."%");
+            });
+        }
+        if (isset($params->category)) {
+            $query->whereRelation('category', 'slug', $params->category);
+        }
+
+        return $this->toPaginator($query, $params->page, $params->limit);
+    }
+
+    public function getDiscountProducts(int $page, int $limit, string $order = "desc"): LengthAwarePaginator {
+        $query = $this->model->query();
+
+        $query->where('discount', '>', 0)->orderBy('discount', $order);
+
+        return $this->toPaginator($query, $page, $limit);
     }
 }

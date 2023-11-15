@@ -28,6 +28,13 @@ interface GetCategoriesService
     public function getCategoryById(string $id, array $includes = null): Category;
 
     /**
+     * Get one category by slug
+     * @return \App\Models\Category
+     * @throws \App\Exceptions\Categories\CategoryNotFoundException
+     */
+    public function getCategoryBySlug(string $slug, array $includes = null): Category;
+
+    /**
      * Get all parent categories include child categories
      */
     public function getParentCategoriesWithChilds(): Collection;

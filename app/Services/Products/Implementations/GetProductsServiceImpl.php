@@ -3,6 +3,7 @@
 namespace App\Services\Products\Implementations;
 
 use App\DTOs\Products\ProductParamsDto;
+use App\DTOs\Products\SearchProductsDto;
 use App\Exceptions\Products\ProductNotFoundException;
 use App\Models\Product;
 use App\Repositories\Interfaces\ProductRepository;
@@ -24,6 +25,17 @@ class GetProductsServiceImpl implements GetProductsService
         }
 
         return $this->productRepository->findByParams($params);
+    }
+
+    public function getProductsByCategorySlug(string $slug, int $page, int $limit): LengthAwarePaginator {
+        return $this->productRepository->findByCategorySlug($slug, $page, $limit);
+    }
+
+    public function getProducts(int $page, int $limit): LengthAwarePaginator {
+        return $this->productRepository->get($page, $limit, [
+            'column' => 'updated_at',
+            'order' => 'desc'
+        ]);
     }
 
     public function getProductById(string $id, array $includes = null): Product {
@@ -48,5 +60,13 @@ class GetProductsServiceImpl implements GetProductsService
 
     public function getTopSoldProducts(int $count): Collection {
         return $this->productRepository->getProductsOrderBy('sold', 'desc', $count);
+    }
+
+    public function searchProducts(SearchProductsDto $params): LengthAwarePaginator {
+        return $this->productRepository->searchProducts($params);
+    }
+
+    public function getTopSaleProducts(int $page, int $limit): LengthAwarePaginator {
+        return $this->productRepository->getDiscountProducts($page, $limit);
     }
 }

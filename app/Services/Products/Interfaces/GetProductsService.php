@@ -3,6 +3,7 @@
 namespace App\Services\Products\Interfaces;
 
 use App\DTOs\Products\ProductParamsDto;
+use App\DTOs\Products\SearchProductsDto;
 use App\Models\Product;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -13,9 +14,19 @@ use Illuminate\Support\Collection;
 interface GetProductsService
 {
     /**
-     * Get products
+     * Get products by ProductParamsDto
      */
     public function getProductsByParams(ProductParamsDto $params): LengthAwarePaginator;
+
+    /**
+     * Get products by category slud
+     */
+    public function getProductsByCategorySlug(string $slug, int $page, int $limit): LengthAwarePaginator;
+
+    /**
+     * Get products
+     */
+    public function getProducts(int $page, int $limit): LengthAwarePaginator;
 
     /**
      * Get one product by ID
@@ -44,4 +55,16 @@ interface GetProductsService
      * @param int $count  (number of products)
      */
     public function getTopSoldProducts(int $count): Collection;
+
+    /**
+     * Get top sale products
+     * 
+     * @param int $count  (number of products)
+     */
+    public function getTopSaleProducts(int $page, int $limit): LengthAwarePaginator;
+
+    /**
+     * Search for products
+     */
+    public function searchProducts(SearchProductsDto $params): LengthAwarePaginator;
 }

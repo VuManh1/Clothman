@@ -12,19 +12,20 @@
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-bold">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">SALE</a>
+                        <a class="nav-link" href="{{ route('products.sales') }}">SALE</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">SẢN PHẨM</a>
+                        <a class="nav-link" href="{{ route('products') }}">SẢN PHẨM</a>
                     </li>
                     @foreach ($parentCategories as $parent)
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="{{ route('category', [$parent->slug]) }}"
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 {{ $parent->name }}
                             </a>
                             <ul class="dropdown-menu">
                                 @foreach ($parent->childs as $child)
-                                    <li><a class="dropdown-item" href="#">{{ $child->name }}</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('category', [$child->slug]) }}">{{ $child->name }}</a></li>
                                 @endforeach
                             </ul>
                         </li>
@@ -36,22 +37,23 @@
                             style="transform: translate(70%, -50%);">
                             <i class="bi bi-search"></i>
                         </div>
-                        <input type="text" class="no-outline border-0 rounded-pill py-3 px-5 bg-white d-block w-100"
+                        <input type="text" name="q"
+                            class="no-outline border-0 rounded-pill py-3 px-5 bg-white d-block w-100"
                             placeholder="Tìm kiếm sản phẩm...">
                     </div>
                 </form>
                 <div class="d-flex gap-2 ms-md-2 my-4 my-md-0">
                     @guest
-                        <a href="{{ route("login") }}" class="mx-2">
+                        <a href="{{ route('login') }}" class="mx-2">
                             <img src="https://www.coolmate.me/images/header/icon-account-white-new.svg" alt="account">
                         </a>
                     @else
-                        <a href="{{ route("account.infor") }}" class="profile-box mx-3">
+                        <a href="{{ route('account.infor') }}" class="profile-box mx-3">
                             <img src="https://www.coolmate.me/images/header/icon-account-white-new.svg" alt="account">
                             <span class="profile-name">{{ Auth::user()->name }}</span>
                         </a>
                     @endguest
-                    
+
                     <div class="position-relative">
                         <a href="#">
                             <img src="https://www.coolmate.me/images/header/icon-cart-white-new.svg?v=1" alt="cart">

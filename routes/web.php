@@ -11,7 +11,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Customer\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,8 +29,11 @@ use Illuminate\Support\Facades\Route;
 * Client routes
 */
 Route::get("/", [HomeController::class, 'index'])->name('home');
-Route::get("/products/{slug}", [HomeController::class, 'productDetail'])->name('product.detail');
-Route::get("/search", [HomeController::class, 'search'])->name('search');
+Route::get("/products", [\App\Http\Controllers\Customer\ProductsController::class, 'products'])->name('products');
+Route::get("/products/sales", [\App\Http\Controllers\Customer\ProductsController::class, 'sales'])->name('products.sales');
+Route::get("/products/{slug}", [\App\Http\Controllers\Customer\ProductsController::class, 'productDetail'])->name('product.detail');
+Route::get("/category/{slug}", [\App\Http\Controllers\Customer\CategoriesController::class, 'category'])->name('category');
+Route::get("/search", [\App\Http\Controllers\Customer\ProductsController::class, 'search'])->name('search');
 
 /*
 * Auth routes

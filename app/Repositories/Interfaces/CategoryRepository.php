@@ -3,6 +3,7 @@
 namespace App\Repositories\Interfaces;
 
 use App\DTOs\Categories\CategoryParamsDto;
+use App\Models\Category;
 use App\Repositories\Interfaces\Repository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -12,6 +13,11 @@ use Illuminate\Support\Collection;
  */
 interface CategoryRepository extends Repository
 {
+    /**
+     * Find one category by slug
+     */
+    public function findBySlug(string $slug, array $includes = null): ?Category;
+
     /**
      * Find categories by CategoryParamsDto
      */

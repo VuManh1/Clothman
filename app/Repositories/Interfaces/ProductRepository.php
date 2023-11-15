@@ -3,6 +3,7 @@
 namespace App\Repositories\Interfaces;
 
 use App\DTOs\Products\ProductParamsDto;
+use App\DTOs\Products\SearchProductsDto;
 use App\Models\Product;
 use App\Repositories\Interfaces\Repository;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -19,9 +20,14 @@ interface ProductRepository extends Repository
     public function findBySlug(string $slug, array $includes = null): ?Product;
 
     /**
+     * Find products by category slug
+     */
+    public function findByCategorySlug(string $slug, int $page, int $limit): LengthAwarePaginator;
+
+    /**
      * Find products by ProductParamsDto
      */
-    public function findByParams(ProductParamsDto $paramms): LengthAwarePaginator;
+    public function findByParams(ProductParamsDto $params): LengthAwarePaginator;
     
     /**
      * Check if a product have at least one order
@@ -37,4 +43,14 @@ interface ProductRepository extends Repository
      * @param int $count  (number of products)
      */
     public function getProductsOrderBy(string $column, string $order, int $count): Collection;
+
+    /**
+     * Search for products
+     */
+    public function searchProducts(SearchProductsDto $params): LengthAwarePaginator;
+
+    /**
+     * Get products which have discount greater than 0
+     */
+    public function getDiscountProducts(int $page, int $limit, string $order = "desc"): LengthAwarePaginator;
 }

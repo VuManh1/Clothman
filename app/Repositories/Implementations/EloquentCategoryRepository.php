@@ -16,6 +16,14 @@ class EloquentCategoryRepository extends EloquentRepository implements CategoryR
         parent::__construct(Category::class);
     }
 
+    public function findBySlug(string $slug, array $includes = null): ?Category {
+        if ($includes) {
+            return $this->model->with($includes)->where('slug', $slug)->first();
+        }
+
+        return $this->model->where('slug', $slug)->first();
+    }
+
     public function findByParams(CategoryParamsDto $params): LengthAwarePaginator {
         $query = $this->model->query();
 

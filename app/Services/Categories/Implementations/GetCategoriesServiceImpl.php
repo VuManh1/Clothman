@@ -34,6 +34,14 @@ class GetCategoriesServiceImpl implements GetCategoriesService
         return $category;
     }
 
+    public function getCategoryBySlug(string $slug, array $includes = null): Category {
+        $category = $this->categoryRepository->findBySlug($slug, $includes);
+
+        if (!$category) throw new CategoryNotFoundException();
+
+        return $category;
+    }
+
     public function getParentCategoriesWithChilds(): Collection {
         return $this->categoryRepository->findByParentId(null, ['childs']);
     }
