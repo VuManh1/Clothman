@@ -67,4 +67,12 @@ interface GetProductsService
      * Search for products
      */
     public function searchProducts(SearchProductsDto $params): LengthAwarePaginator;
+
+    /**
+     * Get related products
+     * 
+     * @param string $productId  (ID of product to find related products)
+     * @param int $count  (number of products)
+     */
+    public function getRelatedProducts(string $productId, int $count): Collection;
 }

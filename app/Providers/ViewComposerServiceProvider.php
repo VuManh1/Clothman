@@ -30,6 +30,7 @@ class ViewComposerServiceProvider extends ServiceProvider
             'product-detail',
             'products',
             'search',
+            'cart',
             'account.infor',
             'account.password',
         ], CategoryComposer::class);

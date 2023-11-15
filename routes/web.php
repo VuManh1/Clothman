@@ -34,6 +34,7 @@ Route::get("/products/sales", [\App\Http\Controllers\Customer\ProductsController
 Route::get("/products/{slug}", [\App\Http\Controllers\Customer\ProductsController::class, 'productDetail'])->name('product.detail');
 Route::get("/category/{slug}", [\App\Http\Controllers\Customer\CategoriesController::class, 'category'])->name('category');
 Route::get("/search", [\App\Http\Controllers\Customer\ProductsController::class, 'search'])->name('search');
+Route::get("/cart", [\App\Http\Controllers\Customer\CartController::class, 'cart'])->name('cart');
 
 /*
 * Auth routes

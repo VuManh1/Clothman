@@ -69,4 +69,13 @@ class GetProductsServiceImpl implements GetProductsService
     public function getTopSaleProducts(int $page, int $limit): LengthAwarePaginator {
         return $this->productRepository->getDiscountProducts($page, $limit);
     }
+
+    public function getRelatedProducts(string $productId, int $count): Collection {
+        $product = $this->getProductById($productId, ['category']);
+        $categorySlug = $product->category->slug;
+
+        $products = $this->getProductsByCategorySlug($categorySlug, 0, $count);
+
+        return $products->getCollection();
+    }
 }

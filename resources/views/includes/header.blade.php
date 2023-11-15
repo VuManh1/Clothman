@@ -55,7 +55,7 @@
                     @endguest
 
                     <div class="position-relative">
-                        <a href="#">
+                        <a href="{{ route('cart') }}">
                             <img src="https://www.coolmate.me/images/header/icon-cart-white-new.svg?v=1" alt="cart">
                         </a>
                         <div class="cart-quantity">5</div>

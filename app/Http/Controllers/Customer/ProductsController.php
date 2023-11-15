@@ -64,4 +64,11 @@ class ProductsController extends Controller
 
         return view('products', compact('products', 'title'));
     }
+
+    /**
+     * Show the related products partial view
+     */
+    public function relatedProducts() {
+        
+    }
 }

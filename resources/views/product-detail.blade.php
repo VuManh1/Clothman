@@ -39,7 +39,9 @@
         <nav aria-label="breadcrumb" class="mt-3">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}">Trang chủ</a></li>
-                <li class="breadcrumb-item"><a href="#">{{ $product->category->name }}</a></li>
+                <li class="breadcrumb-item">
+                    <a href="{{ route('category', [$product->category->slug]) }}">{{ $product->category->name }}</a>
+                </li>
                 <li class="breadcrumb-item active" aria-current="page">
                     {{ $product->name }}
                 </li>
