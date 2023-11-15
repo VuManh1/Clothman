@@ -279,7 +279,7 @@ main {
     text-decoration: none;
 }
 
-.collapse-title:before {
+.collapse-title > a:before {
     content: "+";
     position: absolute;
     right: 0;
@@ -288,7 +288,7 @@ main {
     font-size: 30px;
     float: right;
 }
-.collapse-title.active:before {
+.collapse-title.active > a:before {
     content: "-";
 }
 

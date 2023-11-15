@@ -27,7 +27,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <img src="{{ $product->size_guild_url }}" alt="size" class="w-100" />
+                    <img src="{{ asset($product->size_guild_url) }}" alt="size" class="w-100" />
                 </div>
             </div>
         </div>
