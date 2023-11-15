@@ -114,13 +114,13 @@
                                 <span class="text-black fw-semibold size-name"></span>
                             </div>
 
-                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#sizeModal">
+                            <a href="#size-guide" class="info" data-bs-toggle="modal" data-bs-target="#sizeModal">
                                 Hướng dẫn chọn size
-                            </button>
+                                </a>
                         </div>
 
                         <div class="sizes-container d-flex flex-wrap gap-2">
-                            
+
                         </div>
                     </div>
                 @endif
