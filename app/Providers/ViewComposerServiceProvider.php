@@ -30,6 +30,8 @@ class ViewComposerServiceProvider extends ServiceProvider
             'product-detail',
             'products',
             'search',
+            'account.infor',
+            'account.password',
         ], CategoryComposer::class);
     }
 }
