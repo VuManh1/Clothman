@@ -18,10 +18,10 @@ class EloquentBannerRepository extends EloquentRepository implements BannerRepos
         $query = $this->model->query();
 
         if ($params->keyword) {
-            $query->where(function ($q) use($params) {
-                $q->where("name", "LIKE", "%".$params->keyword."%")
-                  ->orWhere("description", "LIKE", "%".$params->keyword."%");
-            });
+            $query->where("name", "LIKE", "%".$params->keyword."%");
+        }
+        if ($params->isActive !== null) {
+            $query->where("is_active", $params->isActive);
         }
 
         if ($params->sortColumn) {

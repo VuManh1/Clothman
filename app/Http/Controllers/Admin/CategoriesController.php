@@ -61,7 +61,7 @@ class CategoriesController extends Controller
 
         $category = $this->manageCategoriesService->createCategory($createCategoryDto);
 
-        return redirect()->route("categories.index")->with("success", $category->name." created !");
+        return redirect()->route("admin.categories.index")->with("success", $category->name." created !");
     }
 
     /**
@@ -102,7 +102,7 @@ class CategoriesController extends Controller
 
         $category = $this->manageCategoriesService->updateCategory($id, $updateCateDto);
 
-        return redirect()->route("categories.index")->with("success", $category->name." updated !");
+        return redirect()->route("admin.categories.index")->with("success", $category->name." updated !");
     }
 
     /**
@@ -114,6 +114,6 @@ class CategoriesController extends Controller
     {
         $this->manageCategoriesService->deleteCategory($id);
 
-        return redirect()->route("categories.index")->with("success", "Category deleted !");
+        return redirect()->route("admin.categories.index")->with("success", "Category deleted !");
     }
 }

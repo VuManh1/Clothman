@@ -30,7 +30,7 @@
                         </li>
                     @endforeach
                 </ul>
-                <form role="search">
+                <form role="search" action="{{ route('search') }}" method="GET">
                     <div class="position-relative w-100">
                         <div class="position-absolute top-50 start-0 w-auto fs-5"
                             style="transform: translate(70%, -50%);">

@@ -33,8 +33,14 @@ class HomeController extends Controller
      */
     public function productDetail(Request $request) {
         $product = $this->getProductsService->getProductBySlug($request->slug, ['images', 'productVariants.color', 'category']);
-        $uniqueVariants = $product->productVariants->unique('color_id');
 
-        return view('product-detail', compact('product', 'uniqueVariants'));
+        return view('product-detail', compact('product'));
+    }
+
+    /**
+     * Show the search page view
+     */
+    public function search(Request $request) {
+        return view('search');
     }
 }

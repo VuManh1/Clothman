@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 
 abstract class EloquentRepository implements Repository
 {
@@ -28,11 +27,11 @@ abstract class EloquentRepository implements Repository
         return new LengthAwarePaginator($items, $count, $limit, $page); 
     }
 
-    public function getAll(): Collection {
+    public function getAll() {
         return $this->model->all();
     }
 
-    public function findById(string $id, array $includes = null): ?Model {
+    public function findById(string $id, array $includes = null) {
         if ($includes) {
             return $this->model->with($includes)->find($id);
         }
@@ -62,11 +61,11 @@ abstract class EloquentRepository implements Repository
         return $this->toPaginator($query, $page, $limit);
     }
 
-    public function create(array $attributes): Model {
+    public function create(array $attributes) {
         return $this->model->create($attributes);
     }
 
-    public function update(string $id, array $attributes): Model {
+    public function update(string $id, array $attributes) {
         $result = $this->findById($id);
         
         if (!$result) throw new ModelNotFoundException();

@@ -3,7 +3,7 @@
 
 @section('content')
     <x-modals.delete-modal id="delete-cate-modal" title="Delete this banner?"
-        body="Are you sure you want to delete this banner?" action="{{ route('banners.destroy', [$banner->id]) }}" />
+        body="Are you sure you want to delete this banner?" action="{{ route('admin.banners.destroy', [$banner->id]) }}" />
 
     <div class="container-fluid">
         <!-- ========== title-wrapper start ========== -->
@@ -23,7 +23,7 @@
                                     <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('banners.index') }}">Banners</a>
+                                    <a href="{{ route('admin.banners.index') }}">Banners</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
                                     {{ $banner->name }}

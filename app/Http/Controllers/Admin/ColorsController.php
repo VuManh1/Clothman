@@ -59,7 +59,7 @@ class ColorsController extends Controller
 
         $color = $this->manageColorsService->createColor($createColorDto);
 
-        return redirect()->route("colors.index")->with("success", $color->name." created !");
+        return redirect()->route("admin.colors.index")->with("success", $color->name." created !");
     }
 
     /**
@@ -99,7 +99,7 @@ class ColorsController extends Controller
 
         $color = $this->manageColorsService->updateColor($id, $updateColorDto);
 
-        return redirect()->route("colors.index")->with("success", $color->name." updated !");
+        return redirect()->route("admin.colors.index")->with("success", $color->name." updated !");
     }
 
     /**
@@ -111,6 +111,6 @@ class ColorsController extends Controller
     {
         $this->manageColorsService->deleteColor($id);
 
-        return redirect()->route("colors.index")->with("success", "Color deleted !");
+        return redirect()->route("admin.colors.index")->with("success", "Color deleted !");
     }
 }

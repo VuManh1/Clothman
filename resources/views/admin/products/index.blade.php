@@ -41,11 +41,11 @@
                 <div class="row">
                     <div class="col-lg-12">
                         {{-- Filter --}}
-                        <x-admin.filters.products-filter action="{{ route('products.index') }}" />
+                        <x-admin.filters.products-filter action="{{ route('admin.products.index') }}" />
 
                         <div class="card-style mb-30">
                             <div>
-                                <a href="{{ route('products.create') }}" class="btn btn-dark mb-3">Create new product</a>
+                                <a href="{{ route('admin.products.create') }}" class="btn btn-dark mb-3">Create new product</a>
                             </div>
 
                             <div class="table-wrapper table-responsive">
@@ -96,9 +96,9 @@
                                                     </td>
                                                     <td>
                                                         <div class="action gap-2">
-                                                            <a href="{{ route('products.show', [$product->id]) }}"
+                                                            <a href="{{ route('admin.products.show', [$product->id]) }}"
                                                                 class="btn btn-success">Detail</a>
-                                                            <a href="{{ route('products.edit', [$product->id]) }}"
+                                                            <a href="{{ route('admin.products.edit', [$product->id]) }}"
                                                                 class="btn btn-success">Edit</a>
                                                         </div>
                                                     </td>

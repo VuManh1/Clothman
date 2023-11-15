@@ -52,22 +52,14 @@
             <div class="col col-12 col-md-6">
                 <!-- Product image carousel start -->
                 <div id="productImageCarousel" class="carousel slide">
-                    <div class="carousel-indicators">
-                        @foreach ($product->images as $image)
-                            <button type="button" data-bs-target="#productImageCarousel"
-                                data-bs-slide-to="{{ $loop->index }}"
-                                class="@if ($loop->first) active @endif" aria-current="true"
-                                aria-label="Slide {{ $loop->index + 1 }}">
-                            </button>
-                        @endforeach
-                    </div>
                     <div class="carousel-inner h-100">
-                        @foreach ($product->images as $image)
+
+                        {{-- @foreach ($product->images as $image)
                             <div class="carousel-item h-100 @if ($loop->first) active @endif">
                                 <img src="{{ asset($image->image_url) }}" class="d-block w-100 h-100 object-fit-cover"
                                     alt="{{ $product->name }}" />
                             </div>
-                        @endforeach
+                        @endforeach --}}
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#productImageCarousel"
                         data-bs-slide="prev">
@@ -114,25 +106,24 @@
                     </div>
                 </div>
 
-                <div>
-                    <div class="mb-2 d-flex justify-content-between align-items-center">
-                        <div class="text-dark">
-                            Kích thước:
-                            <span class="text-black fw-semibold size-name"></span>
+                @if ($product->productVariants->first()->size !== "NONE")
+                    <div>
+                        <div class="mb-2 d-flex justify-content-between align-items-center">
+                            <div class="text-dark">
+                                Kích thước:
+                                <span class="text-black fw-semibold size-name"></span>
+                            </div>
+
+                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#sizeModal">
+                                Hướng dẫn chọn size
+                            </button>
                         </div>
 
-                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#sizeModal">
-                            Hướng dẫn chọn size
-                        </button>
+                        <div class="sizes-container d-flex flex-wrap gap-2">
+                            
+                        </div>
                     </div>
-
-                    <div class="d-flex flex-wrap gap-2">
-                        <div data-size="S" class="size-select">S</div>
-                        <div data-size="M" class="size-select">M</div>
-                        <div data-size="L" class="size-select">L</div>
-                        <div data-size="XL" class="size-select">XL</div>
-                    </div>
-                </div>
+                @endif
 
                 <div class="d-md-flex d-block justify-content-around align-items-center gap-3 my-5">
                     <div class="mb-md-0 mb-3 quantity-box">
@@ -207,139 +198,6 @@
                             </div>
                         </a>
                     </div>
-                    <div class="carousel-item">
-                        <a href="#" class="card product-item">
-                            <img src="https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/February2022/soronada132.jpg"
-                                class="card-img-top product-image" alt="...">
-
-                            <div class="card-body">
-                                <h5 class="card-title">Quần dài Kaki Excool</h5>
-
-                                <div class="card-text d-flex gap-2 align-items-center flex-wrap">
-                                    <div class="text-black fw-medium">239.000đ</div>
-                                    <div class="d-flex gap-2 align-items-center">
-                                        <div class="text-secondary text-decoration-line-through fw-medium">269.000đ
-                                        </div>
-                                        <div class="text-danger fw-medium">-11%</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="#" class="card product-item">
-                            <img src="https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/February2022/soronada132.jpg"
-                                class="card-img-top product-image" alt="...">
-
-                            <div class="card-body">
-                                <h5 class="card-title">Quần dài Kaki Excool</h5>
-
-                                <div class="card-text d-flex gap-2 align-items-center flex-wrap">
-                                    <div class="text-black fw-medium">239.000đ</div>
-                                    <div class="d-flex gap-2 align-items-center">
-                                        <div class="text-secondary text-decoration-line-through fw-medium">269.000đ
-                                        </div>
-                                        <div class="text-danger fw-medium">-11%</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="#" class="card product-item">
-                            <img src="https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/February2022/soronada132.jpg"
-                                class="card-img-top product-image" alt="...">
-
-                            <div class="card-body">
-                                <h5 class="card-title">Quần dài Kaki Excool</h5>
-
-                                <div class="card-text d-flex gap-2 align-items-center flex-wrap">
-                                    <div class="text-black fw-medium">239.000đ</div>
-                                    <div class="d-flex gap-2 align-items-center">
-                                        <div class="text-secondary text-decoration-line-through fw-medium">269.000đ
-                                        </div>
-                                        <div class="text-danger fw-medium">-11%</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="#" class="card product-item">
-                            <img src="https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/February2022/soronada132.jpg"
-                                class="card-img-top product-image" alt="...">
-
-                            <div class="card-body">
-                                <h5 class="card-title">Quần dài Kaki Excool</h5>
-
-                                <div class="card-text d-flex gap-2 align-items-center flex-wrap">
-                                    <div class="text-black fw-medium">239.000đ</div>
-                                    <div class="d-flex gap-2 align-items-center">
-                                        <div class="text-secondary text-decoration-line-through fw-medium">269.000đ
-                                        </div>
-                                        <div class="text-danger fw-medium">-11%</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="#" class="card product-item">
-                            <img src="https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/February2022/soronada132.jpg"
-                                class="card-img-top product-image" alt="...">
-
-                            <div class="card-body">
-                                <h5 class="card-title">Quần dài Kaki Excool</h5>
-
-                                <div class="card-text d-flex gap-2 align-items-center flex-wrap">
-                                    <div class="text-black fw-medium">239.000đ</div>
-                                    <div class="d-flex gap-2 align-items-center">
-                                        <div class="text-secondary text-decoration-line-through fw-medium">269.000đ
-                                        </div>
-                                        <div class="text-danger fw-medium">-11%</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="#" class="card product-item">
-                            <img src="https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/February2022/soronada132.jpg"
-                                class="card-img-top product-image" alt="...">
-
-                            <div class="card-body">
-                                <h5 class="card-title">Quần dài Kaki Excool</h5>
-
-                                <div class="card-text d-flex gap-2 align-items-center flex-wrap">
-                                    <div class="text-black fw-medium">239.000đ</div>
-                                    <div class="d-flex gap-2 align-items-center">
-                                        <div class="text-secondary text-decoration-line-through fw-medium">269.000đ
-                                        </div>
-                                        <div class="text-danger fw-medium">-11%</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="#" class="card product-item">
-                            <img src="https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/February2022/soronada132.jpg"
-                                class="card-img-top product-image" alt="...">
-
-                            <div class="card-body">
-                                <h5 class="card-title">Quần dài Kaki Excool</h5>
-
-                                <div class="card-text d-flex gap-2 align-items-center flex-wrap">
-                                    <div class="text-black fw-medium">239.000đ</div>
-                                    <div class="d-flex gap-2 align-items-center">
-                                        <div class="text-secondary text-decoration-line-through fw-medium">269.000đ
-                                        </div>
-                                        <div class="text-danger fw-medium">-11%</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#relatedProductsCarousel"
                     data-bs-slide="prev">
@@ -358,8 +216,13 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('build/assets/jquery.mobile.custom.min-03e6a46d.js') }}"></script>
-    <script src="{{ asset('build/assets/MultiItemCarousel-4ed993c7.js') }}"></script>
-    <script src="{{ asset('build/assets/QuantityBox-f316d80a.js') }}"></script>
-    <script src="{{ asset('build/assets/product-detail-bf7adf05.js') }}"></script>
+    <script src="{{ asset('js/jquery.mobile.custom.min.js') }}"></script>
+    <script src="{{ asset('js/MultiItemCarousel.js') }}"></script>
+    <script src="{{ asset('js/QuantityBox.js') }}"></script>
+    <script>
+        var variants = {!! json_encode($product->productVariants) !!};
+        var images = {!! json_encode($product->images) !!};
+        var domain = '{{ asset("") }}';
+    </script>
+    <script src="{{ asset('js/product-detail.js') }}"></script>
 @endsection

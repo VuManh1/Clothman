@@ -49,7 +49,7 @@ class BannersController extends Controller
 
         $banner = $this->manageBannersService->createBanner($createBannerDto);
 
-        return redirect()->route("banners.index")->with("success", $banner->name." created !");
+        return redirect()->route("admin.banners.index")->with("success", $banner->name." created !");
     }
 
     public function show($id)
@@ -74,13 +74,13 @@ class BannersController extends Controller
 
         $banner = $this->manageBannersService->updateBanner($id, $updateBannerDto);
 
-        return redirect()->route("banners.index")->with("success", $banner->name." updated !");
+        return redirect()->route("admin.banners.index")->with("success", $banner->name." updated !");
     }
 
     public function destroy($id)
     {
         $this->manageBannersService->deleteBanner($id);
 
-        return redirect()->route("banners.index")->with("success", "Banner deleted !");
+        return redirect()->route("admin.banners.index")->with("success", "Banner deleted !");
     }
 }

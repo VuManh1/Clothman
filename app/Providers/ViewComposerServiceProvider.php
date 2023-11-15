@@ -27,7 +27,8 @@ class ViewComposerServiceProvider extends ServiceProvider
     {
         Facades\View::composer([
             'home',
-            'product-detail'
+            'product-detail',
+            'search'
         ], CategoryComposer::class);
     }
 }

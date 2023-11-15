@@ -3,7 +3,7 @@
 
 @section('content')
     <x-modals.delete-modal id="delete-product-modal" title="Delete this product?"
-        body="Are you sure you want to delete this product?" action="{{ route('products.destroy', [$product->id]) }}" />
+        body="Are you sure you want to delete this product?" action="{{ route('admin.products.destroy', [$product->id]) }}" />
 
     <div class="container-fluid">
         <!-- ========== title-wrapper start ========== -->
@@ -23,7 +23,7 @@
                                     <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('products.index') }}">Products</a>
+                                    <a href="{{ route('admin.products.index') }}">Products</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
                                     {{ $product->name }}

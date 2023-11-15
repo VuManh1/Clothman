@@ -125,8 +125,8 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset("build/assets/jquery.mobile.custom.min-03e6a46d.js") }}"></script>
-    <script src="{{ asset("build/assets/MultiItemCarousel-4ed993c7.js") }}"></script>
+    <script src="{{ asset('js/jquery.mobile.custom.min.js') }}"></script>
+    <script src="{{ asset('js/MultiItemCarousel.js') }}"></script>
 
     <script>
         new MultiItemCarousel("#newProductsCarousel", { interval: 4000 });

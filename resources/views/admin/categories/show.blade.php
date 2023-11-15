@@ -3,7 +3,7 @@
 
 @section('content')
     <x-modals.delete-modal id="delete-cate-modal" title="Delete this category?"
-        body="Are you sure you want to delete this category?" action="{{ route('categories.destroy', [$category->id]) }}" />
+        body="Are you sure you want to delete this category?" action="{{ route('admin.categories.destroy', [$category->id]) }}" />
 
     <div class="container-fluid">
         <!-- ========== title-wrapper start ========== -->
@@ -23,7 +23,7 @@
                                     <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('categories.index') }}">Categories</a>
+                                    <a href="{{ route('admin.categories.index') }}">Categories</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
                                     {{ $category->name }}

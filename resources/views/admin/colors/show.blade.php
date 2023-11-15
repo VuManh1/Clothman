@@ -3,7 +3,7 @@
 
 @section('content')
     <x-modals.delete-modal id="delete-color-modal" title="Delete this Color?"
-        body="Are you sure you want to delete this Color?" action="{{ route('colors.destroy', [$color->id]) }}" />
+        body="Are you sure you want to delete this Color?" action="{{ route('admin.colors.destroy', [$color->id]) }}" />
 
     <div class="container-fluid">
         <!-- ========== title-wrapper start ========== -->
@@ -23,7 +23,7 @@
                                     <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('colors.index') }}">Colors</a>
+                                    <a href="{{ route('admin.colors.index') }}">Colors</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
                                     Color {{ $color->name }}

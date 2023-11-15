@@ -20,7 +20,7 @@
                                     <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('banners.index') }}">Banners</a>
+                                    <a href="{{ route('admin.banners.index') }}">Banners</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
                                     Create Banner
@@ -42,7 +42,7 @@
                     @include('includes.errors')
 
                     <div class="card-style mb-30">
-                        <form action="{{ route('banners.store') }}" method="POST" id="create-banner-form" enctype="multipart/form-data">
+                        <form action="{{ route('admin.banners.store') }}" method="POST" id="create-banner-form" enctype="multipart/form-data">
                             @csrf
 
                             <div class="mb-3">

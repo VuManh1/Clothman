@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get("/", [HomeController::class, 'index'])->name('home');
 Route::get("/products/{slug}", [HomeController::class, 'productDetail'])->name('product.detail');
+Route::get("/search", [HomeController::class, 'search'])->name('search');
 
 /*
 * Auth routes
@@ -64,11 +65,11 @@ Route::prefix('auth')->group(function () {
 Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(function () {
     Route::get("/dashboard", [DashboardController::class, 'dashboard'])->name("admin.dashboard");
 
-    Route::resource('products', ProductsController::class);
-    Route::resource('categories', CategoriesController::class);
-    Route::resource('colors', ColorsController::class);
+    Route::resource('products', ProductsController::class, ['as' => 'admin']);
+    Route::resource('categories', CategoriesController::class, ['as' => 'admin']);
+    Route::resource('colors', ColorsController::class, ['as' => 'admin']);
 
-    Route::resource('banners', BannersController::class)->middleware(['role:ADMIN,null,null']);
+    Route::resource('banners', BannersController::class, ['as' => 'admin'])->middleware(['role:ADMIN,null,null']);
 });
 
 // Account routes

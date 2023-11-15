@@ -20,7 +20,7 @@
                                     <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('categories.index') }}">Categories</a>
+                                    <a href="{{ route('admin.categories.index') }}">Categories</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
                                     Create Category
@@ -42,7 +42,7 @@
                     @include('includes.errors')
 
                     <div class="card-style mb-30">
-                        <form action="{{ route('categories.store') }}" method="POST" id="create-cate-form" enctype="multipart/form-data">
+                        <form action="{{ route('admin.categories.store') }}" method="POST" id="create-cate-form" enctype="multipart/form-data">
                             @csrf
 
                             <div class="mb-3">

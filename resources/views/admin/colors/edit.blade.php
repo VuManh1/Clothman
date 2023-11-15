@@ -20,7 +20,7 @@
                                     <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('colors.index') }}">Colors</a>
+                                    <a href="{{ route('admin.colors.index') }}">Colors</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
                                     Edit Color
@@ -42,7 +42,7 @@
                     @include('includes.errors')
 
                     <div class="card-style mb-30">
-                        <form action="{{ route('colors.update', [$color->id]) }}" method="POST"
+                        <form action="{{ route('admin.colors.update', [$color->id]) }}" method="POST"
                             id="edit-color-form" enctype="multipart/form-data">
                             @method('PUT')
                             @csrf

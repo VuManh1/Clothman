@@ -53,7 +53,7 @@
                         
                         <div class="card-style mb-30">
                             <div>
-                                <a href="{{ route('categories.create') }}" class="btn btn-dark mb-3">Create new category</a>
+                                <a href="{{ route('admin.categories.create') }}" class="btn btn-dark mb-3">Create new category</a>
                             </div>
 
                             <div class="table-wrapper table-responsive">
@@ -94,8 +94,8 @@
                                                     </td>
                                                     <td>
                                                         <div class="action gap-2">
-                                                            <a href="{{ route("categories.show", [$category->id]) }}" class="btn btn-success">Detail</a>
-                                                            <a href="{{ route("categories.edit", [$category->id]) }}" class="btn btn-success">Edit</a>
+                                                            <a href="{{ route("admin.categories.show", [$category->id]) }}" class="btn btn-success">Detail</a>
+                                                            <a href="{{ route("admin.categories.edit", [$category->id]) }}" class="btn btn-success">Edit</a>
                                                         </div>
                                                     </td>
                                                 </tr>

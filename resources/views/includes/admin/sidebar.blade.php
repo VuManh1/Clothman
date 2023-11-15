@@ -36,16 +36,16 @@
                 </a>
                 <ul id="ddmenu_2" class="collapse dropdown-nav">
                     <li>
-                        <a href="{{ route("products.index") }}"> Products </a>
+                        <a href="{{ route("admin.products.index") }}"> Products </a>
                     </li>
                     <li>
-                        <a href="{{ route("categories.index") }}"> Categories </a>
+                        <a href="{{ route("admin.categories.index") }}"> Categories </a>
                     </li>
                     <li>
-                        <a href="{{ route("colors.index") }}"> Colors </a>
+                        <a href="{{ route("admin.colors.index") }}"> Colors </a>
                     </li>
                     <li>
-                        <a href="{{ route("banners.index") }}"> Banners </a>
+                        <a href="{{ route("admin.banners.index") }}"> Banners </a>
                     </li>
                 </ul>
             </li>

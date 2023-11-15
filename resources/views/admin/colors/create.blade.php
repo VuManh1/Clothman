@@ -20,7 +20,7 @@
                                     <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('colors.index') }}">Colors</a>
+                                    <a href="{{ route('admin.colors.index') }}">Colors</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
                                     Create Color
@@ -40,7 +40,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card-style mb-30">
-                        <form action="{{ route('colors.store') }}" method="POST" id="create-color-form">
+                        <form action="{{ route('admin.colors.store') }}" method="POST" id="create-color-form">
                             @csrf
 
                             <div class="mb-3">

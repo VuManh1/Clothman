@@ -20,7 +20,7 @@
                                     <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('categories.index') }}">Categories</a>
+                                    <a href="{{ route('admin.categories.index') }}">Categories</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
                                     Edit Category
@@ -42,7 +42,7 @@
                     @include('includes.errors')
 
                     <div class="card-style mb-30">
-                        <form action="{{ route('categories.update', [$category->id]) }}" method="POST"
+                        <form action="{{ route('admin.categories.update', [$category->id]) }}" method="POST"
                             id="edit-cate-form" enctype="multipart/form-data">
                             @method('PUT')
                             @csrf

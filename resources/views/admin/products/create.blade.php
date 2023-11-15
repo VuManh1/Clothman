@@ -50,7 +50,7 @@
                                     <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('products.index') }}">Products</a>
+                                    <a href="{{ route('admin.products.index') }}">Products</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
                                     Create Product
@@ -72,7 +72,7 @@
                     @include('includes.errors')
 
                     <div class="card-style mb-30">
-                        <form action="{{ route('products.store') }}" method="POST" id="create-product-form"
+                        <form action="{{ route('admin.products.store') }}" method="POST" id="create-product-form"
                             enctype="multipart/form-data">
                             @csrf
 

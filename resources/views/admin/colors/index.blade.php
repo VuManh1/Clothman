@@ -53,7 +53,7 @@
 
                         <div class="card-style mb-30">
                             <div>
-                                <a href="{{ route("colors.create") }}" class="btn btn-dark mb-3">Create new color</a>
+                                <a href="{{ route("admin.colors.create") }}" class="btn btn-dark mb-3">Create new color</a>
                             </div>
 
                             <div class="table-wrapper table-responsive">
@@ -89,8 +89,8 @@
 
                                                     <td>
                                                         <div class="action gap-2">
-                                                            <a href="{{ route("colors.show", [$color->id]) }}" class="btn btn-success">Detail</a>
-                                                            <a href="{{ route("colors.edit", [$color->id]) }}" class="btn btn-success">Edit</a>
+                                                            <a href="{{ route("admin.colors.show", [$color->id]) }}" class="btn btn-success">Detail</a>
+                                                            <a href="{{ route("admin.colors.edit", [$color->id]) }}" class="btn btn-success">Edit</a>
                                                         </div>
                                                     </td>
                                                 </tr>

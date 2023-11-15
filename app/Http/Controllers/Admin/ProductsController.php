@@ -67,7 +67,7 @@ class ProductsController extends Controller
 
         $product = $this->manageProductsService->createProduct($createProductDto);
 
-        return redirect()->route("products.index")->with('success', $product->name.' created!');
+        return redirect()->route("admin.products.index")->with('success', $product->name.' created!');
     }
 
     /**
@@ -110,7 +110,7 @@ class ProductsController extends Controller
 
         $product = $this->manageProductsService->updateProduct($id, $updateProductDto);
 
-        return redirect()->route("products.index")->with('success', $product->name.' updated!');
+        return redirect()->route("admin.products.index")->with('success', $product->name.' updated!');
     }
 
     /**
@@ -122,6 +122,6 @@ class ProductsController extends Controller
     {
         $this->manageProductsService->deleteProduct($id);
 
-        return redirect()->route("products.index")->with("success", "Product deleted !");
+        return redirect()->route("admin.products.index")->with("success", "Product deleted !");
     }
 }

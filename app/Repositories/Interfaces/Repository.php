@@ -2,9 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 
 /**
  * Base repository interface for all Entities
@@ -13,13 +11,17 @@ interface Repository
 {
     /**
      * Get all entities from database
+     * 
+     * @return mixed
      */
-    public function getAll(): Collection;
+    public function getAll();
 
     /**
      * Get one entity by ID
+     * 
+     * @return mixed
      */
-    public function findById(string $id, array $includes = null): ?Model;
+    public function findById(string $id, array $includes = null);
 
     /**
      * Get entities from database
@@ -37,18 +39,23 @@ interface Repository
 
     /**
      * Insert an entity to database
+     * 
+     * @return mixed
      */
-    public function create(array $attributes): Model;
+    public function create(array $attributes);
 
     /**
      * Update an entity from database
-     * @throws \ModelNotFoundException
+     * 
+     * @return mixed
+     * @throws \RecordsNotFoundException
      */
-    public function update(string $id, array $attributes): Model;
+    public function update(string $id, array $attributes);
 
     /**
      * Delete an entity from database
-     * @throws \ModelNotFoundException
+     * 
+     * @throws \RecordsNotFoundException
      */
     public function delete(string $id): bool;
 }
