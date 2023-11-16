@@ -80,4 +80,7 @@ Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(fun
 Route::prefix('account')->middleware(["auth"])->group(function () {
     Route::get("/infor", [AccountController::class, "infor"])->name("account.infor");
     Route::get("/password", [AccountController::class, "password"])->name("account.password");
+
+    Route::put("/infor", [AccountController::class, "updateInfor"])->name("account.infor.update");
+    Route::patch("/password", [AccountController::class, "changePassword"])->name("account.password.update");
 });
