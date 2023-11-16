@@ -179,39 +179,7 @@
                 Sản phẩm tương tự
             </h3>
 
-            <div id="relatedProductsCarousel" class="carousel multi-item-carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item">
-                        <a href="#" class="card product-item">
-                            <img src="https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/February2022/soronada132.jpg"
-                                class="card-img-top product-image" alt="...">
-
-                            <div class="card-body">
-                                <h5 class="card-title">Quần dài Kaki Excool</h5>
-
-                                <div class="card-text d-flex gap-2 align-items-center flex-wrap">
-                                    <div class="text-black fw-medium">239.000đ</div>
-                                    <div class="d-flex gap-2 align-items-center">
-                                        <div class="text-secondary text-decoration-line-through fw-medium">269.000đ
-                                        </div>
-                                        <div class="text-danger fw-medium">-11%</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#relatedProductsCarousel"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#relatedProductsCarousel"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
+            <div id="related-products"></div>
         </section>
         <!-- Related products section end -->
     </div>
@@ -225,6 +193,7 @@
         var variants = {!! json_encode($product->productVariants) !!};
         var images = {!! json_encode($product->images) !!};
         var domain = '{{ asset("") }}';
+        var getRelatedProductsUrl = '{{ route("products.related") }}?productId={{ $product->id }}';
     </script>
     <script src="{{ asset('js/product-detail.js') }}"></script>
 @endsection

@@ -1,4 +1,9 @@
 $(function () {
+    // load related products
+    $('#related-products').load(getRelatedProductsUrl, function () {
+        new MultiItemCarousel("#relatedProductsCarousel");
+    });
+
     // event click on select color buttons
     $(".color-select").click(function () {
         resetColorSelect();
@@ -24,9 +29,6 @@ $(function () {
     $(".collapse").on("hide.bs.collapse", function () {
         $(this).siblings(".collapse-title").removeClass("active");
     });
-
-    // related products carousel
-    new MultiItemCarousel("#relatedProductsCarousel");
 });
 
 function resetColorSelect() {

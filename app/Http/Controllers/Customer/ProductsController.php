@@ -68,7 +68,10 @@ class ProductsController extends Controller
     /**
      * Show the related products partial view
      */
-    public function relatedProducts() {
-        
+    public function relatedProducts(Request $request) {
+        $id = $request->query('productId');
+        $products = $this->getProductsService->getRelatedProducts($id, 8);
+
+        return view('components.related-products-carousel', compact('products'));
     }
 }

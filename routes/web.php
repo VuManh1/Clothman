@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Route;
 Route::get("/", [HomeController::class, 'index'])->name('home');
 Route::get("/products", [\App\Http\Controllers\Customer\ProductsController::class, 'products'])->name('products');
 Route::get("/products/sales", [\App\Http\Controllers\Customer\ProductsController::class, 'sales'])->name('products.sales');
+Route::get("/products/related", [\App\Http\Controllers\Customer\ProductsController::class, 'relatedProducts'])->name('products.related');
 Route::get("/products/{slug}", [\App\Http\Controllers\Customer\ProductsController::class, 'productDetail'])->name('product.detail');
 Route::get("/category/{slug}", [\App\Http\Controllers\Customer\CategoriesController::class, 'category'])->name('category');
 Route::get("/search", [\App\Http\Controllers\Customer\ProductsController::class, 'search'])->name('search');

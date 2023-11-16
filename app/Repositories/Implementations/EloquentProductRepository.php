@@ -74,7 +74,8 @@ class EloquentProductRepository extends EloquentRepository implements ProductRep
         if ($params->keyword) {
             $query->where(function ($q) use($params) {
                 $q->where("name", "LIKE", "%".$params->keyword."%")
-                  ->orWhere("description", "LIKE", "%".$params->keyword."%");
+                  ->orWhere("description", "LIKE", "%".$params->keyword."%")
+                  ->orWhereRelation("category", "name", "LIKE", "%".$params->keyword."%");
             });
         }
         if (isset($params->category)) {
