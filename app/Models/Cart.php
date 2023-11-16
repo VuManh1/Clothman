@@ -23,8 +23,12 @@ class Cart extends Model
         'quantity',
     ];
 
+    public function getPrice() {
+        return $this->product->getDiscountPrice() * $this->quantity;
+    }
+
     public function getFormatedPrice() {
-        return number_format($this->product->getDiscountPrice() * $this->quantity, 0, '.', '.');
+        return number_format($this->getPrice(), 0, '.', '.');
     }
 
     /**

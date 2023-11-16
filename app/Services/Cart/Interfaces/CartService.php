@@ -9,9 +9,16 @@ use Illuminate\Support\Collection;
 interface CartService
 {
     /**
-     * Get all carts
+     * Get cart data
+     * 
+     * @return array (items, total)
      */
-    public function getCarts(): Collection;
+    public function getCartData(): array;
+
+    /**
+     * Get number of carts
+     */
+    public function getCartCount(): int;
 
     /**
      * Add a cart

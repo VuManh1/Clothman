@@ -18,6 +18,10 @@ class EloquentCartRepository extends EloquentRepository implements CartRepositor
         ])->where('user_id', $userId)->orderBy('created_at', 'desc')->get();
     }
 
+    public function getCountByUserId(string $userId): int {
+        return $this->model->where('user_id', $userId)->count();
+    }
+
     public function findByDetail(string $productId, string $productVariantId, string $userId): ?Cart {
         return $this->model
                ->where('product_id', $productId)

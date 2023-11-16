@@ -46,6 +46,16 @@
     {{-- Notification --}}
     @include('includes.notification')
 
+    <script>
+        $(function () {
+            $.get("{{ route('api.cart.count') }}", function(data, status){
+                if (status === 'success') {
+                    $('header .cart-quantity').html(data.count);
+                }
+            });
+        });
+    </script>
+
     @yield('scripts')
 </body>
 </html>

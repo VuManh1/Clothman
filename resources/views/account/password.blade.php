@@ -70,7 +70,7 @@
                     $("#submit-btn").attr("disabled", true);
 
                     $.ajax({
-                        url: "{{ route('account.password.update') }}", 
+                        url: "{{ route('api.account.password.update') }}", 
                         data: {
                             _token: '{{ csrf_token() }}',
                             old_password: $("#old_password").val(),

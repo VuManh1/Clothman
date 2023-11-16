@@ -38,7 +38,6 @@ Route::get("/category/{slug}", [\App\Http\Controllers\Customer\CategoriesControl
 Route::get("/search", [\App\Http\Controllers\Customer\ProductsController::class, 'search'])->name('search');
 
 Route::get("/cart", [\App\Http\Controllers\Customer\CartController::class, 'cart'])->name('cart');
-Route::post("/cart", [\App\Http\Controllers\Customer\CartController::class, 'addToCart']);
 
 
 /*
@@ -87,7 +86,4 @@ Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(fun
 Route::prefix('account')->middleware(["auth"])->group(function () {
     Route::get("/infor", [AccountController::class, "infor"])->name("account.infor");
     Route::get("/password", [AccountController::class, "password"])->name("account.password");
-
-    Route::put("/infor", [AccountController::class, "updateInfor"])->name("account.infor.update");
-    Route::patch("/password", [AccountController::class, "changePassword"])->name("account.password.update");
 });

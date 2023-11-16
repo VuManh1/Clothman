@@ -10,8 +10,8 @@
 
                 <!-- Cart items start -->
                 <div class="d-flex flex-column gap-3">
-                    @forelse ($carts as $cart)
-                        <x-cart-item :cart="$cart" />
+                    @forelse ($cart['items'] as $item)
+                        <x-cart-item :cart="$item" />
                     @empty
                         <div class="text-dark">Bạn không có sản phẩm nào trong giỏ hàng.</div>
                     @endforelse
@@ -20,12 +20,10 @@
 
                 <hr>
 
-                <div class="d-flex flex-column gap-3">
+                {{-- <div class="d-flex flex-column gap-3">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>Tạm tính</div>
-                        <div class="fw-bold">
-                            đ
-                        </div>
+                        <div class="fw-bold">{{ $cart['total'] }}đ</div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
                         <div>Phí giao hàng</div>
@@ -33,11 +31,11 @@
                     </div>
                 </div>
 
-                <hr>
+                <hr> --}}
 
                 <div class="d-flex justify-content-between align-items-center">
                     <div>Tổng</div>
-                    <div class="fw-bold fs-5">224.000đ</div>
+                    <div class="fw-bold fs-5">{{ number_format($cart['total']) }}đ</div>
                 </div>
             </section>
             <!-- card section end -->

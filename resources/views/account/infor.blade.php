@@ -69,7 +69,7 @@
                     $("#submit-btn").attr("disabled", true);
 
                     $.ajax({
-                        url: "{{ route('account.infor.update') }}", 
+                        url: "{{ route('api.account.infor.update') }}", 
                         data: {
                             _token: '{{ csrf_token() }}',
                             name: $("#name").val(),

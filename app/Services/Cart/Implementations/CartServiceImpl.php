@@ -17,12 +17,33 @@ class CartServiceImpl implements CartService
         private ProductVariantRepository $productVariantRepository,
     ) {}
 
-    public function getCarts(): Collection {
+    public function getCartData(): array {
         if (Auth::check()) {
-            return $this->cartRepository->getAllByUserId(Auth::id());
+            $carts = $this->cartRepository->getAllByUserId(Auth::id());
+            $total = 0;
+
+            foreach ($carts as $cart) {
+                $total += $cart->getPrice();
+            }
+
+            return [
+                'items' => $carts,
+                'total' => $total,
+            ];
         } else {
-            return collect([]);
+            return collect([
+                'items' => [],
+                'total' => 0,
+            ]);
         }
+    }
+
+    public function getCartCount(): int {
+        if (Auth::check()) {
+            return $this->cartRepository->getCountByUserId(Auth::id());
+        }
+
+        return 0;
     }
 
     public function addToCart(AddToCartDto $data): bool {

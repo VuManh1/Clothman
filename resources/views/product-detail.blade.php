@@ -201,7 +201,7 @@
         var csrf = '{{ csrf_token() }}';
         var domain = '{{ asset("") }}';
         var getRelatedProductsUrl = '{{ route("products.related") }}?productId={{ $product->id }}';
-        var addToCartUrl = '{{ route("cart") }}';
+        var addToCartUrl = '{{ route("api.cart.store") }}';
     </script>
     <script src="{{ asset('js/product-detail.js') }}"></script>
     <script src="{{ asset('js/add-to-cart.js') }}"></script>
