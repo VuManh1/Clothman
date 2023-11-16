@@ -34,8 +34,12 @@ Route::get("/products/sales", [\App\Http\Controllers\Customer\ProductsController
 Route::get("/products/related", [\App\Http\Controllers\Customer\ProductsController::class, 'relatedProducts'])->name('products.related');
 Route::get("/products/{slug}", [\App\Http\Controllers\Customer\ProductsController::class, 'productDetail'])->name('product.detail');
 Route::get("/category/{slug}", [\App\Http\Controllers\Customer\CategoriesController::class, 'category'])->name('category');
+
 Route::get("/search", [\App\Http\Controllers\Customer\ProductsController::class, 'search'])->name('search');
+
 Route::get("/cart", [\App\Http\Controllers\Customer\CartController::class, 'cart'])->name('cart');
+Route::post("/cart", [\App\Http\Controllers\Customer\CartController::class, 'addToCart']);
+
 
 /*
 * Auth routes
@@ -66,6 +70,7 @@ Route::prefix('auth')->group(function () {
     Route::post('/reset-password', [ResetPasswordController::class, "update"])->middleware('guest')->name('password.update');
 });
 
+
 // Admin routes
 Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(function () {
     Route::get("/dashboard", [DashboardController::class, 'dashboard'])->name("admin.dashboard");
@@ -76,6 +81,7 @@ Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(fun
 
     Route::resource('banners', BannersController::class, ['as' => 'admin'])->middleware(['role:ADMIN,null,null']);
 });
+
 
 // Account routes
 Route::prefix('account')->middleware(["auth"])->group(function () {

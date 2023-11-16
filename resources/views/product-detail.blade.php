@@ -55,7 +55,6 @@
                 <!-- Product image carousel start -->
                 <div id="productImageCarousel" class="carousel slide">
                     <div class="carousel-inner h-100">
-
                         {{-- @foreach ($product->images as $image)
                             <div class="carousel-item h-100 @if ($loop->first) active @endif">
                                 <img src="{{ asset($image->image_url) }}" class="d-block w-100 h-100 object-fit-cover"
@@ -116,9 +115,9 @@
                                 <span class="text-black fw-semibold size-name"></span>
                             </div>
 
-                            <a href="#size-guide" class="info" data-bs-toggle="modal" data-bs-target="#sizeModal">
+                            <a href="#size-guide" class="info fw-bold" data-bs-toggle="modal" data-bs-target="#sizeModal">
                                 Hướng dẫn chọn size
-                                </a>
+                            </a>
                         </div>
 
                         <div class="sizes-container d-flex flex-wrap gap-2">
@@ -135,8 +134,13 @@
                         <div class="quantity-increase"><span>+</span></div>
                     </div>
 
-                    <button type="button" class="btn btn-dark flex-grow-1 w-100">
-                        Thêm vào giỏ hàng
+                    <button type="button" class="btn btn-dark flex-grow-1 w-100 loadable-btn" id="add-to-cart-btn">
+                        <div class="loadable-content">
+                            Thêm vào giỏ hàng
+                        </div>
+                        <div class="spinner spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
                     </button>
                 </div>
 
@@ -190,10 +194,15 @@
     <script src="{{ asset('js/MultiItemCarousel.js') }}"></script>
     <script src="{{ asset('js/QuantityBox.js') }}"></script>
     <script>
+        var productId = '{{ $product->id }}';
         var variants = {!! json_encode($product->productVariants) !!};
         var images = {!! json_encode($product->images) !!};
+
+        var csrf = '{{ csrf_token() }}';
         var domain = '{{ asset("") }}';
         var getRelatedProductsUrl = '{{ route("products.related") }}?productId={{ $product->id }}';
+        var addToCartUrl = '{{ route("cart") }}';
     </script>
     <script src="{{ asset('js/product-detail.js') }}"></script>
+    <script src="{{ asset('js/add-to-cart.js') }}"></script>
 @endsection

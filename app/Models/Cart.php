@@ -23,11 +23,31 @@ class Cart extends Model
         'quantity',
     ];
 
+    public function getFormatedPrice() {
+        return number_format($this->product->getDiscountPrice() * $this->quantity, 0, '.', '.');
+    }
+
     /**
      * Get the user of the cart.
      */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the product of the cart.
+     */
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    /**
+     * Get the product variant of the cart.
+     */
+    public function productVariant(): BelongsTo
+    {
+        return $this->belongsTo(ProductVariant::class);
     }
 }

@@ -10,30 +10,11 @@
 
                 <!-- Cart items start -->
                 <div class="d-flex flex-column gap-3">
-                    <div class="cart-item">
-                        <img src="https://media.coolmate.me/cdn-cgi/image/width=320,height=362,quality=80/image/September2023/graphic.spec.2_4.jpg"
-                            alt="...">
-
-                        <div class="cart-item-info">
-                            <a href="#" class="cart-item-title">T-Shirt chạy bộ Special</a>
-                            <div>Đen / 2XL</div>
-
-                            <div class="cart-item-actions">
-                                <div class="quantity-box">
-                                    <div class="quantity-decrease"><span>-</span></div>
-                                    <input type="number" name="quantity" min="1" max="50" value="1"
-                                        readonly />
-                                    <div class="quantity-increase"><span>+</span></div>
-                                </div>
-
-                                <div class="fw-bold">199.000đ</div>
-                            </div>
-                        </div>
-
-                        <div class="cart-item-delete">
-                            <span>&#10005;</span>
-                        </div>
-                    </div>
+                    @forelse ($carts as $cart)
+                        <x-cart-item :cart="$cart" />
+                    @empty
+                        <div class="text-dark">Bạn không có sản phẩm nào trong giỏ hàng.</div>
+                    @endforelse
                 </div>
                 <!-- Cart items end -->
 
@@ -42,7 +23,9 @@
                 <div class="d-flex flex-column gap-3">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>Tạm tính</div>
-                        <div class="fw-bold">199.000đ</div>
+                        <div class="fw-bold">
+                            đ
+                        </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
                         <div>Phí giao hàng</div>
