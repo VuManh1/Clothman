@@ -3,11 +3,11 @@
 namespace App\Services\Cart\Implementations;
 
 use App\DTOs\Cart\AddToCartDto;
+use App\Exceptions\Products\ProductOutOfStockException;
 use App\Repositories\Interfaces\CartRepository;
 use App\Repositories\Interfaces\ProductVariantRepository;
 use App\Services\Cart\Interfaces\CartService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class CartServiceImpl implements CartService
@@ -55,6 +55,10 @@ class CartServiceImpl implements CartService
 
         if (!$productVariant) {
             throw new ModelNotFoundException();
+        }
+
+        if ($productVariant->quantity < $data->quantity) {
+            throw new ProductOutOfStockException("Sản phẩm này đã hết hàng, vui lòng giảm số lượng hoặc chọn một biến thể khác.");
         }
 
         if (Auth::check()) {

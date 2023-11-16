@@ -20,7 +20,7 @@ class CategoryCanNotDeleteException extends Exception
      */
     public function render(Request $request)
     {
-        if ($request->is('api/*')) {
+        if ($request->ajax()) {
             return response()->json([
                 'message' => $this->getMessage()
             ], 400);

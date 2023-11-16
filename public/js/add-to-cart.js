@@ -36,6 +36,7 @@ function addToCart(productId, colorId, size, quantity) {
         success(result) {
             toastr.success("Đã thêm sản phẩm vào giỏ hàng!");
             $('#add-to-cart-btn').removeClass('loading').attr("disabled", false);
+            updateCartQuantityInHeader();
         },
         error(xhr, status, error) {
             toastr.error(xhr.responseJSON.message);

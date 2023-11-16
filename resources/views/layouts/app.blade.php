@@ -46,14 +46,19 @@
     {{-- Notification --}}
     @include('includes.notification')
 
+    {{-- Script for display cart quantity in header --}}
     <script>
         $(function () {
+            updateCartQuantityInHeader();
+        });
+
+        function updateCartQuantityInHeader() {
             $.get("{{ route('api.cart.count') }}", function(data, status){
                 if (status === 'success') {
                     $('header .cart-quantity').html(data.count);
                 }
-            });
-        });
+            }); 
+        }
     </script>
 
     @yield('scripts')
