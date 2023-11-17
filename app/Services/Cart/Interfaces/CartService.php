@@ -3,6 +3,7 @@
 namespace App\Services\Cart\Interfaces;
 
 use App\DTOs\Cart\AddToCartDto;
+use App\DTOs\Cart\UpdateCartDto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -24,4 +25,11 @@ interface CartService
      * Add a cart
      */
     public function addToCart(AddToCartDto $data): bool;
+
+    /**
+     * Update a cart
+     * 
+     * @return array (items, total)
+     */
+    public function updateCart(UpdateCartDto $data): array;
 }

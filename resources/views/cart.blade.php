@@ -20,22 +20,9 @@
 
                 <hr>
 
-                {{-- <div class="d-flex flex-column gap-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>Tạm tính</div>
-                        <div class="fw-bold">{{ $cart['total'] }}đ</div>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>Phí giao hàng</div>
-                        <div class="fw-bold">+25.000đ</div>
-                    </div>
-                </div>
-
-                <hr> --}}
-
                 <div class="d-flex justify-content-between align-items-center">
                     <div>Tổng</div>
-                    <div class="fw-bold fs-5">{{ number_format($cart['total']) }}đ</div>
+                    <div class="fw-bold fs-5" id="total-price">{{ $cart['formated_total'] }}đ</div>
                 </div>
             </section>
             <!-- card section end -->
@@ -115,5 +102,15 @@
 
 @section('scripts')
     <script src="{{ asset('js/QuantityBox.js') }}"></script>
-    <script src="{{ asset('js/cart.js') }}"></script>
+    <script>
+        const csrf = '{{ csrf_token() }}';
+        const updateCartUrl = '{{ route("api.cart.update") }}';
+
+        // event click on payment method items
+        $(".payment-method-item").click(function () {
+            $(".payment-method-item.active").removeClass("active");
+            $(this).addClass("active");
+        });
+    </script>
+    <script src="{{ asset('js/update-cart.js') }}"></script>
 @endsection

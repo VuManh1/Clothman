@@ -24,3 +24,4 @@ Route::prefix('account')->middleware(["auth"])->group(function () {
 // Cart API
 Route::get("/cart/count", [CartApiController::class, 'count'])->name('api.cart.count');
 Route::post("/cart", [CartApiController::class, 'addToCart'])->name('api.cart.store');
+Route::patch("/cart", [CartApiController::class, 'updateCart'])->name('api.cart.update');

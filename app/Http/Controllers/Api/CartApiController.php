@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\DTOs\Cart\AddToCartDto;
+use App\DTOs\Cart\UpdateCartDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cart\AddToCartRequest;
+use App\Http\Requests\Cart\UpdateCartRequest;
 use App\Services\Cart\Interfaces\CartService;
 
 class CartApiController extends Controller
@@ -36,5 +38,22 @@ class CartApiController extends Controller
         return response()->json([
             'success' => true,
         ], 201);
+    }
+
+    /**
+     * Handle update cart submission
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateCart(UpdateCartRequest $request) {
+        $request->validated();
+        $data = UpdateCartDto::fromRequest($request);
+
+        $cartData = $this->cartService->updateCart($data);
+
+        return response()->json([
+            'success' => true,
+            'data' => $cartData
+        ], 200);
     }
 }

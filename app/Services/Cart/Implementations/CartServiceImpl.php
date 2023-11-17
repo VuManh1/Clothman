@@ -3,6 +3,7 @@
 namespace App\Services\Cart\Implementations;
 
 use App\DTOs\Cart\AddToCartDto;
+use App\DTOs\Cart\UpdateCartDto;
 use App\Exceptions\Products\ProductOutOfStockException;
 use App\Repositories\Interfaces\CartRepository;
 use App\Repositories\Interfaces\ProductVariantRepository;
@@ -29,6 +30,7 @@ class CartServiceImpl implements CartService
             return [
                 'items' => $carts,
                 'total' => $total,
+                'formated_total' => number_format($total, 0, '.', '.'),
             ];
         } else {
             return collect([
@@ -82,5 +84,32 @@ class CartServiceImpl implements CartService
         }
 
         return true;
+    }
+
+    public function updateCart(UpdateCartDto $data): array {
+        $productVariant = $this->productVariantRepository->findById($data->variantId);
+
+        if (!$productVariant) {
+            throw new ModelNotFoundException();
+        }
+
+        if ($productVariant->quantity < $data->quantity) {
+            throw new ProductOutOfStockException("Sản phẩm này không còn đủ hàng.");
+        }
+
+        if (Auth::check()) {
+            $userId = Auth::id();
+            $cart = $this->cartRepository->findByDetail($data->productId, $data->variantId, $userId);
+
+            if (!$cart) throw new ModelNotFoundException();
+
+            $this->cartRepository->update($cart->id, [
+                'quantity' => $data->quantity
+            ]);
+        } else {
+
+        }
+
+        return $this->getCartData();
     }
 }

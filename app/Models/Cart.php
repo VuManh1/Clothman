@@ -54,4 +54,21 @@ class Cart extends Model
     {
         return $this->belongsTo(ProductVariant::class);
     }
+
+    /**
+     * Define the json format of the model
+     */
+    public function jsonSerialize():Array
+    {
+        return [
+            'id' => $this->id,
+            'product' => $this->product,
+            'product_id' => $this->product_id,
+            'product_variant' => $this->productVariant,
+            'product_variant_id' => $this->product_variant_id,
+            'quantity' => $this->quantity,
+            'price' => $this->getPrice(),
+            'formated_price' => $this->getFormatedPrice(),
+        ];
+    } 
 }
