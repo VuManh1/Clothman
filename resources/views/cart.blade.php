@@ -105,6 +105,7 @@
     <script>
         const csrf = '{{ csrf_token() }}';
         const updateCartUrl = '{{ route("api.cart.update") }}';
+        const removeCartUrl = '{{ route("api.cart.destroy") }}';
 
         // event click on payment method items
         $(".payment-method-item").click(function () {
@@ -113,4 +114,5 @@
         });
     </script>
     <script src="{{ asset('js/update-cart.js') }}"></script>
+    <script src="{{ asset('js/remove-cart.js') }}"></script>
 @endsection

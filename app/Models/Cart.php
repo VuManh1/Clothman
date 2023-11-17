@@ -58,7 +58,7 @@ class Cart extends Model
     /**
      * Define the json format of the model
      */
-    public function jsonSerialize():Array
+    public function jsonSerialize(): Array
     {
         return [
             'id' => $this->id,

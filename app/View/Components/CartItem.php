@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\DTOs\Cart\SessionCartDto;
 use App\Models\Cart;
 use Illuminate\View\Component;
 
@@ -13,7 +14,7 @@ class CartItem extends Component
      * @return void
      */
     public function __construct(
-        public Cart $cart
+        public Cart|SessionCartDto $cart
     )
     {
         //
