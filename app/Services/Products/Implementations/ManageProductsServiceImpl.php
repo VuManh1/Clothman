@@ -13,8 +13,10 @@ use App\Repositories\Interfaces\ProductVariantRepository;
 use App\Services\Products\Interfaces\ManageProductsService;
 use App\Services\Upload\Interfaces\UploadService;
 use App\Utils\UploadFolder;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class ManageProductsServiceImpl implements ManageProductsService
 {
@@ -127,13 +129,91 @@ class ManageProductsServiceImpl implements ManageProductsService
             $data['size_guild_url'] = $sizeGuildUploadedResult['path'];
         }
 
+        DB::beginTransaction();
         try {
             $product = $this->productRepository->update($id, $data);
+
+            $totalQuantity = 0;
+            $updateProductDto->variants ??= [];
+            foreach ($updateProductDto->variants as $variant) {
+                $this->productVariantRepository->create([
+                    'product_id' => $product->id,
+                    'color_id' => $variant['colorId'],
+                    'size' => $variant['size'] ?? "NONE",
+                    'quantity' => $variant['quantity'],
+                ]);
+
+                $totalQuantity += $variant['quantity'];
+            }
+
+            // Upload color images
+            $updateProductDto->colorImages ??= [];
+            foreach ($updateProductDto->colorImages as $colorImage) {
+                $uploadResult = $this->uploadService->uploadFile($colorImage['image'], [
+                    'folder' => UploadFolder::PRODUCT_IMAGES
+                ]);
+
+                $this->imageRepository->create([
+                    'product_id' => $product->id,
+                    'color_id' => $colorImage['colorId'],
+                    'image_url' => $uploadResult['path'],
+                ]);
+            }
+
+            $this->productRepository->update($product->id, [
+                'quantity' => $totalQuantity + $product->quantity
+            ]);
+
+            DB::commit();
         } catch (\Illuminate\Database\QueryException $ex) {
+            DB::rollBack();
+
+            // If have any error, delete files create previout
+            if (isset($thumbnailUploadedResult)) {
+                $this->uploadService->deleteFile($thumbnailUploadedResult['path']);
+            }
+            
+            if (isset($sizeGuildUploadedResult)) {
+                $this->uploadService->deleteFile($sizeGuildUploadedResult['path']);
+            }
+
             throw new UniqueFieldException();
         }
 
         return $product;
+    }
+
+    public function updateProductVariant(string $id, int $quantity): bool {
+        if ($quantity < 0) throw ValidationException::withMessages(['Quantity must not less than 0']);
+
+        $productVariant = $this->productVariantRepository->findById($id, ['product']);
+
+        if (!$productVariant) throw new ModelNotFoundException();
+
+        // if quantity equal to variant quantity, simply return true
+        if ($productVariant->quantity === $quantity) return true;
+
+        $offsetPrice = $quantity - $productVariant->quantity;
+
+        DB::beginTransaction();
+        try {
+            $this->productVariantRepository->update($productVariant->id, [
+                'quantity' => $quantity
+            ]);
+
+            $quantityToUpdate = $productVariant->product->quantity + $offsetPrice;
+            $this->productRepository->update($productVariant->product_id, [
+                'quantity' => $quantityToUpdate
+            ]);
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            throw $th;
+        }        
+
+        return true;
     }
 
     public function deleteProduct($id): bool {

@@ -89,7 +89,7 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        $product = $this->getProductsService->getProductById($id, ['images', 'productVariants', 'category']);
+        $product = $this->getProductsService->getProductById($id, ['images', 'productVariants.color', 'category']);
         
         // get categories and colors for product to select
         $categories = $this->getCategoriesService->getAllCategories();
@@ -111,6 +111,20 @@ class ProductsController extends Controller
         $product = $this->manageProductsService->updateProduct($id, $updateProductDto);
 
         return redirect()->route("admin.products.index")->with('success', $product->name.' updated!');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateVariant(Request $request, $id)
+    {
+        $product = $this->manageProductsService->updateProductVariant($id, $request->quantity);
+
+        return response()->json([
+            'success' => true
+        ]);
     }
 
     /**

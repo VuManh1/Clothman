@@ -2,6 +2,32 @@
 @section('title', 'Edit Product ' . $product->name)
 
 @section('content')
+    {{-- Modal --}}
+    <div class="modal fade" id="colorsModal" tabindex="-1" aria-labelledby="colorsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="colorsModalLabel">Select a color: <span class="modal-color-name"></span></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="d-flex flex-wrap gap-2">
+                            @foreach ($colors as $color)
+                                <div class="color-select" style="background-color: {{ $color->hex_code }};" role="button" 
+                                    data-colorid="{{ $color->id }}" data-colorname="{{ $color->name }}" data-colorcode="{{ $color->hex_code }}"></div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="onClickColorsModal()">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container-fluid">
         <!-- ========== title-wrapper start ========== -->
         <div class="title-wrapper pt-30">
@@ -42,8 +68,8 @@
                     @include('includes.errors')
 
                     <div class="card-style mb-30">
-                        <form action="{{ route('admin.products.update', [$product->id]) }}" method="POST" id="create-product-form"
-                            enctype="multipart/form-data">
+                        <form action="{{ route('admin.products.update', [$product->id]) }}" method="POST"
+                            id="create-product-form" enctype="multipart/form-data">
                             @method('PUT')
                             @csrf
 
@@ -65,28 +91,33 @@
                                 </li>
                             </ul>
                             <div class="tab-content py-5" id="myTabContent">
-                                <div class="tab-pane fade show active" id="main-infor-tab-pane" role="tabpanel"
+                                <div class="tab-pane fade" id="main-infor-tab-pane" role="tabpanel"
                                     aria-labelledby="main-infor-tab" tabindex="0">
                                     <div class="mb-3">
                                         <label for="name" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="name" name="name" value="{{ $product->name }}">
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            value="{{ $product->name }}">
                                     </div>
                                     <div class="mb-3">
                                         <label for="description" class="form-label">Description</label>
-                                        <input type="text" class="form-control" id="description" name="description" value="{{ $product->description }}">
+                                        <input type="text" class="form-control" id="description" name="description"
+                                            value="{{ $product->description }}">
                                     </div>
                                     <div class="mb-3">
                                         <label for="material" class="form-label">Material</label>
-                                        <input type="text" class="form-control" id="material" name="material" value="{{ $product->material }}">
+                                        <input type="text" class="form-control" id="material" name="material"
+                                            value="{{ $product->material }}">
                                     </div>
                                     <div class="d-flex gap-2 mb-3">
                                         <div class="form-group">
                                             <label for="price" class="form-label">Price</label>
-                                            <input type="number" min="0" class="form-control" id="price" name="price" value="{{ $product->price }}">
+                                            <input type="number" min="0" class="form-control" id="price"
+                                                name="price" value="{{ $product->price }}">
                                         </div>
                                         <div class="form-group">
                                             <label for="discount" class="form-label">Discount</label>
-                                            <input type="number" min="0" class="form-control" id="discount" name="discount" value="{{ $product->discount }}">
+                                            <input type="number" min="0" class="form-control" id="discount"
+                                                name="discount" value="{{ $product->discount }}">
                                         </div>
                                     </div>
                                     <div class="mb-3">
@@ -108,25 +139,71 @@
                                         <label for="thumbnail" class="form-label">Attach a thumbnail image: </label>
                                         <input class="form-control mb-2" type="file" name="thumbnail" id="thumbnail">
 
-                                        <img src="{{ asset($product->thumbnail_url) }}" alt="{{ $product->name }}" style="max-width: 300px; height: 400px; object-fit: cover;">
+                                        <img src="{{ asset($product->thumbnail_url) }}" alt="{{ $product->name }}"
+                                            style="max-width: 300px; height: 400px; object-fit: cover;">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="size_guild" class="form-label">Attach a size guild image: </label>
-                                        <input class="form-control mb-2" type="file" name="size_guild" id="size_guild">
+                                        <input class="form-control mb-2" type="file" name="size_guild"
+                                            id="size_guild">
 
-                                        <img src="{{ asset($product->size_guild_url) }}" alt="{{ $product->name }}" style="max-width: 300px; height: 400px; object-fit: cover;">
+                                        <img src="{{ asset($product->size_guild_url) }}" alt="{{ $product->name }}"
+                                            style="max-width: 300px; height: 400px; object-fit: cover;">
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="variants-tab-pane" role="tabpanel"
+                                <div class="tab-pane fade show active" id="variants-tab-pane" role="tabpanel"
                                     aria-labelledby="variants-tab" tabindex="0">
-                                    <button type="button" class="btn btn-dark mb-3" data-bs-toggle="modal" data-bs-target="#colorsModal">
+                                    <button type="button" class="btn btn-dark mb-3" data-bs-toggle="modal"
+                                        data-bs-target="#colorsModal">
                                         Add a product color variant
                                     </button>
 
                                     <div id="colors-container" class="d-flex flex-column gap-3">
-                                        
+
                                     </div>
+
+                                    <hr>
+                                    <h3 class="title mb-3">Variants</h3>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <td>
+                                                    <h6>Color</h6>
+                                                </td>
+                                                <td>
+                                                    <h6>Size</h6>
+                                                </td>
+                                                <td>
+                                                    <h6>Quantity</h6>
+                                                </td>
+                                            </tr>
+                                        <tbody>
+                                            @forelse ($product->productVariants as $variant)
+                                                <tr class="product-color-tr">
+                                                    <td width="25%" class="text-gray">{{ $variant->color->name }}</td>
+                                                    <td width="25%" class="text-gray">{{ $variant->size }}</td>
+                                                    <td width="10%">
+                                                        <div class="d-md-flex d-block">
+                                                            <input type="number" min="0"
+                                                                value="{{ $variant->quantity }}"
+                                                                class="form-control form-control-sm">
+                                                            <button type="button" data-variantid="{{ $variant->id }}"
+                                                                data-update-url="{{ route('admin.products.variants.update', [$variant->id]) }}"
+                                                                class="btn btn-primary btn-sm edit-variant-btn">Update</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <h6 class="mt-3 text-center">No variant found.</h6>
+                                                    </td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                        </thead>
+                                    </table>
                                 </div>
                             </div>
 
@@ -147,6 +224,10 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
     <script>
+        let selectedColors = {!! json_encode($product->productVariants->unique('color_id')->pluck('color_id')) !!};
+
+        console.log(selectedColors);
+
         $().ready(function() {
             $("#edit-product-form").validate({
                 rules: {
@@ -179,6 +260,35 @@
                     }
                 },
             });
+
+            $('.edit-variant-btn').click(function () {
+                const url = $(this).data('update-url');
+                const quantity = $(this).closest('td').find('input').val();
+
+                updateVariantQuantity(url, quantity, $(this));
+            });
         });
+
+        function updateVariantQuantity(url, quantity, button) {
+            button.attr("disabled", true);
+
+            $.ajax({
+                url: url,
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    quantity: quantity,
+                },
+                type: "PATCH",
+                success(result) {
+                    toastr.success("Đã cập nhập số lượng biến thể!");
+                    button.attr("disabled", false);
+                },
+                error(xhr, status, error) {
+                    toastr.error(xhr.responseJSON.message);
+                    button.attr("disabled", false);
+                }
+            });
+        }
     </script>
+    <script src="{{ asset('js/admin-product-variants.js') }}"></script>
 @endsection

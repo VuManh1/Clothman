@@ -22,6 +22,11 @@ interface ManageProductsService
     public function updateProduct($id, UpdateProductDto $updateProductDto): Product;
 
     /**
+     * Update a product variant quantity
+     */
+    public function updateProductVariant(string $id, int $quantity): bool;
+
+    /**
      * Delete a product
      */
     public function deleteProduct($id): bool;

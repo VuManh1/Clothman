@@ -75,7 +75,10 @@ Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(fun
     Route::get("/dashboard", [DashboardController::class, 'dashboard'])->name("admin.dashboard");
 
     Route::resource('products', ProductsController::class, ['as' => 'admin']);
+    Route::patch("/products/variants/{id}", [ProductsController::class, 'updateVariant'])->name("admin.products.variants.update");
+
     Route::resource('categories', CategoriesController::class, ['as' => 'admin']);
+    
     Route::resource('colors', ColorsController::class, ['as' => 'admin']);
 
     Route::resource('banners', BannersController::class, ['as' => 'admin'])->middleware(['role:ADMIN,null,null']);
