@@ -11,9 +11,7 @@
                         <div class="title">
                             <h2>Products</h2>
                         </div>
-                        <form role="search" method="GET">
-                            <input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search" required>
-                        </form>
+
                     </div>
                     <!-- end col -->
                     <div class="col-md-6">
@@ -40,12 +38,22 @@
             <div class="tables-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
-                        {{-- Filter --}}
-                        <x-admin.filters.products-filter action="{{ route('admin.products.index') }}" />
 
                         <div class="card-style mb-30">
-                            <div>
+
+                            <div class="btn-toolbar justify-content-between">
+
+                                <form role="search" method="GET">
+                                    <input class="btn btn-outline-secondary" name="q" type="search"
+                                        placeholder="Search" aria-label="Search" required>
+                                </form>
+
                                 <a href="{{ route('admin.products.create') }}" class="btn btn-dark mb-3">Create new product</a>
+                            </div>
+
+                            <div class="btn-toolbar justify-content-between">
+                                <x-admin.filters.products-filter action="{{ route('admin.products.index') }}"
+                                    class="mx-auto" />
                             </div>
 
                             <div class="table-wrapper table-responsive">
@@ -81,7 +89,8 @@
                                                     <td class="min-width">
                                                         <div class="lead">
                                                             <div class="lead-image" style="border-radius: 0">
-                                                                <img src="{{ asset($product->thumbnail_url) }}" alt="{{ $product->name }}" />
+                                                                <img src="{{ asset($product->thumbnail_url) }}"
+                                                                    alt="{{ $product->name }}" />
                                                             </div>
                                                         </div>
                                                     </td>
