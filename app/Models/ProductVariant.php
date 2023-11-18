@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProductVariant extends Model
 {
@@ -39,5 +40,13 @@ class ProductVariant extends Model
     public function color(): BelongsTo
     {
         return $this->belongsTo(Color::class);
+    }
+
+    /**
+     * Get the order items for the product variant.
+     */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }

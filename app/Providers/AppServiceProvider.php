@@ -18,8 +18,10 @@ use App\Services\Colors\Interfaces\GetColorsService;
 use App\Services\Colors\Interfaces\ManageColorsService;
 use App\Services\Products\Implementations\GetProductsServiceImpl;
 use App\Services\Products\Implementations\ManageProductsServiceImpl;
+use App\Services\Products\Implementations\ManageProductVariantsServiceImpl;
 use App\Services\Products\Interfaces\GetProductsService;
 use App\Services\Products\Interfaces\ManageProductsService;
+use App\Services\Products\Interfaces\ManageProductVariantsService;
 use App\Services\Upload\Implementations\LocalUploadService;
 use App\Services\Upload\Interfaces\UploadService;
 use App\Services\Users\Implementations\ManageUsersServiceImpl;
@@ -42,13 +44,11 @@ class AppServiceProvider extends ServiceProvider
         // Product Services
         $this->app->bind(GetProductsService::class, GetProductsServiceImpl::class);
         $this->app->bind(ManageProductsService::class, ManageProductsServiceImpl::class);
+        $this->app->bind(ManageProductVariantsService::class, ManageProductVariantsServiceImpl::class);
 
         // Category Services
         $this->app->bind(GetCategoriesService::class, GetCategoriesServiceImpl::class);
         $this->app->bind(ManageCategoriesService::class, ManageCategoriesServiceImpl::class);
-
-        // Upload Service
-        $this->app->bind(UploadService::class, LocalUploadService::class);
 
         // color services
         $this->app->bind(GetColorsService::class, GetColorsServiceImpl::class);
@@ -60,6 +60,9 @@ class AppServiceProvider extends ServiceProvider
 
         // Cart services
         $this->app->bind(CartService::class, CartServiceImpl::class);
+
+        // Upload Service
+        $this->app->bind(UploadService::class, LocalUploadService::class);
     }
 
     /**

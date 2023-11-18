@@ -13,6 +13,7 @@ use App\Services\Colors\Interfaces\GetColorsService;
 use Illuminate\Http\Request;
 use App\Services\Products\Interfaces\GetProductsService;
 use App\Services\Products\Interfaces\ManageProductsService;
+use App\Services\Products\Interfaces\ManageProductVariantsService;
 
 class ProductsController extends Controller
 {
@@ -20,7 +21,8 @@ class ProductsController extends Controller
         private GetCategoriesService $getCategoriesService,
         private GetColorsService $getColorsService,
         private GetProductsService $getProductsService,
-        private ManageProductsService $manageProductsService
+        private ManageProductsService $manageProductsService,
+        private ManageProductVariantsService $manageProductVariantsService,
     ) {
         $this->middleware('role:ADMIN,null,null')->only(['destroy']);
     }
@@ -50,9 +52,9 @@ class ProductsController extends Controller
     {
         // get categories and colors for product to select
         $categories = $this->getCategoriesService->getAllCategories();
-        $colors = $this->getColorsService->getAllColors();
+        // $colors = $this->getColorsService->getAllColors();
 
-        return view("admin.products.create", compact('categories', 'colors'));
+        return view("admin.products.create", compact('categories'));
     }
 
     /**
@@ -120,11 +122,21 @@ class ProductsController extends Controller
      */
     public function updateVariant(Request $request, $id)
     {
-        $product = $this->manageProductsService->updateProductVariant($id, $request->quantity);
+        $this->manageProductVariantsService->updateProductVariantQuantity($id, $request->quantity);
 
-        return response()->json([
-            'success' => true
-        ]);
+        return response()->json(['success' => true]);
+    }
+
+    /**
+     * Remove the specified resource in storage.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroyVariant($id)
+    {
+        $this->manageProductVariantsService->deleteProductVariant($id);
+
+        return response()->json(['success' => true ]);
     }
 
     /**

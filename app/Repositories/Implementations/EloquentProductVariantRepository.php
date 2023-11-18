@@ -4,6 +4,7 @@ namespace App\Repositories\Implementations;
 
 use App\Models\ProductVariant;
 use App\Repositories\Interfaces\ProductVariantRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class EloquentProductVariantRepository extends EloquentRepository implements ProductVariantRepository
 {
@@ -17,5 +18,13 @@ class EloquentProductVariantRepository extends EloquentRepository implements Pro
                ->where('color_id', $colorId)
                ->where('size', $size)
                ->first();
+    }
+
+    public function checkHaveOrder(string $id): bool {
+        $productVariant = $this->findById($id);
+
+        if (!$productVariant) throw new ModelNotFoundException();
+
+        return $productVariant->orders()->take(1)->exists();
     }
 }

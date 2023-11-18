@@ -19,7 +19,7 @@
                             <div class="profile-info">
                                 <div class="info">
                                     <div class="image">
-                                        <img src="assets/images/profile/profile-image.png" alt="" />
+                                        <img src="{{ asset('images/admin-image.png') }}" alt="admin" />
                                     </div>
                                     <div>
                                         <h6 class="fw-500">{{ Auth::user()->name }}</h6>

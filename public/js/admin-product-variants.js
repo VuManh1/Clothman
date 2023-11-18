@@ -1,8 +1,57 @@
 const colorsModal = new bootstrap.Modal('#colorsModal', {
     keyboard: false
 });
+let getColorId = '';
 
 $(function () {
+    // Get colors from Api and display to colors modal
+    $.get(`${getColorsApiUrl}?limit=100`, function (data, status) {
+        if (status === 'success') {
+            changeColors(data.data);
+        }
+    });
+
+    // when search colors input change, call Api to get new colors
+    $('#search-colors-input').on('keyup', function () {
+        const value = $(this).val();
+
+        if (getColorId) {
+            clearTimeout(getColorId);
+            getColorId = '';
+        }
+
+        getColorId = setTimeout(function () {
+            $('#color-select-container').html(`
+                <div class="spinner-border text-dark" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            `);
+
+            $.get(`${getColorsApiUrl}?limit=100&q=${value}`, function (data, status) {
+                if (status === 'success') {
+                    changeColors(data.data);
+                }
+            });
+
+            getColorId = '';
+        }, 1000);
+    });
+});
+
+function changeColors(colors) {
+    let html = '';
+
+    colors.forEach(color => {
+        html += `
+            <div class="color-select" style="background-color: ${color.hex_code};" role="button" 
+                data-colorid="${color.id}" data-colorname="${color.name}" data-colorcode="${color.hex_code}"></div>
+        `;
+    });
+
+    if (!html) html = "Không có kết quả";
+
+    $('#color-select-container').html(html);
+
     // Event click on color select button on modal
     $(".color-select").click(function () {
         $(".color-select.selected").removeClass("selected");
@@ -11,10 +60,12 @@ $(function () {
         const colorName = $(this).data("colorname");
         $(".modal-color-name").html(colorName);
     });
-});
+}
 
 // Event click on OK button of colors modal
 function onClickColorsModal() {
+    if ($(".color-select.selected").length === 0) return;
+
     // Get color infor from selected color button
     const selectingColor = $(".color-select.selected").data("colorid");
     const selectingColorCode = $(".color-select.selected").data("colorcode");

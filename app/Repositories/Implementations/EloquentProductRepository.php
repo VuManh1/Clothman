@@ -61,7 +61,7 @@ class EloquentProductRepository extends EloquentRepository implements ProductRep
 
         if (!$product) throw new ProductNotFoundException();
 
-        return $product->orders()->exists();
+        return $product->orders()->take(1)->exists();
     }
 
     public function getProductsOrderBy(string $column, string $order, int $count): Collection {

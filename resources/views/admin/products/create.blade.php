@@ -16,11 +16,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
-                        <div class="d-flex flex-wrap gap-2">
-                            @foreach ($colors as $color)
-                                <div class="color-select" style="background-color: {{ $color->hex_code }};" role="button" 
-                                    data-colorid="{{ $color->id }}" data-colorname="{{ $color->name }}" data-colorcode="{{ $color->hex_code }}"></div>
-                            @endforeach
+                        <div class="mb-3">
+                            <input id="search-colors-input" class="form-control me-2" type="search" placeholder="Search colors" aria-label="Search">
+                        </div>
+                        <div class="d-flex flex-wrap gap-2" id="color-select-container">
                         </div>
                     </div>
                 </div>
@@ -172,6 +171,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
     <script>
+        const getColorsApiUrl = '{{ route("api.colors") }}';
         let selectedColors = [];
 
         $().ready(function() {

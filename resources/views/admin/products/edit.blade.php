@@ -2,21 +2,22 @@
 @section('title', 'Edit Product ' . $product->name)
 
 @section('content')
-    {{-- Modal --}}
+    {{-- Select colors modal --}}
     <div class="modal fade" id="colorsModal" tabindex="-1" aria-labelledby="colorsModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="colorsModalLabel">Select a color: <span class="modal-color-name"></span></h1>
+                    <h1 class="modal-title fs-5" id="colorsModalLabel">Select a color: <span class="modal-color-name"></span>
+                    </h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
-                        <div class="d-flex flex-wrap gap-2">
-                            @foreach ($colors as $color)
-                                <div class="color-select" style="background-color: {{ $color->hex_code }};" role="button" 
-                                    data-colorid="{{ $color->id }}" data-colorname="{{ $color->name }}" data-colorcode="{{ $color->hex_code }}"></div>
-                            @endforeach
+                        <div class="mb-3">
+                            <input id="search-colors-input" class="form-control me-2" type="search"
+                                placeholder="Search colors" aria-label="Search">
+                        </div>
+                        <div class="d-flex flex-wrap gap-2" id="color-select-container">
                         </div>
                     </div>
                 </div>
@@ -27,6 +28,10 @@
             </div>
         </div>
     </div>
+
+    {{-- Delete variant modal --}}
+    <x-modals.delete-modal id="delete-variant-modal" title="Delete this variant?"
+        body="Are you sure you want to delete this variant?" action="" />
 
     <div class="container-fluid">
         <!-- ========== title-wrapper start ========== -->
@@ -165,45 +170,61 @@
 
                                     <hr>
                                     <h3 class="title mb-3">Variants</h3>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <td>
-                                                    <h6>Color</h6>
-                                                </td>
-                                                <td>
-                                                    <h6>Size</h6>
-                                                </td>
-                                                <td>
-                                                    <h6>Quantity</h6>
-                                                </td>
-                                            </tr>
-                                        <tbody>
-                                            @forelse ($product->productVariants as $variant)
-                                                <tr class="product-color-tr">
-                                                    <td width="25%" class="text-gray">{{ $variant->color->name }}</td>
-                                                    <td width="25%" class="text-gray">{{ $variant->size }}</td>
-                                                    <td width="10%">
-                                                        <div class="d-md-flex d-block">
-                                                            <input type="number" min="0"
-                                                                value="{{ $variant->quantity }}"
-                                                                class="form-control form-control-sm">
-                                                            <button type="button" data-variantid="{{ $variant->id }}"
-                                                                data-update-url="{{ route('admin.products.variants.update', [$variant->id]) }}"
-                                                                class="btn btn-primary btn-sm edit-variant-btn">Update</button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @empty
+
+                                    <div class="table-wrapper table-responsive">
+                                        <table class="table">
+                                            <thead>
                                                 <tr>
-                                                    <td colspan="3">
-                                                        <h6 class="mt-3 text-center">No variant found.</h6>
-                                                    </td>
+                                                    <th>
+                                                        <h6>Color</h6>
+                                                    </th>
+                                                    <th>
+                                                        <h6>Size</h6>
+                                                    </th>
+                                                    <th>
+                                                        <h6>Quantity</h6>
+                                                    </th>
+                                                    <th>
+                                                        <h6 class="text-center">Actions</h6>
+                                                    </th>
                                                 </tr>
-                                            @endforelse
-                                        </tbody>
-                                        </thead>
-                                    </table>
+                                            <tbody>
+                                                @forelse ($product->productVariants as $variant)
+                                                    <tr>
+                                                        <td class="text-gray min-width">{{ $variant->color->name }}</td>
+                                                        <td class="text-gray min-width">{{ $variant->size }}</td>
+                                                        <td>
+                                                            <div class="d-flex">
+                                                                <input type="number" min="0"
+                                                                    value="{{ $variant->quantity }}"
+                                                                    class="form-control form-control-sm"
+                                                                    style="max-width: 100px; min-width: 100px;">
+                                                                <button type="button"
+                                                                    data-variantid="{{ $variant->id }}"
+                                                                    data-update-url="{{ route('admin.products.variants.update', [$variant->id]) }}"
+                                                                    class="btn btn-primary btn-sm edit-variant-btn">Update</button>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center min-width">
+                                                            <button type="button" data-variantid="{{ $variant->id }}"
+                                                                data-bs-toggle="modal" data-bs-target="#delete-variant-modal"
+                                                                data-delete-url="{{ route('admin.products.variants.destroy', [$variant->id]) }}"
+                                                                class="delete-variant-btn btn btn-danger btn-sm">
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="3">
+                                                            <h6 class="mt-3 text-center">No variant found.</h6>
+                                                        </td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
+                                            </thead>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
 
@@ -224,9 +245,11 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
     <script>
+        const getColorsApiUrl = '{{ route('api.colors') }}';
+        const deleteVariantModal = new bootstrap.Modal('#delete-variant-modal', {
+            keyboard: false
+        });
         let selectedColors = {!! json_encode($product->productVariants->unique('color_id')->pluck('color_id')) !!};
-
-        console.log(selectedColors);
 
         $().ready(function() {
             $("#edit-product-form").validate({
@@ -261,12 +284,28 @@
                 },
             });
 
-            $('.edit-variant-btn').click(function () {
+            $('.edit-variant-btn').click(function() {
                 const url = $(this).data('update-url');
                 const quantity = $(this).closest('td').find('input').val();
 
                 updateVariantQuantity(url, quantity, $(this));
             });
+
+            $('#delete-variant-modal').on('show.bs.modal', function(e) {
+                // Button that triggered the modal
+                const button = e.relatedTarget;
+                const url = $(button).data('delete-url');
+                $('#delete-variant-modal form').attr('action', url);
+            });
+            
+            $('#delete-variant-modal form').on('submit', function (e) {
+                e.preventDefault();
+                const url = $(this).attr('action');
+                const elementToRemove = $(`.delete-variant-btn[data-delete-url='${url}']`).closest('tr');
+
+                deleteVariant(url, elementToRemove);
+                deleteVariantModal.hide();
+            })
         });
 
         function updateVariantQuantity(url, quantity, button) {
@@ -286,6 +325,23 @@
                 error(xhr, status, error) {
                     toastr.error(xhr.responseJSON.message);
                     button.attr("disabled", false);
+                }
+            });
+        }
+
+        function deleteVariant(url, elementToRemove) {
+            $.ajax({
+                url: url,
+                data: {
+                    _token: '{{ csrf_token() }}',
+                },
+                type: "DELETE",
+                success(result) {
+                    toastr.success("Đã xóa biến thể!");
+                    elementToRemove.remove();
+                },
+                error(xhr, status, error) {
+                    toastr.error(xhr.responseJSON.message);
                 }
             });
         }

@@ -13,10 +13,8 @@ use App\Repositories\Interfaces\ProductVariantRepository;
 use App\Services\Products\Interfaces\ManageProductsService;
 use App\Services\Upload\Interfaces\UploadService;
 use App\Utils\UploadFolder;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 
 class ManageProductsServiceImpl implements ManageProductsService
 {
@@ -181,39 +179,6 @@ class ManageProductsServiceImpl implements ManageProductsService
         }
 
         return $product;
-    }
-
-    public function updateProductVariant(string $id, int $quantity): bool {
-        if ($quantity < 0) throw ValidationException::withMessages(['Quantity must not less than 0']);
-
-        $productVariant = $this->productVariantRepository->findById($id, ['product']);
-
-        if (!$productVariant) throw new ModelNotFoundException();
-
-        // if quantity equal to variant quantity, simply return true
-        if ($productVariant->quantity === $quantity) return true;
-
-        $offsetPrice = $quantity - $productVariant->quantity;
-
-        DB::beginTransaction();
-        try {
-            $this->productVariantRepository->update($productVariant->id, [
-                'quantity' => $quantity
-            ]);
-
-            $quantityToUpdate = $productVariant->product->quantity + $offsetPrice;
-            $this->productRepository->update($productVariant->product_id, [
-                'quantity' => $quantityToUpdate
-            ]);
-
-            DB::commit();
-        } catch (\Throwable $th) {
-            DB::rollBack();
-
-            throw $th;
-        }        
-
-        return true;
     }
 
     public function deleteProduct($id): bool {

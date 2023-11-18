@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AccountApiController;
 use App\Http\Controllers\Api\CartApiController;
+use App\Http\Controllers\Api\ColorsApiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,3 +27,6 @@ Route::get("/cart/count", [CartApiController::class, 'count'])->name('api.cart.c
 Route::post("/cart", [CartApiController::class, 'addToCart'])->name('api.cart.store');
 Route::patch("/cart", [CartApiController::class, 'updateCart'])->name('api.cart.update');
 Route::delete("/cart", [CartApiController::class, 'removeCart'])->name('api.cart.destroy');
+
+// Colors API
+Route::get("/colors", [ColorsApiController::class, 'getColors'])->name('api.colors');

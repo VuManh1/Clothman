@@ -76,6 +76,7 @@ Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(fun
 
     Route::resource('products', ProductsController::class, ['as' => 'admin']);
     Route::patch("/products/variants/{id}", [ProductsController::class, 'updateVariant'])->name("admin.products.variants.update");
+    Route::delete("/products/variants/{id}", [ProductsController::class, 'destroyVariant'])->name("admin.products.variants.destroy");
 
     Route::resource('categories', CategoriesController::class, ['as' => 'admin']);
     
