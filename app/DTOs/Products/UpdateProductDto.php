@@ -12,8 +12,9 @@ class UpdateProductDto
         public string $categoryId,
         public ?string $description,
         public ?string $material,
-        public ?int $price,
-        public ?int $discount,
+        public int $price,
+        public int $sellingPrice,
+        public int $discount,
         public ?UploadedFile $thumbnail,
         public ?UploadedFile $sizeGuild,
         public ?array $variants,
@@ -27,7 +28,7 @@ class UpdateProductDto
         $variants = [];
         $colorImages = [];
 
-        foreach ($request->colors as $color) {
+        foreach ($request->colors ?? [] as $color) {
             if (isset($request->color_sizes) && isset($request->color_sizes[$color])) {
                 $sizes = $request->color_sizes[$color];
 
@@ -65,7 +66,8 @@ class UpdateProductDto
             $request->description,
             $request->material,
             $request->price,
-            $request->discount,
+            $request->selling_price ?? 0,
+            $request->discount ?? 0,
             $request->thumbnail,
             $request->size_guild,
             $variants,

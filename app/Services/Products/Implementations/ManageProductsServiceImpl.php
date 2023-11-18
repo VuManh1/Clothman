@@ -48,6 +48,7 @@ class ManageProductsServiceImpl implements ManageProductsService
                 'description' => $createProductDto->description,
                 'material' => $createProductDto->material,
                 'price' => $createProductDto->price,
+                'selling_price' => $createProductDto->sellingPrice,
                 'discount' => $createProductDto->discount,
                 'thumbnail_url' => $thumbnailUploadedResult['path'],
                 'size_guild_url' => isset($sizeGuildUploadedResult) ? $sizeGuildUploadedResult['path'] : null,
@@ -108,6 +109,7 @@ class ManageProductsServiceImpl implements ManageProductsService
             'description' => $updateProductDto->description,
             'material' => $updateProductDto->material,
             'price' => $updateProductDto->price,
+            'selling_price' => $updateProductDto->sellingPrice,
             'discount' => $updateProductDto->discount,
         ];
 

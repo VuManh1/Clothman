@@ -26,20 +26,13 @@ class Product extends Model
         'description',
         'material',
         'price',
+        'selling_price',
         'discount',
         'thumbnail_url',
         'size_guild_url',
         'quantity',
         'sold'
     ];
-
-    /**
-     * Get price after discount
-     */
-    public function getDiscountPrice() {
-        $decrease = ceil($this->price * ($this->discount / 100));
-        return $this->price - $decrease;
-    }
 
     /**
      * Get the formated string of price
@@ -49,10 +42,10 @@ class Product extends Model
     }
 
     /**
-     * Get the formated string of discount price
+     * Get the formated string of selling price
      */
-    public function getFormatedDiscountPrice() {
-        return number_format($this->getDiscountPrice(), 0, '.', '.');
+    public function getFormatedSellingPrice() {
+        return number_format($this->selling_price, 0, '.', '.');
     }
 
     /**

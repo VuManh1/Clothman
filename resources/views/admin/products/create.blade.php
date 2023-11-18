@@ -107,10 +107,14 @@
                                         <label for="material" class="form-label">Material</label>
                                         <input type="text" class="form-control" id="material" name="material" value="{{ old('material') }}">
                                     </div>
-                                    <div class="d-flex gap-2 mb-3">
+                                    <div class="d-flex flex-wrap gap-2 mb-3">
                                         <div class="form-group">
                                             <label for="price" class="form-label">Price</label>
                                             <input type="number" min="0" class="form-control" id="price" name="price" value="{{ old('price') }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="selling_price" class="form-label">Selling Price</label>
+                                            <input type="number" min="0" class="form-control" id="selling_price" name="selling_price" value="{{ old('selling_price') }}">
                                         </div>
                                         <div class="form-group">
                                             <label for="discount" class="form-label">Discount</label>
@@ -200,9 +204,13 @@
                         required: true,
                         digits: true
                     },
+                    'selling_price': {
+                        required: true,
+                        digits: true
+                    },
                     'discount': {
                         digits: true
-                    }
+                    },
                 },
                 messages: {
                     "name": {

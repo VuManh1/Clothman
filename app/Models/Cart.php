@@ -24,7 +24,7 @@ class Cart extends Model
     ];
 
     public function getPrice() {
-        return $this->product->getDiscountPrice() * $this->quantity;
+        return $this->product->selling_price * $this->quantity;
     }
 
     public function getFormatedPrice() {

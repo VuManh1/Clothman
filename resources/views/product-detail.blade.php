@@ -82,13 +82,12 @@
                 <div class="text-dark">Đã bán: {{ $product->sold }}</div>
 
                 <div class="d-flex gap-3 align-items-center flex-wrap">
+                    <div class="fs-5 fw-bold">{{ $product->getFormatedSellingPrice() }}đ</div>
+
                     @if ($product->discount > 0)
-                        <div class="fs-5 fw-bold">{{ $product->getFormatedDiscountPrice() }}đ</div>
-                        <div class="text-secondary text-decoration-line-through fs-5 fw-medium">{{ $product->getFormatedPrice() }}đ
-                        </div>
+                        <div class="text-secondary text-decoration-line-through fs-5 fw-medium">
+                            {{ $product->getFormatedPrice() }}đ</div>
                         <div class="text-danger fs-6 fw-medium">-{{ $product->discount }}%</div>
-                    @else
-                        <div class="fs-5 fw-bold">{{ $product->getFormatedPrice() }}đ</div>
                     @endif
                 </div>
 
@@ -107,7 +106,7 @@
                     </div>
                 </div>
 
-                @if ($product->productVariants->first()->size !== "NONE")
+                @if ($product->productVariants->first()->size !== 'NONE')
                     <div>
                         <div class="mb-2 d-flex justify-content-between align-items-center">
                             <div class="text-dark">
@@ -129,8 +128,8 @@
                 <div class="d-md-flex d-block justify-content-around align-items-center gap-3 my-5">
                     <div class="mb-md-0 mb-3 quantity-box">
                         <div class="quantity-decrease"><span>-</span></div>
-                        <input type="number" name="quantity" id="quantity" min="1" max="50"
-                            value="1" readonly />
+                        <input type="number" name="quantity" id="quantity" min="1" max="50" value="1"
+                            readonly />
                         <div class="quantity-increase"><span>+</span></div>
                     </div>
 
@@ -153,8 +152,7 @@
                             </a>
                         </h4>
 
-                        <div id="description" class="collapse multi-collapse" role="tabpanel"
-                            aria-labelledby="headingOne">
+                        <div id="description" class="collapse multi-collapse" role="tabpanel" aria-labelledby="headingOne">
                             {{ $product->description ?? 'NULL' }}
                         </div>
                     </div>
@@ -199,9 +197,9 @@
         var images = {!! json_encode($product->images) !!};
 
         var csrf = '{{ csrf_token() }}';
-        var domain = '{{ asset("") }}';
-        var getRelatedProductsUrl = '{{ route("products.related") }}?productId={{ $product->id }}';
-        var addToCartUrl = '{{ route("api.cart.store") }}';
+        var domain = '{{ asset('') }}';
+        var getRelatedProductsUrl = '{{ route('products.related') }}?productId={{ $product->id }}';
+        var addToCartUrl = '{{ route('api.cart.store') }}';
     </script>
     <script src="{{ asset('js/product-detail.js') }}"></script>
     <script src="{{ asset('js/add-to-cart.js') }}"></script>

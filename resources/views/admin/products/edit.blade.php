@@ -74,7 +74,7 @@
 
                     <div class="card-style mb-30">
                         <form action="{{ route('admin.products.update', [$product->id]) }}" method="POST"
-                            id="create-product-form" enctype="multipart/form-data">
+                            id="edit-product-form" enctype="multipart/form-data">
                             @method('PUT')
                             @csrf
 
@@ -96,7 +96,7 @@
                                 </li>
                             </ul>
                             <div class="tab-content py-5" id="myTabContent">
-                                <div class="tab-pane fade" id="main-infor-tab-pane" role="tabpanel"
+                                <div class="tab-pane fade show active" id="main-infor-tab-pane" role="tabpanel"
                                     aria-labelledby="main-infor-tab" tabindex="0">
                                     <div class="mb-3">
                                         <label for="name" class="form-label">Name</label>
@@ -113,11 +113,16 @@
                                         <input type="text" class="form-control" id="material" name="material"
                                             value="{{ $product->material }}">
                                     </div>
-                                    <div class="d-flex gap-2 mb-3">
+                                    <div class="d-flex flex-wrap gap-2 mb-3">
                                         <div class="form-group">
                                             <label for="price" class="form-label">Price</label>
                                             <input type="number" min="0" class="form-control" id="price"
                                                 name="price" value="{{ $product->price }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="selling_price" class="form-label">Selling Price</label>
+                                            <input type="number" min="0" class="form-control" id="selling_price"
+                                                name="selling_price" value="{{ $product->selling_price }}">
                                         </div>
                                         <div class="form-group">
                                             <label for="discount" class="form-label">Discount</label>
@@ -157,7 +162,7 @@
                                             style="max-width: 300px; height: 400px; object-fit: cover;">
                                     </div>
                                 </div>
-                                <div class="tab-pane fade show active" id="variants-tab-pane" role="tabpanel"
+                                <div class="tab-pane fade" id="variants-tab-pane" role="tabpanel"
                                     aria-labelledby="variants-tab" tabindex="0">
                                     <button type="button" class="btn btn-dark mb-3" data-bs-toggle="modal"
                                         data-bs-target="#colorsModal">
@@ -252,6 +257,11 @@
         let selectedColors = {!! json_encode($product->productVariants->unique('color_id')->pluck('color_id')) !!};
 
         $().ready(function() {
+            // jQuery.validator.setDefaults({
+            //     debug: true,
+            //     success: "valid"
+            // });
+
             $("#edit-product-form").validate({
                 rules: {
                     "name": {
@@ -267,6 +277,10 @@
                         extension: "png|jpg|jpeg|webp"
                     },
                     'price': {
+                        required: true,
+                        digits: true
+                    },
+                    'selling_price': {
                         required: true,
                         digits: true
                     },

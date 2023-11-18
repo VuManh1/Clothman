@@ -185,7 +185,7 @@ class CartServiceImpl implements CartService
                 }
 
                 $cart->quantity += $data->quantity;
-                $cart->price = $cart->product->getDiscountPrice() * $cart->quantity;
+                $cart->price = $cart->product->selling_price * $cart->quantity;
                 $cart->formated_price = number_format($cart->price, 0, '.', '.');
 
                 session(['carts' => $carts]);
@@ -206,7 +206,7 @@ class CartServiceImpl implements CartService
         $cartToAdd->product_variant_id = $productVariant->id;
         $cartToAdd->productVariant = $productVariant;
         $cartToAdd->quantity = $data->quantity;
-        $cartToAdd->price = $product->getDiscountPrice() * $data->quantity;
+        $cartToAdd->price = $product->selling_price * $data->quantity;
         $cartToAdd->formated_price = number_format($cartToAdd->price, 0, '.', '.');
 
         session()->push('carts', $cartToAdd);
@@ -218,7 +218,7 @@ class CartServiceImpl implements CartService
         foreach ($carts as $cart) {
             if ($cart->product_id === $productId && $cart->product_variant_id === $variantId) {
                 $cart->quantity = $quantity;
-                $cart->price = $cart->product->getDiscountPrice() * $quantity;
+                $cart->price = $cart->product->selling_price * $quantity;
                 $cart->formated_price = number_format($cart->price, 0, '.', '.');
 
                 break;
