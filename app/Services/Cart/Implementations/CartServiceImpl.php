@@ -37,7 +37,7 @@ class CartServiceImpl implements CartService
                 'formated_total' => number_format($total, 0, '.', '.'),
             ];
         } else {
-            $carts = session('carts', []);
+            $carts = $this->getSessionCarts();
             $total = 0;
 
             foreach ($carts as $cart) {
@@ -57,7 +57,7 @@ class CartServiceImpl implements CartService
             return $this->cartRepository->getCountByUserId(Auth::id());
         }
 
-        $carts = session('carts');
+        $carts = session('carts', []);
 
         return count($carts);
     }
@@ -107,7 +107,7 @@ class CartServiceImpl implements CartService
             $carts = session('carts', []);
         
             foreach ($carts as $key=>$cart) {
-                if ($cart->product_id === $data->productId && $cart->product_variant_id === $data->variantId) {
+                if ($cart['product_id'] === $data->productId && $cart['product_variant_id'] === $data->variantId) {
                     array_splice($carts, $key, 1);
 
                     session(['carts' => $carts]);
@@ -178,15 +178,13 @@ class CartServiceImpl implements CartService
         $carts = session('carts', []);
         
         // check if session already have cart with same product
-        foreach ($carts as $cart) {
-            if ($cart->product_id === $data->productId && $cart->product_variant_id === $productVariant->id) {
-                if ($productVariant->quantity < $data->quantity + $cart->quantity) {
+        foreach ($carts as $key=>$cart) {
+            if ($cart['product_id'] === $data->productId && $cart['product_variant_id'] === $productVariant->id) {
+                if ($productVariant->quantity < $data->quantity + $cart['quantity']) {
                     throw new ProductOutOfStockException("Sản phẩm này đã hết hàng, vui lòng giảm số lượng hoặc chọn một biến thể khác.");
                 }
 
-                $cart->quantity += $data->quantity;
-                $cart->price = $cart->product->selling_price * $cart->quantity;
-                $cart->formated_price = number_format($cart->price, 0, '.', '.');
+                $carts[$key]['quantity'] += $data->quantity;
 
                 session(['carts' => $carts]);
                 return;
@@ -197,34 +195,51 @@ class CartServiceImpl implements CartService
             throw new ProductOutOfStockException("Sản phẩm này đã hết hàng, vui lòng giảm số lượng hoặc chọn một biến thể khác.");
         }
 
-        $productVariant->load('color');
-        $product = $this->productRepository->findById($data->productId);
-
-        $cartToAdd = new SessionCartDto();
-        $cartToAdd->product_id = $product->id;
-        $cartToAdd->product = $product;
-        $cartToAdd->product_variant_id = $productVariant->id;
-        $cartToAdd->productVariant = $productVariant;
-        $cartToAdd->quantity = $data->quantity;
-        $cartToAdd->price = $product->selling_price * $data->quantity;
-        $cartToAdd->formated_price = number_format($cartToAdd->price, 0, '.', '.');
-
-        session()->push('carts', $cartToAdd);
+        session()->push('carts', [
+            'product_id' => $productVariant->product_id,
+            'product_variant_id' => $productVariant->id,
+            'quantity' => $data->quantity,
+        ]);
     }
 
     private function updateCartInSession(string $productId, string $variantId, int $quantity) {
         $carts = session('carts', []);
 
-        foreach ($carts as $cart) {
-            if ($cart->product_id === $productId && $cart->product_variant_id === $variantId) {
-                $cart->quantity = $quantity;
-                $cart->price = $cart->product->selling_price * $quantity;
-                $cart->formated_price = number_format($cart->price, 0, '.', '.');
+        foreach ($carts as $key=>$cart) {
+            if ($cart['product_id'] === $productId && $cart['product_variant_id'] === $variantId) {
+                $carts[$key]['quantity'] = $quantity;
 
                 break;
             }
         }
 
         session(['carts' => $carts]);
+    }
+
+    private function getSessionCarts() {
+        $carts = session('carts', []);
+        $carts = array_reverse($carts);
+
+        $sessionCarts = collect();
+
+        foreach ($carts as $cart) {
+            $sessionCart = new SessionCartDto();
+            $sessionCart->product_id = $cart['product_id'];
+            $sessionCart->product_variant_id = $cart['product_variant_id'];
+            $sessionCart->quantity = $cart['quantity'];
+
+            $productVariant = $this->productVariantRepository->findById($cart['product_variant_id'], ['product', 'color']);
+
+            if ($productVariant) {
+                $sessionCart->product = $productVariant->product;
+                $sessionCart->productVariant = $productVariant;
+                $sessionCart->price = $sessionCart->product->selling_price * $sessionCart->quantity;
+                $sessionCart->formated_price = number_format($sessionCart->price, 0, '.', '.');
+            }
+
+            $sessionCarts->push($sessionCart);
+        }
+
+        return $sessionCarts;
     }
 }

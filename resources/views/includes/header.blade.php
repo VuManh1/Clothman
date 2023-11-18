@@ -42,7 +42,7 @@
                             placeholder="Tìm kiếm sản phẩm...">
                     </div>
                 </form>
-                <div class="d-flex gap-2 ms-md-2 my-4 my-md-0">
+                <div class="d-flex gap-2 ms-md-2 my-4 my-lg-0">
                     @guest
                         <a href="{{ route('login') }}" class="mx-2">
                             <img src="https://www.coolmate.me/images/header/icon-account-white-new.svg" alt="account">
