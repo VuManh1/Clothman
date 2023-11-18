@@ -1,4 +1,4 @@
-<form class="filter-form mb-2 mx-auto" method="GET" action="{{ $action }}">
+<form class="filter-form mb-2" method="GET" action="{{ $action }}">
     <select name="category" class="p-1 ml-1 select">
         <option disabled selected value>Category</option>
         @foreach ($categories as $category)

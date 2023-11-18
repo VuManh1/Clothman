@@ -42,15 +42,19 @@
                 <div class="row">
                     <div class="col-lg-12">
 
-
                         <div class="card-style mb-30">
-                            <div class="btn-toolbar justify-content-between">
+                            <div class="btn-toolbar justify-content-between gap-3">
 
                                 <form role="search" method="GET">
-                                    <input class="btn btn-outline-secondary" name="q" type="search"
+                                    <input class="form-control me-2" name="q" type="search"
                                         placeholder="Search" aria-label="Search" required>
                                 </form>
 
+                                <a href="{{ route('admin.colors.create') }}" class="btn btn-dark mb-3">Create new color</a>
+                            </div>
+
+                            <div class="btn-toolbar">
+                                {{-- Filter --}}
                                 <form class="filter-form mb-2 " method="GET">
                                     <select name="sort" class="p-1 mx-1 select">
                                         <option value="">Sort By</option>
@@ -60,14 +64,7 @@
 
                                     <button type="submit" class="btn btn-dark m-1">Filter</button>
                                 </form>
-
-                                <a href="{{ route('admin.colors.create') }}" class="btn btn-dark mb-3">Create new color</a>
                             </div>
-
-                            {{-- <div class="btn-toolbar justify-content-between">
-                                <div class="mx-auto">
-                                {{-- Filter --}}
-
 
                             <div class="table-wrapper table-responsive">
                                 <table class="table">

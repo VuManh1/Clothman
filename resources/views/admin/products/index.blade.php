@@ -41,19 +41,18 @@
 
                         <div class="card-style mb-30">
 
-                            <div class="btn-toolbar justify-content-between">
+                            <div class="btn-toolbar justify-content-between gap-3">
 
                                 <form role="search" method="GET">
-                                    <input class="btn btn-outline-secondary" name="q" type="search"
+                                    <input class="form-control me-2" name="q" type="search"
                                         placeholder="Search" aria-label="Search" required>
                                 </form>
 
                                 <a href="{{ route('admin.products.create') }}" class="btn btn-dark mb-3">Create new product</a>
                             </div>
 
-                            <div class="btn-toolbar justify-content-between">
-                                <x-admin.filters.products-filter action="{{ route('admin.products.index') }}"
-                                    class="mx-auto" />
+                            <div class="btn-toolbar">
+                                <x-admin.filters.products-filter action="{{ route('admin.products.index') }}" />
                             </div>
 
                             <div class="table-wrapper table-responsive">
