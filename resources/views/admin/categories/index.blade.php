@@ -11,9 +11,10 @@
                         <div class="title">
                             <h2>Categories</h2>
                         </div>
-                        <form role="search" method="GET">
-                            <input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search" required>
-                        </form>
+                        {{-- <form role="search" method="GET">
+                            <input class="form-control me-2" name="q" type="search" placeholder="Search"
+                                aria-label="Search" required>
+                        </form> --}}
                     </div>
                     <!-- end col -->
                     <div class="col-md-6">
@@ -40,21 +41,32 @@
             <div class="tables-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
-                        {{-- Filter --}}
-                        <form class="filter-form mb-2" method="GET">
-                            <select name="sort" class="p-1 mx-1 select">
-                                <option value="">Sort By</option>
-                                <option value="name.asc">Name</option>
-                                <option value="created_at.desc">Created At</option>
-                            </select>
-                            
-                            <button type="submit" class="btn btn-success m-1">Filter</button>
-                        </form>
-                        
+
+
                         <div class="card-style mb-30">
-                            <div>
-                                <a href="{{ route('admin.categories.create') }}" class="btn btn-dark mb-3">Create new category</a>
+
+                            <div class="btn-toolbar justify-content-between">
+
+                                <form role="search" method="GET">
+                                    <input class="btn btn-outline-secondary" name="q" type="search"
+                                        placeholder="Search" aria-label="Search" required>
+                                </form>
+
+                                {{-- Filter --}}
+                                <form class="filter-form mb-2" method="GET">
+                                    <select name="sort" class="p-1 mx-1 select">
+                                        <option value="">Sort By</option>
+                                        <option value="name.asc">Name</option>
+                                        <option value="created_at.desc">Created At</option>
+                                    </select>
+
+                                    <button type="submit" class="btn btn-dark m-1">Filter</button>
+                                </form>
+
+                                <a href="{{ route('admin.categories.create') }}" class="btn btn-dark mb-3">Create new
+                                    category</a>
                             </div>
+
 
                             <div class="table-wrapper table-responsive">
                                 <table class="table">
@@ -90,12 +102,14 @@
                                                         <p>{{ $category->name }}</p>
                                                     </td>
                                                     <td class="min-width">
-                                                        <p>{{ $category->parent ? $category->parent->name : "NULL" }}</p>
+                                                        <p>{{ $category->parent ? $category->parent->name : 'NULL' }}</p>
                                                     </td>
                                                     <td>
                                                         <div class="action gap-2">
-                                                            <a href="{{ route("admin.categories.show", [$category->id]) }}" class="btn btn-success">Detail</a>
-                                                            <a href="{{ route("admin.categories.edit", [$category->id]) }}" class="btn btn-success">Edit</a>
+                                                            <a href="{{ route('admin.categories.show', [$category->id]) }}"
+                                                                class="btn btn-success">Detail</a>
+                                                            <a href="{{ route('admin.categories.edit', [$category->id]) }}"
+                                                                class="btn btn-success">Edit</a>
                                                         </div>
                                                     </td>
                                                 </tr>
