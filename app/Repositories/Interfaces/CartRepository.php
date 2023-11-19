@@ -24,4 +24,9 @@ interface CartRepository extends Repository
      * Get one cart by it's detail
      */
     public function findByDetail(string $productId, string $productVariantId, string $userId): ?Cart;
+
+    /**
+     * Delete all carts of given User ID
+     */
+    public function deleteByUserId(string $userId): bool;
 }

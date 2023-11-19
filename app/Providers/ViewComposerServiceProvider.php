@@ -33,6 +33,7 @@ class ViewComposerServiceProvider extends ServiceProvider
             'cart',
             'account.infor',
             'account.password',
+            'checkout.success',
         ], CategoryComposer::class);
     }
 }

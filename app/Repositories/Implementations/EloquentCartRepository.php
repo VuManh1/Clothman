@@ -29,4 +29,8 @@ class EloquentCartRepository extends EloquentRepository implements CartRepositor
                ->where('user_id', $userId)
                ->first();
     }
+
+    public function deleteByUserId(string $userId): bool {
+        return $this->model->where('user_id', $userId)->delete();
+    }
 }

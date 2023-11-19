@@ -41,6 +41,7 @@ Route::get("/search", [\App\Http\Controllers\Customer\ProductsController::class,
 Route::get("/cart", [\App\Http\Controllers\Customer\CartController::class, 'cart'])->name('cart');
 
 Route::post("/checkout", [CheckoutController::class, 'checkout'])->name('checkout');
+Route::get("/checkout/success", [CheckoutController::class, 'success'])->name('checkout.success');
 
 
 /*

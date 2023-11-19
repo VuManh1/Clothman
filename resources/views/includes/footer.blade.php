@@ -2,7 +2,7 @@
 <footer class="bg-black p-5">
     <div class="row row-cols-lg-4 row-cols-md-3 row-cols-1">
         <div class="text-secondary">
-            <div class="text-light fw-bold mb-3">CÔNG TY CỔ PHẦN CLOTHING</div>
+            <div class="text-light fw-bold mb-3">CÔNG TY CỔ PHẦN CLOTHMAN</div>
             <p>
                 Số ĐKKD: 0107574310, ngày cấp: 23/09/2016,
                 <br>

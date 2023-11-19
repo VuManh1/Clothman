@@ -3,7 +3,6 @@
 namespace App\Repositories\Implementations;
 
 use App\DTOs\Banners\BannerParamsDto;
-use App\Exceptions\Banners\BannerNotFoundException;
 use App\Models\Banner;
 use App\Repositories\Interfaces\BannerRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
