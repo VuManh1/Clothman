@@ -23,33 +23,27 @@ class CartServiceImpl implements CartService
     ) {}
 
     public function getCartData(): array {
+        $total = 0;
+
         if (Auth::check()) {
             $carts = $this->cartRepository->getAllByUserId(Auth::id());
-            $total = 0;
 
             foreach ($carts as $cart) {
                 $total += $cart->getPrice();
             }
-
-            return [
-                'items' => $carts,
-                'total' => $total,
-                'formated_total' => number_format($total, 0, '.', '.'),
-            ];
         } else {
             $carts = $this->getSessionCarts();
-            $total = 0;
 
             foreach ($carts as $cart) {
                 $total += $cart->price;
             }
-
-            return [
-                'items' => $carts,
-                'total' => $total,
-                'formated_total' => number_format($total, 0, '.', '.'),
-            ];
         }
+
+        return [
+            'items' => $carts,
+            'total' => $total,
+            'formated_total' => number_format($total, 0, '.', '.'),
+        ];
     }
 
     public function getCartCount(): int {

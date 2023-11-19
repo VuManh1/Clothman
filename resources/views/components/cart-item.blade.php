@@ -10,8 +10,7 @@
             <div class="quantity-box loadable-btn">
                 <div class="quantity-decrease"><span>-</span></div>
                 <div class="loadable-content">
-                    <input type="number" name="quantity" min="1" max="50" value="{{ $cart->quantity }}"
-                        readonly />
+                    <input type="number" min="1" max="50" value="{{ $cart->quantity }}" readonly />
                 </div>
                 <div class="spinner spinner-border text-dark" role="status">
                     <span class="visually-hidden">Loading...</span>

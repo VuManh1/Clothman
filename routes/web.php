@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Customer\AccountController;
+use App\Http\Controllers\Customer\CheckoutController;
 use App\Http\Controllers\Customer\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,8 @@ Route::get("/category/{slug}", [\App\Http\Controllers\Customer\CategoriesControl
 Route::get("/search", [\App\Http\Controllers\Customer\ProductsController::class, 'search'])->name('search');
 
 Route::get("/cart", [\App\Http\Controllers\Customer\CartController::class, 'cart'])->name('cart');
+
+Route::post("/checkout", [CheckoutController::class, 'checkout'])->name('checkout');
 
 
 /*
