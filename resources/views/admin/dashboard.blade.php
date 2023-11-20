@@ -9,7 +9,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="title">
-                            <h2>eCommerce Dashboard</h2>
+                            <h2>Clothman Dashboard</h2>
                         </div>
                     </div>
                     <!-- end col -->
@@ -17,11 +17,8 @@
                         <div class="breadcrumb-wrapper">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item">
-                                        <a href="#0">Dashboard</a>
-                                    </li>
                                     <li class="breadcrumb-item active" aria-current="page">
-                                        eCommerce
+                                        Dashboard
                                     </li>
                                 </ol>
                             </nav>

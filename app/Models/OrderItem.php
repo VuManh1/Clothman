@@ -25,10 +25,33 @@ class OrderItem extends Model
     ];
 
     /**
+     * Get formated string of the price field
+     */
+    public function getFormatedPrice() {
+        return number_format($this->price, 0, '.', '.');
+    }
+
+    /**
      * Get the order of the order item.
      */
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
+    }
+
+    /**
+     * Get the product of the order item.
+     */
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    /**
+     * Get the product variant of the order item.
+     */
+    public function productVariant(): BelongsTo
+    {
+        return $this->belongsTo(ProductVariant::class);
     }
 }

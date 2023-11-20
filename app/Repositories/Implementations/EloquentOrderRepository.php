@@ -10,4 +10,12 @@ class EloquentOrderRepository extends EloquentRepository implements OrderReposit
     public function __construct() {
         parent::__construct(Order::class);
     }
+
+    public function findByCode(string $code, array $includes = null): ?Order {
+        if ($includes) {
+            return $this->model->with($includes)->where('code', $code)->first();
+        }
+
+        return $this->model->where('code', $code)->first();
+    }
 }

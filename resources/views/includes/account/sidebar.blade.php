@@ -17,7 +17,7 @@
             <i class="bi bi-arrow-right"></i>
         </div>
     </a>
-    <a href="#" class="account-sidebar-item">
+    <a href="{{ route('account.orders') }}" class="account-sidebar-item {{ $page === "orders" ? "active" : "" }}">
         <div class="account-sidebar-item-icon">
             <i class="bi bi-bag-check-fill"></i>
         </div>

@@ -90,6 +90,11 @@
                                         aria-controls="images-tab-pane" aria-selected="false">Images</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="colors-tab" data-bs-toggle="tab"
+                                        data-bs-target="#colors-tab-pane" type="button" role="tab"
+                                        aria-controls="colors-tab-pane" aria-selected="false">Colors</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="variants-tab" data-bs-toggle="tab"
                                         data-bs-target="#variants-tab-pane" type="button" role="tab"
                                         aria-controls="variants-tab-pane" aria-selected="false">Variants</button>
@@ -162,8 +167,8 @@
                                             style="max-width: 300px; height: 400px; object-fit: cover;">
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="variants-tab-pane" role="tabpanel"
-                                    aria-labelledby="variants-tab" tabindex="0">
+                                <div class="tab-pane fade" id="colors-tab-pane" role="tabpanel"
+                                    aria-labelledby="colors-tab" tabindex="0">
                                     <button type="button" class="btn btn-dark mb-3" data-bs-toggle="modal"
                                         data-bs-target="#colorsModal">
                                         Add a product color variant
@@ -172,8 +177,9 @@
                                     <div id="colors-container" class="d-flex flex-column gap-3">
 
                                     </div>
-
-                                    <hr>
+                                </div>
+                                <div class="tab-pane fade" id="variants-tab-pane" role="tabpanel"
+                                    aria-labelledby="variants-tab" tabindex="0">
                                     <h3 class="title mb-3">Variants</h3>
 
                                     <div class="table-wrapper table-responsive">

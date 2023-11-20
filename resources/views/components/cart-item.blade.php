@@ -1,9 +1,9 @@
 <div class="cart-item" data-variantid="{{ $cart->product_variant_id }}" data-productid="{{ $cart->product_id }}">
-    <img src="{{ asset($cart->product->thumbnail_url) }}"
-        alt="{{ $cart->product->name }}">
+    <img src="{{ asset($cart->product->thumbnail_url) }}" alt="{{ $cart->product->name }}">
 
     <div class="cart-item-info">
-        <a href="{{ route('product.detail', [$cart->product->slug]) }}" class="cart-item-title">{{ $cart->product->name }}</a>
+        <a href="{{ route('product.detail', [$cart->product->slug]) }}"
+            class="cart-item-title">{{ $cart->product->name }}</a>
         <div>{{ $cart->productVariant->color->name }} / {{ $cart->productVariant->size }}</div>
 
         <div class="cart-item-actions">

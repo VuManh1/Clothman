@@ -16,6 +16,8 @@ use App\Services\Categories\Interfaces\ManageCategoriesService;
 use App\Services\Colors\Implementations\ManageColorsServiceImpl;
 use App\Services\Colors\Interfaces\GetColorsService;
 use App\Services\Colors\Interfaces\ManageColorsService;
+use App\Services\Orders\Implementations\OrdersServiceImpl;
+use App\Services\Orders\Interfaces\OrdersService;
 use App\Services\Products\Implementations\GetProductsServiceImpl;
 use App\Services\Products\Implementations\ManageProductsServiceImpl;
 use App\Services\Products\Implementations\ManageProductVariantsServiceImpl;
@@ -57,6 +59,9 @@ class AppServiceProvider extends ServiceProvider
         //Banner services
         $this->app->bind(GetBannersService::class, GetBannersServiceImpl::class);
         $this->app->bind(ManageBannersService::class, ManageBannersServiceImpl::class);
+
+        // Order services
+        $this->app->bind(OrdersService::class, OrdersServiceImpl::class);
 
         // Cart services
         $this->app->bind(CartService::class, CartServiceImpl::class);

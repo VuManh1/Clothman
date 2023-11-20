@@ -14,7 +14,7 @@ class AccountController extends Controller
     }
 
     /**
-     * Display password page
+     * Display account password page
      */
     public function password() {
         return view("account.password", ["page" => "password"]);

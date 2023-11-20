@@ -143,13 +143,13 @@ main {
     display: inline-block;
 }
 
-/* ======= Account Order History items ========= */
-.account-order-item {
+/* ======= Account Orders ========= */
+.account-order {
     border-radius: 10px;
     overflow: hidden;
 }
 
-.account-order-item .account-order-item-header {
+.account-order .account-order-header {
     background-color: #2f5acf;
     padding: 6px 12px;
     display: flex;
@@ -158,21 +158,55 @@ main {
     color: white;
 }
 
-.account-order-item .account-order-item-code {
+.account-order .account-order-code {
     font-weight: 600;
     color: white;
     text-decoration: none;
     font-size: 20px;
 }
 
-.account-order-item .account-order-item-code:hover {
+.account-order .account-order-code:hover {
     text-decoration: underline;
 }
 
-.account-order-item .account-order-item-body {
+.account-order .account-order-body {
     background-color: #dbdbdb;
     padding: 10px 12px;
     color: black;
+}
+
+/* ======= Order Items ========= */
+.order-item {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    position: relative;
+}
+
+.order-item img {
+    width: 126px;
+    height: 190px;
+    display: block;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.order-item .order-item-info {
+    flex-grow: 1;
+}
+
+.order-item .order-item-title {
+    text-decoration: none;
+    font-weight: 700;
+    color: black;
+}
+
+.order-item .order-item-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 /* ======= Quantity Input ========= */

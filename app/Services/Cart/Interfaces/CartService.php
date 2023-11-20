@@ -5,8 +5,6 @@ namespace App\Services\Cart\Interfaces;
 use App\DTOs\Cart\AddToCartDto;
 use App\DTOs\Cart\RemoveCartDto;
 use App\DTOs\Cart\UpdateCartDto;
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 interface CartService
 {
