@@ -58,4 +58,20 @@ interface Repository
      * @throws \RecordsNotFoundException
      */
     public function delete(string $id): bool;
+
+    /**
+     * Increment column's value of an entity
+     * 
+     * @param string $id (ID of entity to increase)
+     * @param array $columns
+     */
+    public function increment(string $id, array $columns): int;
+
+    /**
+     * Decrement column's value of an entity
+     * 
+     * @param string $id (ID of entity to decrease)
+     * @param array $columns
+     */
+    public function decrement(string $id, array $columns): int;
 }

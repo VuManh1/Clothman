@@ -201,6 +201,11 @@ return [
         App\Providers\RepositoryServiceProvider::class,
 
         /*
+         * BUS Service Providers
+         */
+        App\Providers\BusServiceProvider::class,
+
+        /*
          * View Composer Service Providers
          */
         App\Providers\ViewComposerServiceProvider::class,

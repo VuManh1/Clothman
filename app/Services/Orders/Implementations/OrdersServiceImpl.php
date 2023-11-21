@@ -72,7 +72,11 @@ class OrdersServiceImpl implements OrdersService
                     'price' => $item['price'],
                 ]);
 
-                $this->productVariantRepository->decrementQuantity($item['product_variant_id'], $item['quantity']);
+                // Decrement quantity of product and variant
+                $this->productVariantRepository->decrement($item['product_variant_id'], ['quantity' => $item['quantity']]);
+                $this->productRepository->decrement($item['product_id'], ['quantity' => $item['quantity']]);
+                
+                $this->productRepository->increment($item['product_id'], ['sold' => $item['quantity']]);
             }
 
             DB::commit();
