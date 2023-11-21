@@ -4,6 +4,7 @@ namespace App\Repositories\Implementations;
 
 use App\Models\Order;
 use App\Repositories\Interfaces\OrderRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class EloquentOrderRepository extends EloquentRepository implements OrderRepository
 {
@@ -17,5 +18,15 @@ class EloquentOrderRepository extends EloquentRepository implements OrderReposit
         }
 
         return $this->model->where('code', $code)->first();
+    }
+
+    public function findByUserId(string $userId, int $page, int $limit, array $includes = null): LengthAwarePaginator {
+        $query = $this->model->query();
+
+        if ($includes) $query->with($includes);
+
+        $query->where('user_id', $userId);
+
+        return $this->toPaginator($query, $page, $limit);
     }
 }

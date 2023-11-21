@@ -20,4 +20,9 @@ interface ProductVariantRepository extends Repository
      * @param string $id (id of product variant to check)
      */
     public function checkHaveOrder(string $id): bool;
+
+    /**
+     * Decrement product variant's quantity
+     */
+    public function decrementQuantity(string $id, int $count): bool;
 }

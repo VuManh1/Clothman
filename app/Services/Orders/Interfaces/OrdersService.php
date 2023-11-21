@@ -2,18 +2,24 @@
 
 namespace App\Services\Orders\Interfaces;
 
+use App\DTOs\Orders\CreateOrderDto;
 use App\Models\Order;
-use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface OrdersService
 {
     /**
      * Get orders for an user
      */
-    public function getOrdersForUser(string $userId, $page, $limit): Collection;
+    public function getOrdersForUser(string $userId, $page, $limit): LengthAwarePaginator;
 
     /**
      * Get one order by code
      */
     public function getOrderByCode(string $code): Order;
+
+    /**
+     * Create an order
+     */
+    public function createOrder(CreateOrderDto $createOrderDto): Order;
 }

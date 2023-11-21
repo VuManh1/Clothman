@@ -27,4 +27,10 @@ class EloquentProductVariantRepository extends EloquentRepository implements Pro
 
         return $productVariant->orders()->take(1)->exists();
     }
+
+    public function decrementQuantity(string $id, int $count): bool {
+        $this->model->where('id', $id)->decrement('quantity', $count);
+
+        return true;
+    }
 }
