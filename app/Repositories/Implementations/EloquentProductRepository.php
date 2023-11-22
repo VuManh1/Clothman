@@ -64,10 +64,6 @@ class EloquentProductRepository extends EloquentRepository implements ProductRep
         return $product->orders()->take(1)->exists();
     }
 
-    public function getProductsOrderBy(string $column, string $order, int $count): Collection {
-        return $this->model->orderBy($column, $order)->take($count)->get();
-    }
-
     public function searchProducts(SearchProductsDto $params): LengthAwarePaginator {
         $query = $this->model->query();
 

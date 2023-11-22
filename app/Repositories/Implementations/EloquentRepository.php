@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 abstract class EloquentRepository implements Repository
 {
@@ -27,7 +28,7 @@ abstract class EloquentRepository implements Repository
         return new LengthAwarePaginator($items, $count, $limit, $page); 
     }
 
-    public function getAll() {
+    public function getAll(): Collection {
         return $this->model->all();
     }
 
@@ -93,5 +94,9 @@ abstract class EloquentRepository implements Repository
     public function decrement(string $id, array $columns): bool {
         $this->model->where('id', $id)->decrementEach($columns);
         return true;
+    }
+
+    public function orderByAndTake(string $column, string $order, int $take): Collection {
+        return $this->model->orderBy($column, $order)->take($take)->get();
     }
 }

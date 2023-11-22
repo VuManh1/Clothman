@@ -36,15 +36,6 @@ interface ProductRepository extends Repository
     public function checkHaveOrder(string $id): bool;
 
     /**
-     * Get products order by a column
-     * 
-     * @param string $column  (column to order)
-     * @param string $order  (asc, desc)
-     * @param int $count  (number of products)
-     */
-    public function getProductsOrderBy(string $column, string $order, int $count): Collection;
-
-    /**
      * Search for products
      */
     public function searchProducts(SearchProductsDto $params): LengthAwarePaginator;

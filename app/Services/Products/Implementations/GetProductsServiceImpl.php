@@ -55,11 +55,11 @@ class GetProductsServiceImpl implements GetProductsService
     }
 
     public function getLatestProducts(int $count): Collection {
-        return $this->productRepository->getProductsOrderBy('updated_at', 'desc', $count);
+        return $this->productRepository->orderByAndTake('updated_at', 'desc', $count);
     }
 
     public function getTopSoldProducts(int $count): Collection {
-        return $this->productRepository->getProductsOrderBy('sold', 'desc', $count);
+        return $this->productRepository->orderByAndTake('sold', 'desc', $count);
     }
 
     public function searchProducts(SearchProductsDto $params): LengthAwarePaginator {

@@ -3,6 +3,7 @@
 namespace App\Repositories\Interfaces;
 
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 /**
  * Base repository interface for all Entities
@@ -11,10 +12,8 @@ interface Repository
 {
     /**
      * Get all entities from database
-     * 
-     * @return mixed
      */
-    public function getAll();
+    public function getAll(): Collection;
 
     /**
      * Get one entity by ID
@@ -74,4 +73,13 @@ interface Repository
      * @param array $columns
      */
     public function decrement(string $id, array $columns): bool;
+
+    /**
+     * Order entities by a column and take amount of it
+     * 
+     * @param string $column
+     * @param string $order (desc, asc)
+     * @param int $take
+     */
+    public function orderByAndTake(string $column, string $order, int $take): Collection;
 }
