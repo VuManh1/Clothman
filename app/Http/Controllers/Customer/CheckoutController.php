@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Customer;
 
+use App\DTOs\CheckoutDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckoutRequest;
+use App\Services\Checkout\Interfaces\CheckoutService;
 use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
-    public function __construct() {
+    public function __construct(
+        private CheckoutService $checkoutService
+    ) {
         
     }
 
@@ -18,7 +22,10 @@ class CheckoutController extends Controller
     public function checkout(CheckoutRequest $request) {
         $request->validated();
 
-        return redirect()->back();
+        $data = CheckoutDto::fromRequest($request);
+        $result = $this->checkoutService->processCheckout($data);
+
+        return redirect()->route('checkout.success')->with('success', 'Thanh toán và đặt hàng thành công!');
     }
 
     /**

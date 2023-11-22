@@ -85,11 +85,13 @@ abstract class EloquentRepository implements Repository
         return true;
     }
 
-    public function increment(string $id, array $columns): int {
-        return $this->model->where('id', $id)->incrementEach($columns);
+    public function increment(string $id, array $columns): bool {
+        $this->model->where('id', $id)->incrementEach($columns);
+        return true;
     }
 
-    public function decrement(string $id, array $columns): int {
-        return $this->model->where('id', $id)->decrementEach($columns);
+    public function decrement(string $id, array $columns): bool {
+        $this->model->where('id', $id)->decrementEach($columns);
+        return true;
     }
 }

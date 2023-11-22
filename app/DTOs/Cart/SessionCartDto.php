@@ -15,6 +15,10 @@ class SessionCartDto
     public int $price;
     public string $formated_price;
 
+    public function getPrice() {
+        return $this->price;
+    }
+
     public function getFormatedPrice() {
         return number_format($this->price, 0, '.', '.');
     }

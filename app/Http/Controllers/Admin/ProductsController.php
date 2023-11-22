@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\CreateProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Services\Categories\Interfaces\GetCategoriesService;
-use App\Services\Colors\Interfaces\GetColorsService;
 use Illuminate\Http\Request;
 use App\Services\Products\Interfaces\GetProductsService;
 use App\Services\Products\Interfaces\ManageProductsService;
@@ -19,7 +18,6 @@ class ProductsController extends Controller
 {
     public function __construct(
         private GetCategoriesService $getCategoriesService,
-        private GetColorsService $getColorsService,
         private GetProductsService $getProductsService,
         private ManageProductsService $manageProductsService,
         private ManageProductVariantsService $manageProductVariantsService,
@@ -50,9 +48,8 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        // get categories and colors for product to select
+        // get categories for product to select
         $categories = $this->getCategoriesService->getAllCategories();
-        // $colors = $this->getColorsService->getAllColors();
 
         return view("admin.products.create", compact('categories'));
     }
@@ -93,11 +90,10 @@ class ProductsController extends Controller
     {
         $product = $this->getProductsService->getProductById($id, ['images', 'productVariants.color', 'category']);
         
-        // get categories and colors for product to select
+        // get categories for product to select
         $categories = $this->getCategoriesService->getAllCategories();
-        $colors = $this->getColorsService->getAllColors();
 
-        return view("admin.products.edit", compact('product', 'categories', 'colors'));
+        return view("admin.products.edit", compact('product', 'categories'));
     }
 
     /**

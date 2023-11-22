@@ -279,3 +279,37 @@ p {
 .hover-underline:hover {
   text-decoration: underline;
 }
+
+/* ======= Order Items ========= */
+.order-item {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  position: relative;
+}
+
+.order-item img {
+  width: 126px;
+  height: 190px;
+  display: block;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.order-item .order-item-info {
+  flex-grow: 1;
+}
+
+.order-item .order-item-title {
+  text-decoration: none;
+  font-weight: 700;
+  color: black;
+}
+
+.order-item .order-item-actions {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}

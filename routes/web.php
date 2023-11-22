@@ -87,6 +87,9 @@ Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(fun
     Route::resource('colors', ColorsController::class, ['as' => 'admin']);
 
     Route::resource('banners', BannersController::class, ['as' => 'admin'])->middleware(['role:ADMIN,null,null']);
+
+    Route::get("/orders", [\App\Http\Controllers\Admin\OrdersController::class, 'index'])->name('admin.orders.index');
+    Route::get("/orders/{code}", [\App\Http\Controllers\Admin\OrdersController::class, 'show'])->name('admin.orders.show');
 });
 
 
@@ -96,4 +99,5 @@ Route::prefix('account')->middleware(["auth"])->group(function () {
     Route::get("/password", [AccountController::class, "password"])->name("account.password");
     Route::get("/orders", [\App\Http\Controllers\Customer\OrdersController::class, "orders"])->name("account.orders");
     Route::get("/orders/{code}", [\App\Http\Controllers\Customer\OrdersController::class, "detail"])->name("account.orders.detail");
+    Route::patch("/orders/{code}", [\App\Http\Controllers\Customer\OrdersController::class, "cancel"])->name("account.orders.cancel");
 });

@@ -236,4 +236,14 @@ class CartServiceImpl implements CartService
 
         return $sessionCarts;
     }
+
+    public function removeAllCart(string $userId = null): bool {
+        if ($userId) {
+            $this->cartRepository->deleteByUserId($userId);
+        } else {
+            session()->forget('carts');
+        }
+
+        return true;
+    }
 }

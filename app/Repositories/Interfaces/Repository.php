@@ -65,7 +65,7 @@ interface Repository
      * @param string $id (ID of entity to increase)
      * @param array $columns
      */
-    public function increment(string $id, array $columns): int;
+    public function increment(string $id, array $columns): bool;
 
     /**
      * Decrement column's value of an entity
@@ -73,5 +73,5 @@ interface Repository
      * @param string $id (ID of entity to decrease)
      * @param array $columns
      */
-    public function decrement(string $id, array $columns): int;
+    public function decrement(string $id, array $columns): bool;
 }

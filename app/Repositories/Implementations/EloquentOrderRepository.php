@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Implementations;
 
+use App\DTOs\Orders\OrderParamsDto;
 use App\Models\Order;
 use App\Repositories\Interfaces\OrderRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -10,6 +11,20 @@ class EloquentOrderRepository extends EloquentRepository implements OrderReposit
 {
     public function __construct() {
         parent::__construct(Order::class);
+    }
+
+    public function findByParams(OrderParamsDto $params): LengthAwarePaginator {
+        $query = $this->model->query();
+
+        if ($params->status) {
+            $query->where('status', $params->status);
+        }
+
+        if ($params->sortColumn) {
+            $query->orderBy($params->sortColumn, $params->sortOrder ?? "asc");
+        }
+
+        return $this->toPaginator($query, $params->page, $params->limit);
     }
 
     public function findByCode(string $code, array $includes = null): ?Order {
@@ -25,7 +40,7 @@ class EloquentOrderRepository extends EloquentRepository implements OrderReposit
 
         if ($includes) $query->with($includes);
 
-        $query->where('user_id', $userId);
+        $query->where('user_id', $userId)->orderBy('created_at', 'desc');
 
         return $this->toPaginator($query, $page, $limit);
     }

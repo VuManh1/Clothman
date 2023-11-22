@@ -20,6 +20,8 @@ use App\Services\Colors\Interfaces\GetColorsService;
 use App\Services\Colors\Interfaces\ManageColorsService;
 use App\Services\Orders\Implementations\OrdersServiceImpl;
 use App\Services\Orders\Interfaces\OrdersService;
+use App\Services\Payment\Implementations\CodPaymentService;
+use App\Services\Payment\Interfaces\PaymentService;
 use App\Services\Products\Implementations\GetProductsServiceImpl;
 use App\Services\Products\Implementations\ManageProductsServiceImpl;
 use App\Services\Products\Implementations\ManageProductVariantsServiceImpl;
@@ -63,6 +65,9 @@ class BusServiceProvider extends ServiceProvider
 
         // Order services
         $this->app->bind(OrdersService::class, OrdersServiceImpl::class);
+
+        // Payment services
+        $this->app->bind(PaymentService::class, CodPaymentService::class);
 
         // Cart services
         $this->app->bind(CartService::class, CartServiceImpl::class);

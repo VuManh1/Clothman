@@ -2,8 +2,6 @@
 
 namespace App\DTOs\Orders;
 
-use Illuminate\Http\Request;
-
 class CreateOrderDto
 {
     public ?string $userId;

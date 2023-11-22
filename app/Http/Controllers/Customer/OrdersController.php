@@ -36,9 +36,18 @@ class OrdersController extends Controller
     public function detail($code) {
         $order = $this->ordersService->getOrderByCode($code);
 
-        return view("account.orders", [
+        return view("account.order-detail", [
             "page" => "",
             "order" => $order
         ]);
+    }
+
+    /**
+     * Handle cancel order form submission
+     */
+    public function cancel(Request $request, $code) {
+        $this->ordersService->cancelOrder($code, $request->cancel_reason);
+
+        return redirect()->back()->with('success', 'Hủy đơn hàng thành công');
     }
 }

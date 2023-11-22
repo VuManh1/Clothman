@@ -2,7 +2,7 @@
     <img src="{{ asset($item->product->thumbnail_url) }}" alt="{{ $item->product->name }}">
 
     <div class="order-item-info">
-        <a href="#" class="order-item-title">{{ $item->product->name }}</a>
+        <a href="{{ route('product.detail', [$item->product->slug]) }}" class="order-item-title">{{ $item->product->name }}</a>
         <div>Đen / 2XL</div>
         <div>{{ $item->productVariant->color->name }} / {{ $item->productVariant->size }}</div>
 

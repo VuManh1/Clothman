@@ -2,13 +2,40 @@
 @section('title', 'Đơn hàng #'.$order->code)
 
 @section('account-content')
+    <div class="modal fade" tabindex="-1" id="cancel-order-modal">
+        <div class="modal-dialog">
+            <form class="modal-content" action="{{ route('account.orders.cancel', [$order->code]) }}" method="POST">
+                @method('PATCH')
+                @csrf
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Hủy đơn hàng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="cancel_reason" class="form-label">Lí do hủy đơn của bạn là gì?</label>
+                        <input type="text" placeholder="..." name="cancel_reason" id="cancel_reason" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">Xác nhận</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <h1 class="title mb-4">
         Thông tin đơn hàng #{{ $order->code }}
         <span class="text-secondary">({{ $order->status }})</span>
     </h1>
 
     <div class="mb-4">
-        <button class="btn btn-danger">Hủy đơn hàng</button>
+        <button class="btn btn-danger" @disabled($order->status !== 'PENDING')
+            data-bs-toggle="modal" data-bs-target="#cancel-order-modal">
+            Hủy đơn hàng
+        </button>
     </div>
 
     <div class="d-flex flex-column gap-3 mb-4">

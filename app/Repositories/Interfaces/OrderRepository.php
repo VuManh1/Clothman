@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\DTOs\Orders\OrderParamsDto;
 use App\Models\Order;
 use App\Repositories\Interfaces\Repository;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -11,6 +12,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
  */
 interface OrderRepository extends Repository
 {
+    public function findByParams(OrderParamsDto $params): LengthAwarePaginator;
+
     /**
      * Get one order by Code
      */

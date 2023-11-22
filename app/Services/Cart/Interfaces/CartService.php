@@ -38,4 +38,9 @@ interface CartService
      * @return array (items, total)
      */
     public function removeCart(RemoveCartDto $data): array;
+
+    /**
+     * Remove all cart of an user
+     */
+    public function removeAllCart(string $userId = null): bool;
 }
