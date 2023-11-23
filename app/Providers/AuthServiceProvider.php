@@ -3,9 +3,13 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+
+use App\Models\Order;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -32,6 +36,11 @@ class AuthServiceProvider extends ServiceProvider
                 ->subject('Xác thực Email')
                 ->line('Hãy ấn nút dưới đây để xác thực Email của bạn.')
                 ->action('Xác thực Email', $url);
+        });
+
+        // Gates
+        Gate::define('cancel-order', function (User $user, Order $order) {
+            return $user->id === $order->user_id;
         });
     }
 }

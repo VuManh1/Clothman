@@ -43,8 +43,6 @@ class BannersController extends Controller
 
     public function store(CreateBannerRequest $request)
     {
-        $request->validated();
-
         $createBannerDto = CreateBannerDto::fromRequest($request);
 
         $banner = $this->manageBannersService->createBanner($createBannerDto);
@@ -68,8 +66,6 @@ class BannersController extends Controller
 
     public function update(UpdateBannerRequest $request, $id)
     {
-        $request->validated();
-
         $updateBannerDto = UpdateBannerDto::fromRequest($request);
 
         $banner = $this->manageBannersService->updateBanner($id, $updateBannerDto);

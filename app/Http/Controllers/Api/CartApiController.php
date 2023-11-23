@@ -32,7 +32,6 @@ class CartApiController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function addToCart(AddToCartRequest $request) {
-        $request->validated();
         $data = AddToCartDto::fromRequest($request);
 
         $this->cartService->addToCart($data);
@@ -48,7 +47,6 @@ class CartApiController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function updateCart(UpdateCartRequest $request) {
-        $request->validated();
         $data = UpdateCartDto::fromRequest($request);
 
         $cartData = $this->cartService->updateCart($data);
@@ -65,7 +63,6 @@ class CartApiController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function removeCart(RemoveCartRequest $request) {
-        $request->validated();
         $data = RemoveCartDto::fromRequest($request);
 
         $cartData = $this->cartService->removeCart($data);

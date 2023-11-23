@@ -53,8 +53,6 @@ class ColorsController extends Controller
      */
     public function store(CreateColorRequest $request)
     {
-        $request->validated();
-
         $createColorDto = CreateColorDto::fromRequest($request);
 
         $color = $this->manageColorsService->createColor($createColorDto);
@@ -93,8 +91,6 @@ class ColorsController extends Controller
      */
     public function update(UpdateColorRequest $request, $id)
     {
-        $request->validated();
-
         $updateColorDto = UpdateColorDto::fromRequest($request);
 
         $color = $this->manageColorsService->updateColor($id, $updateColorDto);

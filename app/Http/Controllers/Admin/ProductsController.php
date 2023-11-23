@@ -61,7 +61,6 @@ class ProductsController extends Controller
      */
     public function store(CreateProductRequest $request)
     {
-        $request->validated();
         $createProductDto = CreateProductDto::fromRequest($request);
 
         $product = $this->manageProductsService->createProduct($createProductDto);
@@ -103,7 +102,6 @@ class ProductsController extends Controller
      */
     public function update(UpdateProductRequest $request, $id)
     {
-        $request->validated();
         $updateProductDto = UpdateProductDto::fromRequest($request);
 
         $product = $this->manageProductsService->updateProduct($id, $updateProductDto);

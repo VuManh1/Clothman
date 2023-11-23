@@ -21,8 +21,6 @@ class AccountApiController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function updateInfor(UpdateAccountRequest $request) {
-        $request->validated();
-
         $userId = Auth::id();
         $updateUserDto = UpdateUserDto::fromRequest($request);
         
@@ -36,8 +34,6 @@ class AccountApiController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function changePassword(ChangePasswordRequest $request) {
-        $request->validated();
-
         $userId = Auth::id();
         $changePwDto = ChangePasswordDto::fromRequest($request);
         

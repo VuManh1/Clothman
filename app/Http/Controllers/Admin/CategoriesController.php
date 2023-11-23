@@ -55,8 +55,6 @@ class CategoriesController extends Controller
      */
     public function store(CreateCategoryRequest $request)
     {
-        $request->validated();
-
         $createCategoryDto = CreateCategoryDto::fromRequest($request);
 
         $category = $this->manageCategoriesService->createCategory($createCategoryDto);
@@ -96,8 +94,6 @@ class CategoriesController extends Controller
      */
     public function update(UpdateCategoryRequest $request, $id)
     {
-        $request->validated();
-
         $updateCateDto = UpdateCategoryDto::fromRequest($request);
 
         $category = $this->manageCategoriesService->updateCategory($id, $updateCateDto);

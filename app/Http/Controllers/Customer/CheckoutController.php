@@ -20,8 +20,6 @@ class CheckoutController extends Controller
      * Handle checkout form submission
      */
     public function checkout(CheckoutRequest $request) {
-        $request->validated();
-
         $data = CheckoutDto::fromRequest($request);
         $result = $this->checkoutService->processCheckout($data);
 

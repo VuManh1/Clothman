@@ -14,9 +14,7 @@ use App\Repositories\Interfaces\ProductRepository;
 use App\Repositories\Interfaces\ProductVariantRepository;
 use App\Services\Orders\Interfaces\OrdersService;
 use App\Utils\OrderStatus;
-use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class OrdersServiceImpl implements OrdersService
@@ -39,13 +37,13 @@ class OrdersServiceImpl implements OrdersService
 
     public function getOrdersForUser(string $userId, $page, $limit): LengthAwarePaginator {
         return $this->orderRepository->findByUserId($userId, $page, $limit, [
-            'orderItems', 'orderItems.product', 'orderItems.productVariant'
+            'orderItems', 'orderItems.product', 'orderItems.productVariant', 'orderItems.productVariant.color'
         ]);
     }
 
     public function getOrderByCode(string $code): Order {
         $order = $this->orderRepository->findByCode($code, [
-            'payment', 'user', 'orderItems', 'orderItems.product', 'orderItems.productVariant'
+            'payment', 'orderItems', 'orderItems.product', 'orderItems.productVariant', 'orderItems.productVariant.color'
         ]);
 
         if (!$order) {
@@ -93,26 +91,11 @@ class OrdersServiceImpl implements OrdersService
         return $order;
     }
 
-    private function calculateOrderTotal(array $items): int {
-        $total = 0;
-
-        foreach ($items as $item) {
-            $total += $item['price'];
-        }
-
-        return $total;
-    }
-
     public function cancelOrder(string $code, string $cancelReson = null): bool {
         $order = $this->orderRepository->findByCode($code);
 
         if (!$order) {
             throw new OrderNotFoundException();
-        }
-
-        $userId = Auth::id();
-        if ($order->user_id !== null && $order->user_id !== $userId) {
-            abort(403);
         }
 
         if ($order->status !== OrderStatus::PENDING) {
@@ -126,6 +109,17 @@ class OrdersServiceImpl implements OrdersService
 
         return true;
     }
+    
+    private function calculateOrderTotal(array $items): int {
+        $total = 0;
+
+        foreach ($items as $item) {
+            $total += $item['price'];
+        }
+
+        return $total;
+    }
+
 
     private function generateOrderCode(): string {
         $timestamp = now()->timestamp;
