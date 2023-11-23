@@ -13,6 +13,7 @@ use App\Repositories\Implementations\EloquentPaymentRepository;
 use App\Repositories\Implementations\EloquentProductRepository;
 use App\Repositories\Implementations\EloquentProductVariantRepository;
 use App\Repositories\Implementations\EloquentSoldRepository;
+use App\Repositories\Implementations\EloquentUserLoginRepository;
 use App\Repositories\Implementations\EloquentUserRepository;
 use App\Repositories\Interfaces\BannerRepository;
 use App\Repositories\Interfaces\CartRepository;
@@ -25,6 +26,7 @@ use App\Repositories\Interfaces\PaymentRepository;
 use App\Repositories\Interfaces\ProductRepository;
 use App\Repositories\Interfaces\ProductVariantRepository;
 use App\Repositories\Interfaces\SoldRepository;
+use App\Repositories\Interfaces\UserLoginRepository;
 use App\Repositories\Interfaces\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -49,6 +51,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(OrderItemRepository::class, EloquentOrderItemRepository::class);
         $this->app->bind(PaymentRepository::class, EloquentPaymentRepository::class);
         $this->app->bind(SoldRepository::class, EloquentSoldRepository::class);
+        $this->app->bind(UserLoginRepository::class, EloquentUserLoginRepository::class);
     }
 
     /**

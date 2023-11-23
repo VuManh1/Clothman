@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Exceptions\Users\UserIsLockedOutException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
@@ -37,11 +38,7 @@ class LoginController extends Controller
 
             // check if user is locked
             if ($user->is_locked === 1) {
-                Auth::logout();
- 
-                return back()->withErrors([
-                    'Tài khoản của bạn đang bị khóa.',
-                ])->onlyInput('email');
+                throw new UserIsLockedOutException();
             }
 
             $request->session()->regenerate();

@@ -1,10 +1,10 @@
 @extends('layouts.admin')
-@section('title', 'Order #'.$order->code)
+@section('title', 'Manage Order #'.$order->code)
 
 @section('content')
     <div class="modal fade" tabindex="-1" id="edit-order-modal">
         <div class="modal-dialog">
-            <form class="modal-content" action="" method="POST">
+            <form class="modal-content" action="{{ route('admin.orders.update', [$order->code]) }}" method="POST">
                 @method('PATCH')
                 @csrf
 
@@ -15,7 +15,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Status</label>
-                        <select name="sort" class="p-1 mx-1 form-select">
+                        <select name="status" class="p-1 mx-1 form-select">
                             <option value="PENDING" @selected($order->status === 'PENDING')>Pending</option>
                             <option value="PROCESSING" @selected($order->status === 'PROCESSING')>Processing</option>
                             <option value="SHIPPING" @selected($order->status === 'SHIPPING')>Shipping</option>
@@ -103,4 +103,42 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        const editOrderModal = new bootstrap.Modal('#edit-order-modal', {
+            keyboard: false
+        });
+
+        $(function () {
+            $('#edit-order-modal').submit(function (e) {
+                e.preventDefault();
+
+                const url = $(this).attr('action');
+                const address = $('#address-edit').val();
+                const status  = $('#edit-order-modal select[name="status"]').val();
+
+                $.ajax({
+                    url: url,
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        address,
+                        status 
+                    },
+                    type: "PATCH",
+                    success(result) {
+                        toastr.success("Đã cập nhập đơn hàng!");
+                        location.reload();
+                    },
+                    error(xhr, status, error) {
+                        toastr.error(xhr.responseJSON.message);
+                    }
+                });
+
+                editOrderModal.hide();
+                toastr.info('Đang cập nhập...')
+            });
+        });
+    </script>
 @endsection

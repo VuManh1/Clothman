@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\DTOs\Orders\OrderParamsDto;
+use App\DTOs\Orders\UpdateOrderDto;
 use App\Http\Controllers\Controller;
 use App\Services\Orders\Interfaces\OrdersService;
 use Illuminate\Http\Request;
@@ -35,5 +36,18 @@ class OrdersController extends Controller
         $order = $this->ordersService->getOrderByCode($code);
 
         return view('admin.orders.show', compact('order'));
+    }
+
+    /**
+     * Handle update order submission
+     */
+    public function update(Request $request, $code) {
+        $updateOrderDto = UpdateOrderDto::fromRequest($request);
+        $order = $this->ordersService->updateOrder($code, $updateOrderDto);
+
+        return response()->json([
+            'success' => true,
+            'order' => $order
+        ]);
     }
 }

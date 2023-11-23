@@ -10,4 +10,8 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
     public function __construct() {
         parent::__construct(User::class);
     }
+
+    public function findByEmail(string $email): ?User {
+        return $this->model->where('email', $email)->first();
+    }
 }

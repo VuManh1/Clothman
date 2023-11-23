@@ -52,13 +52,16 @@
 
                             <div class="btn-toolbar">
                                 {{-- Filter --}}
-                                <form class="filter-form mb-2 " method="GET">
-                                    <select name="status" class="p-1 mx-1 select">
+                                <form class="mb-2" method="GET">
+                                    <select name="status" class="p-1 mx-1">
                                         <option value="">Status</option>
                                         <option value="PENDING">Pending</option>
+                                        <option value="PROCESSING">Processing</option>
+                                        <option value="SHIPPING">Shipping</option>
+                                        <option value="COMPLETED">Completed</option>
                                         <option value="CANCELED">Canceled</option>
                                     </select>
-                                    <select name="sort" class="p-1 mx-1 select">
+                                    <select name="sort" class="p-1 mx-1">
                                         <option value="">Sort By</option>
                                         <option value="name.asc">Name</option>
                                         <option value="created_at.desc">Created At</option>
@@ -88,7 +91,7 @@
                                                 <h6>Date</h6>
                                             </th>
                                             <th class="lead-info">
-                                                <h6>Total</h6>
+                                                <h6>Method</h6>
                                             </th>
                                             <th>
                                                 <h6>Actions</h6>
@@ -102,7 +105,7 @@
                                                 <tr>
                                                     <td class="min-width">
                                                         <div class="lead">
-                                                            <div class="lead-text">
+                                                            <div class="lead-text text-nowrap">
                                                                 <p>#{{ $order->code }}</p>
                                                             </div>
                                                         </div>
@@ -120,7 +123,7 @@
                                                         <p>{{ $order->getFormatedCreatedAt() }}</p>
                                                     </td>
                                                     <td class="min-width">
-                                                        <p>{{ $order->getFormatedTotal() }}đ</p>
+                                                        <p>{{ $order->payment->payment_method }}</p>
                                                     </td>
                                                     <td>
                                                         <div class="action gap-2">

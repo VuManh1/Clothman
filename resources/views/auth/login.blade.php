@@ -12,19 +12,15 @@
 
             @include('includes.errors')
 
-            <form id="external-login-form">
-                @csrf
-
-                <div class="fw-bold mb-3">
-                    Đăng nhập hoặc đăng ký (miễn phí)
-                </div>
-                <div class="d-flex">
-                    <button type="button" class="btn border-1 border-black social-btn">
-                        <img src="{{ asset("images/Google__G__Logo.svg.png") }}" alt="google"
-                            class="w-100 h-100 object-fit-contain" />
-                    </button>
-                </div>
-            </form>
+            <div class="fw-bold mb-3">
+                Đăng nhập hoặc đăng ký (miễn phí)
+            </div>
+            <div class="d-flex">
+                <a href="{{ route('auth.google') }}" class="btn border-1 border-black social-btn">
+                    <img src="{{ asset("images/Google__G__Logo.svg.png") }}" alt="google"
+                        class="w-100 h-100 object-fit-contain" />
+                </a>
+            </div>
 
             <div class="divider d-flex align-items-center justify-content-center my-4">
                 <p class="text-center fw-bold mx-3 mb-0 text-muted bg-white px-2">

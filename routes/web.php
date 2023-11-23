@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\GoogleLoginController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -71,6 +72,10 @@ Route::prefix('auth')->group(function () {
     // Reset password route
     Route::get('/reset-password/{token}', [ResetPasswordController::class, "reset"])->middleware('guest')->name('password.reset');
     Route::post('/reset-password', [ResetPasswordController::class, "update"])->middleware('guest')->name('password.update');
+
+    // Google login route
+    Route::get('/google', [GoogleLoginController::class, 'google'])->name('auth.google');
+    Route::get('/google/redirect', [GoogleLoginController::class, 'redirect'])->name('auth.google.redirect');
 });
 
 
@@ -90,6 +95,7 @@ Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(fun
 
     Route::get("/orders", [\App\Http\Controllers\Admin\OrdersController::class, 'index'])->name('admin.orders.index');
     Route::get("/orders/{code}", [\App\Http\Controllers\Admin\OrdersController::class, 'show'])->name('admin.orders.show');
+    Route::patch("/orders/{code}", [\App\Http\Controllers\Admin\OrdersController::class, 'update'])->name('admin.orders.update');
 });
 
 

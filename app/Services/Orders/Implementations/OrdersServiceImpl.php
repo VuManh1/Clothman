@@ -4,8 +4,10 @@ namespace App\Services\Orders\Implementations;
 
 use App\DTOs\Orders\CreateOrderDto;
 use App\DTOs\Orders\OrderParamsDto;
+use App\DTOs\Orders\UpdateOrderDto;
 use App\Events\OrderCreated;
 use App\Exceptions\Orders\OrderCanNotCancelException;
+use App\Exceptions\Orders\OrderCanNotUpdateException;
 use App\Exceptions\Orders\OrderNotFoundException;
 use App\Models\Order;
 use App\Repositories\Interfaces\OrderItemRepository;
@@ -89,6 +91,24 @@ class OrdersServiceImpl implements OrdersService
         event(new OrderCreated($order));
 
         return $order;
+    }
+
+    public function updateOrder(string $code, UpdateOrderDto $updateOrderDto): Order {
+        $order = $this->orderRepository->findByCode($code);
+
+        if (!$order) {
+            throw new OrderNotFoundException();
+        }
+
+        if ($order->status === OrderStatus::CANCELED || $order->status === OrderStatus::COMPLETED) {
+            throw new OrderCanNotUpdateException("Không thể cập nhập đơn hàng này!");
+        }
+
+        
+        return $this->orderRepository->update($order->id, [
+            'status' => $updateOrderDto->status,
+            'address' => $updateOrderDto->address
+        ]);
     }
 
     public function cancelOrder(string $code, string $cancelReson = null): bool {

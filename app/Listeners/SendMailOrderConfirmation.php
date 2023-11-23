@@ -28,6 +28,6 @@ class SendMailOrderConfirmation implements ShouldQueue
      */
     public function handle(OrderCreated $event)
     {
-        Mail::to($event->order->email)->send(new MailOrderCreated($event->order));
+        Mail::to($event->order->email)->queue(new MailOrderCreated($event->order));
     }
 }

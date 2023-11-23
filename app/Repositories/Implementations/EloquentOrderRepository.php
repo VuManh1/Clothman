@@ -16,6 +16,8 @@ class EloquentOrderRepository extends EloquentRepository implements OrderReposit
     public function findByParams(OrderParamsDto $params): LengthAwarePaginator {
         $query = $this->model->query();
 
+        $query->with('payment');
+
         if ($params->status) {
             $query->where('status', $params->status);
         }

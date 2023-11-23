@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class OrderCreated extends Mailable
+class OrderCreated extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -46,7 +46,7 @@ class OrderCreated extends Mailable
     public function content()
     {
         return new Content(
-            view: 'emails.orders.created',
+            markdown: 'emails.orders.created',
         );
     }
 
