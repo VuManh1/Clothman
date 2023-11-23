@@ -34,4 +34,18 @@ class CancelOrderRequest extends FormRequest
             //
         ];
     }
+
+    public function getValidatorInstance()
+    {
+        $this->applyCancelReason();
+
+        return parent::getValidatorInstance();
+    }
+
+    protected function applyCancelReason()
+    {
+        $this->merge([
+            'cancel_reason' => $this->input('cancel_reason_other') ? $this->input('cancel_reason_other') : $this->input('cancel_reason')
+        ]);
+    }
 }

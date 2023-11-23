@@ -1,5 +1,5 @@
 @extends('layouts.account')
-@section('title', 'Đơn hàng #'.$order->code)
+@section('title', 'Đơn hàng #' . $order->code)
 
 @section('account-content')
     <div class="modal fade" tabindex="-1" id="cancel-order-modal">
@@ -14,8 +14,30 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="cancel_reason" class="form-label">Lí do hủy đơn của bạn là gì?</label>
-                        <input type="text" placeholder="..." name="cancel_reason" id="cancel_reason" class="form-control">
+                        <label class="form-label text-black fw-medium">Lí do hủy đơn của bạn là gì?</label>
+
+                        <div class="d-flex flex-column gap-2 my-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="cancel_reason" id="cancel_reason1" value="Tôi muốn đổi phương thức thanh toán">
+                                <label class="form-check-label" for="cancel_reason1">
+                                    Tôi muốn đổi phương thức thanh toán
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="cancel_reason" id="cancel_reason2" value="Tôi không muốn mua đơn hàng này nữa">
+                                <label class="form-check-label" for="cancel_reason2">
+                                    Tôi không muốn mua đơn hàng này nữa
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="cancel_reason" id="cancel_reason3" value="Hết tiền rồi">
+                                <label class="form-check-label" for="cancel_reason3">
+                                    Hết tiền rồi
+                                </label>
+                            </div>
+                        </div>
+
+                        <input type="text" placeholder="Lí do khác..." name="cancel_reason_other" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -32,8 +54,8 @@
     </h1>
 
     <div class="mb-4">
-        <button class="btn btn-danger" @disabled($order->status !== 'PENDING')
-            data-bs-toggle="modal" data-bs-target="#cancel-order-modal">
+        <button class="btn btn-danger" @disabled($order->status !== 'PENDING') data-bs-toggle="modal"
+            data-bs-target="#cancel-order-modal">
             Hủy đơn hàng
         </button>
     </div>
@@ -65,9 +87,9 @@
         </div>
         <div class="row">
             <div class="col col-4 fw-bolder">Ghi chú: </div>
-            <div class="col col-8">{{ $order->note ?? "NULL" }}</div>
+            <div class="col col-8">{{ $order->note ?? 'NULL' }}</div>
         </div>
-    </div>   
+    </div>
 
     <h4 class="title">Các sản phẩm: </h4>
     <div class="d-flex flex-column gap-3 my-3">
