@@ -108,6 +108,8 @@
                                                                 class="btn btn-success">Detail</a>
                                                             <a href="{{ route('admin.products.edit', [$product->id]) }}"
                                                                 class="btn btn-success">Edit</a>
+                                                            <a href="{{ route('admin.products.variants', [$product->id]) }}"
+                                                                class="btn btn-success">Variants</a>
                                                         </div>
                                                     </td>
                                                 </tr>

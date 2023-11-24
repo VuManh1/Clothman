@@ -86,6 +86,10 @@ abstract class EloquentRepository implements Repository
         return true;
     }
 
+    public function deleteMany(array|Collection $ids): int {
+        return $this->model->destroy($ids);
+    }
+
     public function increment(string $id, array $columns): bool {
         $this->model->where('id', $id)->incrementEach($columns);
         return true;

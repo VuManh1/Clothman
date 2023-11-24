@@ -3,18 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\DTOs\Products\CreateProductDto;
-use App\DTOs\Products\CreateProductVariantDto;
 use App\DTOs\Products\ProductParamsDto;
 use App\DTOs\Products\UpdateProductDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\CreateProductRequest;
-use App\Http\Requests\Product\CreateProductVariantRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Services\Categories\Interfaces\GetCategoriesService;
 use Illuminate\Http\Request;
 use App\Services\Products\Interfaces\GetProductsService;
+use App\Services\Products\Interfaces\ManageProductImagesService;
 use App\Services\Products\Interfaces\ManageProductsService;
-use App\Services\Products\Interfaces\ManageProductVariantsService;
 
 class ProductsController extends Controller
 {
@@ -22,7 +20,7 @@ class ProductsController extends Controller
         private GetCategoriesService $getCategoriesService,
         private GetProductsService $getProductsService,
         private ManageProductsService $manageProductsService,
-        private ManageProductVariantsService $manageProductVariantsService,
+        private ManageProductImagesService $manageProductImagesService
     ) {
         $this->middleware('role:ADMIN,null,null')->only(['destroy']);
     }
@@ -112,41 +110,6 @@ class ProductsController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function createVariant(CreateProductVariantRequest $request)
-    {
-        $data = CreateProductVariantDto::fromRequest($request);
-        $this->manageProductVariantsService->createProductVariant($data);
-
-        return response()->json(['success' => true]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function updateVariant(Request $request, $id)
-    {
-        $this->manageProductVariantsService->updateProductVariantQuantity($id, $request->quantity);
-
-        return response()->json(['success' => true]);
-    }
-
-    /**
-     * Remove the specified resource in storage.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function destroyVariant($id)
-    {
-        $this->manageProductVariantsService->deleteProductVariant($id);
-
-        return response()->json(['success' => true ]);
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @return \Illuminate\Http\Response
@@ -156,5 +119,21 @@ class ProductsController extends Controller
         $this->manageProductsService->deleteProduct($id);
 
         return redirect()->route("admin.products.index")->with("success", "Product deleted !");
+    }
+
+    /**
+     * Handle create product variant images
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateImages(Request $request)
+    {
+        $this->manageProductImagesService->updateProductColorImages(
+            $request->product_id,
+            $request->color_id,
+            $request->file('images')
+        );
+
+        return response()->json(['success' => true]);
     }
 }

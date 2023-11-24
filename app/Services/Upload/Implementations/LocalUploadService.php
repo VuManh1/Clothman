@@ -22,8 +22,10 @@ class LocalUploadService implements UploadService
     }
 
     public function deleteFile(string $path): bool {
-        Storage::delete($path);
+        return Storage::delete($path);
+    }
 
-        return true;
+    public function deleteFolder(string $path): bool {
+        return Storage::deleteDirectory($path);
     }
 }

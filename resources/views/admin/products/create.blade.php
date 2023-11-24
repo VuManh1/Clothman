@@ -234,5 +234,5 @@
             }).settings.ignore = [];
         });
     </script>
-    <script src="{{ asset('js/admin-product-variants.js') }}"></script>
+    <script src="{{ asset('js/admin-add-product-colors.js') }}"></script>
 @endsection

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\ColorsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Admin\ProductVariantsController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\GoogleLoginController;
@@ -83,10 +84,13 @@ Route::prefix('auth')->group(function () {
 Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(function () {
     Route::get("/dashboard", [DashboardController::class, 'dashboard'])->name("admin.dashboard");
 
+    Route::post("/products/images", [ProductsController::class, 'updateImages'])->name("admin.products.images.update");
     Route::resource('products', ProductsController::class, ['as' => 'admin']);
-    Route::post("/products/variants", [ProductsController::class, 'createVariant'])->name("admin.products.variants.store");
-    Route::patch("/products/variants/{id}", [ProductsController::class, 'updateVariant'])->name("admin.products.variants.update");
-    Route::delete("/products/variants/{id}", [ProductsController::class, 'destroyVariant'])->name("admin.products.variants.destroy");
+    
+    Route::get("/products/{id}/variants", [ProductVariantsController::class, 'show'])->name("admin.products.variants");
+    Route::post("/products/variants", [ProductVariantsController::class, 'create'])->name("admin.products.variants.store");
+    Route::patch("/products/variants/{id}/quantity", [ProductVariantsController::class, 'updateQuantity'])->name("admin.products.variants.quantity.update");
+    Route::delete("/products/variants/{id}", [ProductVariantsController::class, 'destroy'])->name("admin.products.variants.destroy");
 
     Route::resource('categories', CategoriesController::class, ['as' => 'admin']);
     

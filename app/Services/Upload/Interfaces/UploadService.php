@@ -20,4 +20,9 @@ interface UploadService
      * Delete a file
      */
     public function deleteFile(string $path): bool;
+
+    /**
+     * Delete a folder
+     */
+    public function deleteFolder(string $path): bool;
 }

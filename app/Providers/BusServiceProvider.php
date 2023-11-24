@@ -23,9 +23,11 @@ use App\Services\Orders\Interfaces\OrdersService;
 use App\Services\Payment\Implementations\CodPaymentService;
 use App\Services\Payment\Interfaces\PaymentService;
 use App\Services\Products\Implementations\GetProductsServiceImpl;
+use App\Services\Products\Implementations\ManageProductImagesServiceImpl;
 use App\Services\Products\Implementations\ManageProductsServiceImpl;
 use App\Services\Products\Implementations\ManageProductVariantsServiceImpl;
 use App\Services\Products\Interfaces\GetProductsService;
+use App\Services\Products\Interfaces\ManageProductImagesService;
 use App\Services\Products\Interfaces\ManageProductsService;
 use App\Services\Products\Interfaces\ManageProductVariantsService;
 use App\Services\Upload\Implementations\LocalUploadService;
@@ -50,6 +52,7 @@ class BusServiceProvider extends ServiceProvider
         $this->app->bind(GetProductsService::class, GetProductsServiceImpl::class);
         $this->app->bind(ManageProductsService::class, ManageProductsServiceImpl::class);
         $this->app->bind(ManageProductVariantsService::class, ManageProductVariantsServiceImpl::class);
+        $this->app->bind(ManageProductImagesService::class, ManageProductImagesServiceImpl::class);
 
         // Category Services
         $this->app->bind(GetCategoriesService::class, GetCategoriesServiceImpl::class);

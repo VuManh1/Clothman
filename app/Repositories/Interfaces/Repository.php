@@ -59,6 +59,12 @@ interface Repository
     public function delete(string $id): bool;
 
     /**
+     * Delete many entities from database
+     * 
+     */
+    public function deleteMany(array|Collection $ids): int;
+
+    /**
      * Increment column's value of an entity
      * 
      * @param string $id (ID of entity to increase)
