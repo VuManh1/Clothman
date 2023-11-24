@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\DTOs\Products\CreateProductDto;
+use App\DTOs\Products\CreateProductVariantDto;
 use App\DTOs\Products\ProductParamsDto;
 use App\DTOs\Products\UpdateProductDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\CreateProductRequest;
+use App\Http\Requests\Product\CreateProductVariantRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Services\Categories\Interfaces\GetCategoriesService;
 use Illuminate\Http\Request;
@@ -107,6 +109,17 @@ class ProductsController extends Controller
         $product = $this->manageProductsService->updateProduct($id, $updateProductDto);
 
         return redirect()->route("admin.products.index")->with('success', $product->name.' updated!');
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function createVariant(CreateProductVariantRequest $request)
+    {
+        $data = CreateProductVariantDto::fromRequest($request);
+        $this->manageProductVariantsService->createProductVariant($data);
+
+        return response()->json(['success' => true]);
     }
 
     /**

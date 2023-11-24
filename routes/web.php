@@ -84,6 +84,7 @@ Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(fun
     Route::get("/dashboard", [DashboardController::class, 'dashboard'])->name("admin.dashboard");
 
     Route::resource('products', ProductsController::class, ['as' => 'admin']);
+    Route::post("/products/variants", [ProductsController::class, 'createVariant'])->name("admin.products.variants.store");
     Route::patch("/products/variants/{id}", [ProductsController::class, 'updateVariant'])->name("admin.products.variants.update");
     Route::delete("/products/variants/{id}", [ProductsController::class, 'destroyVariant'])->name("admin.products.variants.destroy");
 

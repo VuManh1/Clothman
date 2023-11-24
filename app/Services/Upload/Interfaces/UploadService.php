@@ -11,6 +11,8 @@ interface UploadService
 {
     /**
      * Upload a file
+     * 
+     * @param array $options (folder, fileName)
      */
     public function uploadFile(UploadedFile $file, array $options): array;
 

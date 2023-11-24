@@ -2,7 +2,6 @@
 
 namespace App\DTOs\Products;
 
-use App\DTOs\Common\QueryParamsDto;
 use Illuminate\Http\Request;
 
 class SearchProductsDto

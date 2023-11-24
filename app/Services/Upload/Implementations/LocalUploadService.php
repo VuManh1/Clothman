@@ -9,7 +9,12 @@ use Illuminate\Support\Facades\Storage;
 class LocalUploadService implements UploadService
 {
     public function uploadFile(UploadedFile $file, array $options): array {
-        $path = $file->store($options['folder']);
+        if (isset($options['fileName'])) {
+            $path = $file->storeAs($options['folder'], $options['fileName']);
+        } else {
+            $path = $file->store($options['folder']);
+        }
+
 
         return [
             'path' => $path,

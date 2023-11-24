@@ -2,7 +2,9 @@
 
 namespace App\Services\Products\Implementations;
 
+use App\DTOs\Products\CreateProductVariantDto;
 use App\Exceptions\Products\ProductVariantCanNotDeleteException;
+use App\Exceptions\UniqueFieldException;
 use App\Repositories\Interfaces\ProductRepository;
 use App\Services\Products\Interfaces\ManageProductVariantsService;
 use App\Repositories\Interfaces\ProductVariantRepository;
@@ -16,6 +18,28 @@ class ManageProductVariantsServiceImpl implements ManageProductVariantsService
         private ProductRepository $productRepository,
         private ProductVariantRepository $productVariantRepository,
     ) {}
+
+    public function createProductVariant(CreateProductVariantDto $data): bool {
+        DB::beginTransaction();
+        try {
+            $this->productVariantRepository->create([
+                'product_id' => $data->productId,
+                'color_id' => $data->colorId,
+                'size' => $data->size,
+                'quantity' => $data->quantity,
+            ]);
+
+            $this->productRepository->increment($data->productId, ['quantity' => $data->quantity]);
+
+            DB::commit();
+        } catch (\Illuminate\Database\QueryException $ex) {
+            DB::rollBack();
+
+            throw new UniqueFieldException();
+        }
+
+        return true;
+    }
 
     public function updateProductVariantQuantity(string $id, int $quantity): bool {
         if ($quantity < 0) throw ValidationException::withMessages(['Quantity must not less than 0']);

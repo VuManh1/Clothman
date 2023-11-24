@@ -28,16 +28,6 @@ class ManageProductsServiceImpl implements ManageProductsService
     public function createProduct(CreateProductDto $createProductDto): Product {
         $sku = $this->generateSKUs();
 
-        $thumbnailUploadedResult = $this->uploadService->uploadFile($createProductDto->thumbnail, [
-            'folder' => UploadFolder::PRODUCT_IMAGES
-        ]);
-
-        if ($createProductDto->sizeGuild) {
-            $sizeGuildUploadedResult = $this->uploadService->uploadFile($createProductDto->sizeGuild, [
-                'folder' => UploadFolder::PRODUCT_IMAGES
-            ]);
-        }
-
         DB::beginTransaction();
         try {
             $product = $this->productRepository->create([
@@ -50,8 +40,7 @@ class ManageProductsServiceImpl implements ManageProductsService
                 'price' => $createProductDto->price,
                 'selling_price' => $createProductDto->sellingPrice,
                 'discount' => $createProductDto->discount,
-                'thumbnail_url' => $thumbnailUploadedResult['path'],
-                'size_guild_url' => isset($sizeGuildUploadedResult) ? $sizeGuildUploadedResult['path'] : null,
+                'thumbnail_url' => ''
             ]);
 
             $totalQuantity = 0;
@@ -67,11 +56,11 @@ class ManageProductsServiceImpl implements ManageProductsService
                 $totalQuantity += $variant['quantity'];
             }
 
-            // Upload color images
+            // Upload images
             $createProductDto->colorImages ??= [];
             foreach ($createProductDto->colorImages as $colorImage) {
                 $uploadResult = $this->uploadService->uploadFile($colorImage['image'], [
-                    'folder' => UploadFolder::PRODUCT_IMAGES
+                    'folder' => UploadFolder::PRODUCT_IMAGES . '/' . $product->id . '/color-' . $colorImage['colorId']
                 ]);
 
                 $this->imageRepository->create([
@@ -81,19 +70,37 @@ class ManageProductsServiceImpl implements ManageProductsService
                 ]);
             }
 
+            $thumbnailUploadedResult = $this->uploadService->uploadFile($createProductDto->thumbnail, [
+                'folder' => UploadFolder::PRODUCT_IMAGES . '/' . $product->id,
+                'fileName' => 'thumbnail.jpg'
+            ]);
+    
+            if ($createProductDto->sizeGuild) {
+                $sizeGuildUploadedResult = $this->uploadService->uploadFile($createProductDto->sizeGuild, [
+                    'folder' => UploadFolder::PRODUCT_IMAGES . '/' . $product->id,
+                    'fileName' => 'size_guild.jpg'
+                ]);
+            }
+
             $this->productRepository->update($product->id, [
-                'quantity' => $totalQuantity
+                'quantity' => $totalQuantity,
+                'thumbnail_url' => $thumbnailUploadedResult['path'],
+                'size_guild_url' => isset($sizeGuildUploadedResult) ? $sizeGuildUploadedResult['path'] : null,
             ]);
 
             DB::commit();
         } catch (\Illuminate\Database\QueryException $ex) {
             DB::rollBack();
             // If have any error, delete files create previout
-            $this->uploadService->deleteFile($thumbnailUploadedResult['path']);
+            if (isset($thumbnailUploadedResult)) {
+                $this->uploadService->deleteFile($thumbnailUploadedResult['path']);
+            }
             
             if (isset($sizeGuildUploadedResult)) {
                 $this->uploadService->deleteFile($sizeGuildUploadedResult['path']);
             }
+
+            dd($ex);
             
             throw new UniqueFieldException();
         }
@@ -115,7 +122,8 @@ class ManageProductsServiceImpl implements ManageProductsService
 
         if ($updateProductDto->thumbnail) {
             $thumbnailUploadedResult = $this->uploadService->uploadFile($updateProductDto->thumbnail, [
-                'folder' => UploadFolder::PRODUCT_IMAGES
+                'folder' => UploadFolder::PRODUCT_IMAGES . '/' . $id,
+                'fileName' => 'thumbnail.jpg'
             ]);
 
             $data['thumbnail_url'] = $thumbnailUploadedResult['path'];
@@ -123,7 +131,8 @@ class ManageProductsServiceImpl implements ManageProductsService
 
         if ($updateProductDto->sizeGuild) {
             $sizeGuildUploadedResult = $this->uploadService->uploadFile($updateProductDto->sizeGuild, [
-                'folder' => UploadFolder::PRODUCT_IMAGES
+                'folder' => UploadFolder::PRODUCT_IMAGES . '/' . $id,
+                'fileName' => 'size_guild.jpg'
             ]);
         
             $data['size_guild_url'] = $sizeGuildUploadedResult['path'];
@@ -150,7 +159,7 @@ class ManageProductsServiceImpl implements ManageProductsService
             $updateProductDto->colorImages ??= [];
             foreach ($updateProductDto->colorImages as $colorImage) {
                 $uploadResult = $this->uploadService->uploadFile($colorImage['image'], [
-                    'folder' => UploadFolder::PRODUCT_IMAGES
+                    'folder' => UploadFolder::PRODUCT_IMAGES . '/' . $product->id . '/color-' . $colorImage['colorId']
                 ]);
 
                 $this->imageRepository->create([
@@ -167,15 +176,6 @@ class ManageProductsServiceImpl implements ManageProductsService
             DB::commit();
         } catch (\Illuminate\Database\QueryException $ex) {
             DB::rollBack();
-
-            // If have any error, delete files create previout
-            if (isset($thumbnailUploadedResult)) {
-                $this->uploadService->deleteFile($thumbnailUploadedResult['path']);
-            }
-            
-            if (isset($sizeGuildUploadedResult)) {
-                $this->uploadService->deleteFile($sizeGuildUploadedResult['path']);
-            }
 
             throw new UniqueFieldException();
         }
