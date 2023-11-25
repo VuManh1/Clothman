@@ -12,6 +12,7 @@ use App\Repositories\Implementations\EloquentOrderRepository;
 use App\Repositories\Implementations\EloquentPaymentRepository;
 use App\Repositories\Implementations\EloquentProductRepository;
 use App\Repositories\Implementations\EloquentProductVariantRepository;
+use App\Repositories\Implementations\EloquentSaleRepository;
 use App\Repositories\Implementations\EloquentSoldRepository;
 use App\Repositories\Implementations\EloquentUserLoginRepository;
 use App\Repositories\Implementations\EloquentUserRepository;
@@ -25,6 +26,7 @@ use App\Repositories\Interfaces\OrderRepository;
 use App\Repositories\Interfaces\PaymentRepository;
 use App\Repositories\Interfaces\ProductRepository;
 use App\Repositories\Interfaces\ProductVariantRepository;
+use App\Repositories\Interfaces\SaleRepository;
 use App\Repositories\Interfaces\SoldRepository;
 use App\Repositories\Interfaces\UserLoginRepository;
 use App\Repositories\Interfaces\UserRepository;
@@ -51,6 +53,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(OrderItemRepository::class, EloquentOrderItemRepository::class);
         $this->app->bind(PaymentRepository::class, EloquentPaymentRepository::class);
         $this->app->bind(SoldRepository::class, EloquentSoldRepository::class);
+        $this->app->bind(SaleRepository::class, EloquentSaleRepository::class);
         $this->app->bind(UserLoginRepository::class, EloquentUserLoginRepository::class);
     }
 

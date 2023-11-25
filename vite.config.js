@@ -11,11 +11,8 @@ export default defineConfig({
                 // 1 - Assets of admin
                 'resources/admin/css/materialdesignicons.min.css',
                 'resources/admin/css/lineicons.css',
-                // 'resources/admin/css/fullcalendar.css',
                 'resources/admin/scss/admin.scss',
                 'resources/admin/js/admin.js',
-                // 'resources/admin/js/Chart.min.js',
-                // 'resources/admin/js/dynamic-pie-chart.js',
             ],
             refresh: true,
         }),
