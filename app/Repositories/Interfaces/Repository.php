@@ -20,7 +20,7 @@ interface Repository
      * 
      * @return mixed
      */
-    public function findById(string $id, array $includes = null);
+    public function findById($id, array $includes = null);
 
     /**
      * Get entities from database
@@ -49,14 +49,14 @@ interface Repository
      * @return mixed
      * @throws \RecordsNotFoundException
      */
-    public function update(string $id, array $attributes);
+    public function update($id, array $attributes);
 
     /**
      * Delete an entity from database
      * 
      * @throws \RecordsNotFoundException
      */
-    public function delete(string $id): bool;
+    public function delete($id): bool;
 
     /**
      * Delete many entities from database
@@ -67,18 +67,18 @@ interface Repository
     /**
      * Increment column's value of an entity
      * 
-     * @param string $id (ID of entity to increase)
+     * @param mixed $id (ID of entity to increase)
      * @param array $columns
      */
-    public function increment(string $id, array $columns): bool;
+    public function increment($id, array $columns): bool;
 
     /**
      * Decrement column's value of an entity
      * 
-     * @param string $id (ID of entity to decrease)
+     * @param mixed $id (ID of entity to decrease)
      * @param array $columns
      */
-    public function decrement(string $id, array $columns): bool;
+    public function decrement($id, array $columns): bool;
 
     /**
      * Order entities by a column and take amount of it

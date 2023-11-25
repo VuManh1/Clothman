@@ -32,7 +32,7 @@ abstract class EloquentRepository implements Repository
         return $this->model->all();
     }
 
-    public function findById(string $id, array $includes = null) {
+    public function findById($id, array $includes = null) {
         if ($includes) {
             return $this->model->with($includes)->find($id);
         }
@@ -66,7 +66,7 @@ abstract class EloquentRepository implements Repository
         return $this->model->create($attributes);
     }
 
-    public function update(string $id, array $attributes) {
+    public function update($id, array $attributes) {
         $result = $this->findById($id);
         
         if (!$result) throw new ModelNotFoundException();
@@ -76,7 +76,7 @@ abstract class EloquentRepository implements Repository
         return $result;
     }
 
-    public function delete(string $id): bool {
+    public function delete($id): bool {
         $result = $this->findById($id);
 
         if (!$result) throw new ModelNotFoundException();
@@ -90,12 +90,12 @@ abstract class EloquentRepository implements Repository
         return $this->model->destroy($ids);
     }
 
-    public function increment(string $id, array $columns): bool {
+    public function increment($id, array $columns): bool {
         $this->model->where('id', $id)->incrementEach($columns);
         return true;
     }
 
-    public function decrement(string $id, array $columns): bool {
+    public function decrement($id, array $columns): bool {
         $this->model->where('id', $id)->decrementEach($columns);
         return true;
     }
