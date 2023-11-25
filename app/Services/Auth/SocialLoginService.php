@@ -33,6 +33,13 @@ class SocialLoginService
                     'provider_key' => $data->providerKey,
                 ]);
             }
+
+            // if user's email not verified, then auto verify it
+            if ($user->email_verified_at === null) {
+                $this->userRepository->update($user->id, [
+                    'email_verified_at' => Carbon::now()
+                ]);
+            }
         } else {
             $user = $this->userRepository->create([
                 'name' => $data->name,
