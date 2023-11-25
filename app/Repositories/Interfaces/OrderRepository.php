@@ -23,4 +23,9 @@ interface OrderRepository extends Repository
      * Get orders by user id
      */
     public function findByUserId(string $userId, int $page, int $limit, array $includes = null): LengthAwarePaginator;
+
+    /**
+     * Count all users by created_at field
+     */
+    public function countByCreatedAt(string $date): int;
 }

@@ -78,4 +78,10 @@ class GetProductsServiceImpl implements GetProductsService
 
         return $products->getCollection();
     }
+
+    public function getTopSellingProducts(int $count, string $time): Collection {
+
+        
+        return collect();
+    }
 }

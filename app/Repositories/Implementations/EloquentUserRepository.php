@@ -14,4 +14,8 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
     public function findByEmail(string $email): ?User {
         return $this->model->where('email', $email)->first();
     }
+
+    public function countByCreatedAt(string $date): int {
+        return $this->model->whereDate('created_at', $date)->count();
+    }
 }

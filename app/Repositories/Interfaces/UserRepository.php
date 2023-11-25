@@ -10,5 +10,13 @@ use App\Repositories\Interfaces\Repository;
  */
 interface UserRepository extends Repository
 {
+    /**
+     * Get one user by email
+     */
     public function findByEmail(string $email): ?User;
+
+    /**
+     * Count all users by created_at field
+     */
+    public function countByCreatedAt(string $date): int;
 }

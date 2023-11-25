@@ -9,4 +9,5 @@ use App\Repositories\Interfaces\Repository;
  */
 interface SaleRepository extends Repository
 {
+    public function getYearlyStats(int $year);
 }

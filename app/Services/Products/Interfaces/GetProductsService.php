@@ -75,4 +75,9 @@ interface GetProductsService
      * @param int $count  (number of products)
      */
     public function getRelatedProducts(string $productId, int $count): Collection;
+
+    /**
+     * Get top selling products for 
+     */
+    public function getTopSellingProducts(int $count, string $time): Collection;
 }

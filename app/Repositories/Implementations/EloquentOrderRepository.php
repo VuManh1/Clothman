@@ -46,4 +46,8 @@ class EloquentOrderRepository extends EloquentRepository implements OrderReposit
 
         return $this->toPaginator($query, $page, $limit);
     }
+
+    public function countByCreatedAt(string $date): int {
+        return $this->model->whereDate('created_at', $date)->count();
+    }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AccountApiController;
 use App\Http\Controllers\Api\CartApiController;
 use App\Http\Controllers\Api\ColorsApiController;
+use App\Http\Controllers\Api\DashboardApiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,3 +31,7 @@ Route::delete("/cart", [CartApiController::class, 'removeCart'])->name('api.cart
 
 // Colors API
 Route::get("/colors", [ColorsApiController::class, 'getColors'])->name('api.colors');
+
+// Admin dashboard
+Route::get("/get-dashboard", [DashboardApiController::class, 'getDashboard'])
+    ->middleware(["auth", "role:ADMIN,STAFF,null"])->name('api.dashboard');

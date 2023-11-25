@@ -44,4 +44,6 @@ interface ProductRepository extends Repository
      * Get products which have discount greater than 0
      */
     public function getDiscountProducts(int $page, int $limit, string $order = "desc"): LengthAwarePaginator;
+
+    
 }
