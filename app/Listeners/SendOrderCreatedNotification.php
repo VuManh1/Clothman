@@ -8,8 +8,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
-class SendMailOrderConfirmation implements ShouldQueue
+class SendOrderCreatedNotification implements ShouldQueue
 {
+    public string $connection = 'database';
+
     /**
      * Create the event listener.
      *

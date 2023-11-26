@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Events\OrderCompleted;
 use App\Events\OrderCreated;
+use App\Events\OrderShipped;
 use App\Listeners\IncreaseSoldAndSale;
-use App\Listeners\SendMailOrderConfirmation;
+use App\Listeners\SendOrderCreatedNotification;
+use App\Listeners\SendOrderShippedNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -23,7 +25,10 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         OrderCreated::class => [
-            SendMailOrderConfirmation::class,
+            SendOrderCreatedNotification::class,
+        ],
+        OrderShipped::class => [
+            SendOrderShippedNotification::class
         ],
         OrderCompleted::class => [
             IncreaseSoldAndSale::class
