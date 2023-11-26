@@ -32,4 +32,11 @@ class CheckoutController extends Controller
     public function success(Request $request) {
         return view('checkout.success');
     }
+
+    /**
+     * Show checkout cancel view
+     */
+    public function cancel(Request $request) {
+        return view('checkout.cancel');
+    }
 }
