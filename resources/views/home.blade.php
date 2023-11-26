@@ -64,23 +64,23 @@
     <!-- Top sold products section start -->
     <section class="container my-5">
         <h3 class="title mb-3">
-            Bán chạy nhất
+            Bán chạy nhất tuần
         </h3>
 
-        <div id="topSoldProductsCarousel" class="carousel multi-item-carousel">
+        <div id="topSellingProductsCarousel" class="carousel multi-item-carousel">
             <div class="carousel-inner">
-                @foreach ($topSoldProducts as $product)
+                @foreach ($topSellingProducts as $item)
                     <div class="carousel-item">
-                        <x-product-card :product="$product" />
+                        <x-product-card :product="$item['product']" />
                     </div>
                 @endforeach
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#topSoldProductsCarousel"
+            <button class="carousel-control-prev" type="button" data-bs-target="#topSellingProductsCarousel"
                 data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#topSoldProductsCarousel"
+            <button class="carousel-control-next" type="button" data-bs-target="#topSellingProductsCarousel"
                 data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
@@ -130,7 +130,7 @@
 
     <script>
         new MultiItemCarousel("#newProductsCarousel", { interval: 4000 });
-        new MultiItemCarousel("#topSoldProductsCarousel", { interval: 4000 });
+        new MultiItemCarousel("#topSellingProductsCarousel", { interval: 4000 });
         new MultiItemCarousel("#categoryOneCarousel", { interval: 4000 });
         new MultiItemCarousel("#categoryTwoCarousel", { interval: 4000 });
     </script>

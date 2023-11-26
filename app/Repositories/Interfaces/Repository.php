@@ -88,4 +88,14 @@ interface Repository
      * @param int $take
      */
     public function orderByAndTake(string $column, string $order, int $take): Collection;
+
+    /**
+     * Get record where ID not in a string array
+     * 
+     * @param array $ids
+     * @param int $take
+     * @param array|null $sorts (column, order)
+     * @param array|null $includes
+     */
+    public function whereIdNotIn(array $ids, int $take, array $sorts = null, array $includes = null): Collection;
 }

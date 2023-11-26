@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Models\Sold;
 use App\Repositories\Interfaces\Repository;
 
 /**
@@ -9,4 +10,7 @@ use App\Repositories\Interfaces\Repository;
  */
 interface SoldRepository extends Repository
 {
+    public function findByProductIdAndDate(string $productId, string $date): ?Sold;
+
+    public function getTopCountInTimeRange(int $limit, string $from, string $to);
 }

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Services\Statistic\StatisticService;
+use App\Services\Dashboard\DashboardService;
 
 class DashboardApiController extends Controller
 {
     public function __construct(
-        private StatisticService $statisticService
+        private DashboardService $dashboardService
     ) {
         
     }
@@ -19,7 +19,7 @@ class DashboardApiController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function getDashboard() {
-        $data = $this->statisticService->getDashboardStatistics();
+        $data = $this->dashboardService->getDashboardStatistics();
 
         return response()->json([
             'data' => $data

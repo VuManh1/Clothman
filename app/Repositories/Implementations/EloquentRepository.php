@@ -103,4 +103,26 @@ abstract class EloquentRepository implements Repository
     public function orderByAndTake(string $column, string $order, int $take): Collection {
         return $this->model->orderBy($column, $order)->take($take)->get();
     }
+
+    public function whereIdNotIn(array $ids, int $take, array $sorts = null, array $includes = null): Collection {
+        $query = $this->model->query();
+
+        if ($includes) $query->with($includes);
+
+        $query->whereNotIn('id', $ids);
+
+        if ($sorts && !empty($sorts)) {
+            // wrap sorts in array if it is Associative arrays
+            if (! is_array(reset($sorts))) {
+                $sorts = [$sorts];
+            }
+
+            foreach ($sorts as $sort) {
+                $by = isset($sort['order']) ? $sort['order'] : "asc";
+                $query->orderBy($sort['column'], $by);
+            }
+        }
+
+        return $query->limit($take)->get();
+    }
 }

@@ -50,13 +50,6 @@ interface GetProductsService
     public function getLatestProducts(int $count): Collection;
 
     /**
-     * Get top sold products
-     * 
-     * @param int $count  (number of products)
-     */
-    public function getTopSoldProducts(int $count): Collection;
-
-    /**
      * Get top sale products
      * 
      * @param int $count  (number of products)
@@ -77,7 +70,10 @@ interface GetProductsService
     public function getRelatedProducts(string $productId, int $count): Collection;
 
     /**
-     * Get top selling products for 
+     * Get top selling products
+     * 
+     * @param int $count (number of products)
+     * @param string $time (week, month, year)
      */
     public function getTopSellingProducts(int $count, string $time): Collection;
 }

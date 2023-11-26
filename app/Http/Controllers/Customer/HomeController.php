@@ -22,9 +22,9 @@ class HomeController extends Controller
      */
     public function index() {
         $latestProducts = $this->getProductsService->getLatestProducts($this->PRODUCTS_PER_SECTION);
-        $topSoldProducts = $this->getProductsService->getTopSoldProducts($this->PRODUCTS_PER_SECTION);
+        $topSellingProducts = $this->getProductsService->getTopSellingProducts($this->PRODUCTS_PER_SECTION, 'week');
         $homeCategories = $this->getCategoriesService->getHomeCategories($this->PRODUCTS_PER_SECTION);
 
-        return view('home', compact('latestProducts', 'homeCategories', 'topSoldProducts'));
+        return view('home', compact('latestProducts', 'homeCategories', 'topSellingProducts'));
     }
 }

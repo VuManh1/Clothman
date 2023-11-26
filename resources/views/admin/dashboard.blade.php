@@ -64,6 +64,22 @@
                     <!-- End Icon Cart -->
                 </div>
                 <!-- End Col -->
+                <div class="col-xl-3 col-lg-4 col-sm-6">
+                    <div class="icon-card mb-30">
+                        <div class="icon success">
+                            <i class="lni lni-dollar"></i>
+                        </div>
+                        <div class="content">
+                            <h6 class="mb-10">Total Income Today</h6>
+                            <h3 class="text-bold mb-10" id="totalIncomeCount">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </h3>
+                        </div>
+                    </div>
+                    <!-- End Icon Cart -->
+                </div>
             </div>
             <!-- End Row -->
             <div class="row">
@@ -101,10 +117,10 @@
                             <div class="right">
                                 <div class="select-style-1">
                                     <div class="select-position select-sm">
-                                        <select class="light-bg">
-                                            <option value="">Yearly</option>
-                                            <option value="">Monthly</option>
-                                            <option value="">Weekly</option>
+                                        <select class="light-bg" id="topSellingSelect" disabled>
+                                            <option value="week">Weekly</option>
+                                            <option value="month">Monthly</option>
+                                            <option value="year">Yearly</option>
                                         </select>
                                     </div>
                                 </div>
@@ -112,8 +128,8 @@
                             </div>
                         </div>
                         <!-- End Title -->
-                        <div class="table-responsive">
-                            <table class="table top-selling-table">
+                        <div class="table-responsive table-wrapper">
+                            <table class="table top-selling-table" id="topSellingProductsTable">
                                 <thead>
                                     <tr>
                                         <th>
@@ -131,84 +147,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="product">
-                                                <div class="image">
-                                                    <img src="assets/images/products/product-mini-1.jpg" alt="" />
-                                                </div>
-                                                <p class="text-sm">Arm Chair</p>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm">Interior</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm">$345</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm">43</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="product">
-                                                <div class="image">
-                                                    <img src="assets/images/products/product-mini-2.jpg" alt="" />
-                                                </div>
-                                                <p class="text-sm">SOfa</p>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm">Interior</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm">$145</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm">13</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="product">
-                                                <div class="image">
-                                                    <img src="assets/images/products/product-mini-3.jpg" alt="" />
-                                                </div>
-                                                <p class="text-sm">Dining Table</p>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm">Interior</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm">$95</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm">32</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="product">
-                                                <div class="image">
-                                                    <img src="assets/images/products/product-mini-4.jpg" alt="" />
-                                                </div>
-                                                <p class="text-sm">Office Chair</p>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm">Interior</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm">$105</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm">23</p>
-                                        </td>
-                                    </tr>
+
                                 </tbody>
                             </table>
+
+                            <div id="topSellingProductsLoading">
+                                <div class="placeholder-glow">
+                                    <span class="placeholder col-12"></span>
+                                </div>
+                                <div class="placeholder-glow">
+                                    <span class="placeholder col-12"></span>
+                                </div>
+                                <div class="placeholder-glow">
+                                    <span class="placeholder col-12"></span>
+                                </div>
+                                <div class="placeholder-glow">
+                                    <span class="placeholder col-12"></span>
+                                </div>
+                                <div class="placeholder-glow">
+                                    <span class="placeholder col-12"></span>
+                                </div>
+                            </div>
                             <!-- End Table -->
                         </div>
                     </div>
@@ -224,6 +183,9 @@
 @section('scripts')
     <script src="{{ asset('js/Chart.min.js') }}"></script>
     <script>
+        const domain = '{{ asset('') }}';
+        const fetchTopSellingUrl = '{{ route('api.products.topselling') }}';
+
         $(function() {
             $.get("{{ route('api.dashboard') }}", function(data, status) {
                 if (status === 'success') {
@@ -231,13 +193,67 @@
 
                     $('#newOrdersCount').html(dashboardData.new_orders_count);
                     $('#newUserCount').html(dashboardData.new_users_count);
+                    $('#totalIncomeCount').html(dashboardData.total_income_today);
 
                     if (dashboardData.yearly_stats) {
                         renderYearlyStats(dashboardData.yearly_stats);
                     }
+
+                    if (dashboardData.top_week_selling_products) {
+                        renderTopSellingProducts(dashboardData.top_week_selling_products);
+                    }
                 }
             });
+
+            $("#topSellingSelect").on('change', function() {
+                fetchTopSellingProducts($(this).val());
+            });
         });
+
+        function fetchTopSellingProducts(time) {
+            $('#topSellingSelect').attr('disabled', true);
+            $('#topSellingProductsLoading').show();
+            $('#topSellingProductsTable tbody').html('');
+
+            $.get(`${fetchTopSellingUrl}?time=${time}`, function(data, status) {
+                if (status === 'success') {
+                    renderTopSellingProducts(data);
+                }
+            });
+        }
+
+        function renderTopSellingProducts(items) {
+            $('#topSellingProductsLoading').hide();
+            $('#topSellingSelect').attr('disabled', false);
+
+            let html = '';
+
+            items.forEach(item => {
+                html += `
+                    <tr>
+                        <td class="">
+                            <div class="product">
+                                <div class="image">
+                                    <img src="${domain}${item.product.thumbnail_url}" alt="${item.product.name}" />
+                                </div>
+                                <p class="text-sm text-truncate">${item.product.name}</p>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="text-sm text-truncate">${item.product.category.name}</p>
+                        </td>
+                        <td>
+                            <p class="text-sm">${item.product.selling_price}đ</p>
+                        </td>
+                        <td>
+                            <p class="text-sm">${item.total}</p>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            $('#topSellingProductsTable tbody').html(html);
+        }
 
         function renderYearlyStats(stats) {
             $('#yearlyStatsContent').find('.spinner').hide();

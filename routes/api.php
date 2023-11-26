@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AccountApiController;
 use App\Http\Controllers\Api\CartApiController;
 use App\Http\Controllers\Api\ColorsApiController;
 use App\Http\Controllers\Api\DashboardApiController;
+use App\Http\Controllers\Api\ProductsApiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +32,10 @@ Route::delete("/cart", [CartApiController::class, 'removeCart'])->name('api.cart
 
 // Colors API
 Route::get("/colors", [ColorsApiController::class, 'getColors'])->name('api.colors');
+
+// Products API
+Route::get("/products", [ProductsApiController::class, 'getProducts'])->name('api.products');
+Route::get("/products/top-selling", [ProductsApiController::class, 'getTopSelling'])->name('api.products.topselling');
 
 // Admin dashboard
 Route::get("/get-dashboard", [DashboardApiController::class, 'getDashboard'])
