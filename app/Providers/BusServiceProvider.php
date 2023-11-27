@@ -47,9 +47,6 @@ class BusServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // User Services
-        $this->app->bind(ManageUsersService::class, ManageUsersServiceImpl::class);
-
         // Product Services
         $this->app->bind(GetProductsService::class, GetProductsServiceImpl::class);
         $this->app->bind(ManageProductsService::class, ManageProductsServiceImpl::class);
@@ -71,7 +68,6 @@ class BusServiceProvider extends ServiceProvider
         //User services
         $this->app->bind(ManageUsersService::class, ManageUsersServiceImpl::class);
         $this->app->bind(GetUsersService::class, GetUsersServiceImpl::class);
-
 
         // Order services
         $this->app->bind(OrdersService::class, OrdersServiceImpl::class);
