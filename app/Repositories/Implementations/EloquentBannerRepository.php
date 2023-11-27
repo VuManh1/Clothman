@@ -6,6 +6,7 @@ use App\DTOs\Banners\BannerParamsDto;
 use App\Models\Banner;
 use App\Repositories\Interfaces\BannerRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class EloquentBannerRepository extends EloquentRepository implements BannerRepository
 {
@@ -28,5 +29,9 @@ class EloquentBannerRepository extends EloquentRepository implements BannerRepos
         }
 
         return $this->toPaginator($query, $params->page, $params->limit);
+    }
+
+    public function findByIsActive(bool $isActive): Collection {
+        return $this->model->where('is_active', $isActive ? 1 : 0)->get();
     }
 }

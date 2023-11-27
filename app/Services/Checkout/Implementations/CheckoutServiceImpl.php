@@ -29,6 +29,7 @@ class CheckoutServiceImpl implements CheckoutService {
 
     public function processCheckout(CheckoutDto $data) {
         $cartData = $this->cartService->getCartData();
+        $this->validateCarts($cartData['items']);
 
         DB::beginTransaction();
         try {
@@ -49,7 +50,6 @@ class CheckoutServiceImpl implements CheckoutService {
             DB::rollBack();
             throw $ex;
         }
-        $this->validateCarts($cartData['items']);
 
     }
 

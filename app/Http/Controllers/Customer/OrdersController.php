@@ -31,6 +31,17 @@ class OrdersController extends Controller
         ]);
     }
 
+    public function loadMoreOrders(Request $request) {
+        $userId = Auth::id() ?? "";
+        $orders = $this->ordersService->getOrdersForUser(
+            $userId,
+            $request->query('page') ?? 1,
+            $this->ORDERS_PER_PAGE
+        );
+
+        return view("components.orders-list", compact('orders'));
+    }
+
     /**
      * Display order detail page
      */

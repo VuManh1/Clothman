@@ -72,6 +72,9 @@ class ProductsController extends Controller
         $id = $request->query('productId');
         $products = $this->getProductsService->getRelatedProducts($id, 8);
 
-        return view('components.related-products-carousel', compact('products'));
+        return view('components.products-carousel', [
+            'id' => 'relatedProductsCarousel',
+            'products' => $products
+        ]);
     }
 }

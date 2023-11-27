@@ -59,8 +59,8 @@
                                 <form class="filter-form mb-2" method="GET">
                                     <select name="is_active" class="p-1 mx-1 select">
                                         <option value="">Status</option>
-                                        <option value="true">Active</option>
-                                        <option value="false">Not Active</option>
+                                        <option value="1">Active</option>
+                                        <option value="0">Not Active</option>
                                     </select>
                                     <select name="sort" class="p-1 mx-1 select">
                                         <option value="">Sort By</option>
@@ -81,6 +81,9 @@
                                             </th>
                                             <th class="lead-email">
                                                 <h6>Name</h6>
+                                            </th>
+                                            <th class="lead-link">
+                                                <h6>Active</h6>
                                             </th>
                                             <th class="lead-link">
                                                 <h6>Link</h6>
@@ -105,6 +108,9 @@
                                                     </td>
                                                     <td class="min-width">
                                                         <p>{{ $banner->name }}</p>
+                                                    </td>
+                                                    <td class="min-width">
+                                                        <p>{{ $banner->is_active ? 'true' : 'false' }}</p>
                                                     </td>
                                                     <td class="min-width">
                                                         <div class="lead">

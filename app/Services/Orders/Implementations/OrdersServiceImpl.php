@@ -41,13 +41,13 @@ class OrdersServiceImpl implements OrdersService
 
     public function getOrdersForUser(string $userId, $page, $limit): LengthAwarePaginator {
         return $this->orderRepository->findByUserId($userId, $page, $limit, [
-            'orderItems', 'orderItems.product', 'orderItems.productVariant', 'orderItems.productVariant.color'
+            'orderItems.product', 'orderItems.productVariant', 'orderItems.productVariant.color'
         ]);
     }
 
     public function getOrderByCode(string $code): Order {
         $order = $this->orderRepository->findByCode($code, [
-            'payment', 'orderItems', 'orderItems.product', 'orderItems.productVariant', 'orderItems.productVariant.color'
+            'payment', 'orderItems.product', 'orderItems.productVariant', 'orderItems.productVariant.color'
         ]);
 
         if (!$order) {
