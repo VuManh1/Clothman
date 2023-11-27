@@ -48,6 +48,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ImageRepository::class, EloquentImageRepository::class);
         $this->app->bind(ProductVariantRepository::class, EloquentProductVariantRepository::class);
         $this->app->bind(BannerRepository::class, EloquentBannerRepository::class);
+        $this->app->bind(UserRepository::class, EloquentUserRepository::class);
         $this->app->bind(CartRepository::class, EloquentCartRepository::class);
         $this->app->bind(OrderRepository::class, EloquentOrderRepository::class);
         $this->app->bind(OrderItemRepository::class, EloquentOrderItemRepository::class);

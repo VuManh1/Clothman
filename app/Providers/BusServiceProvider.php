@@ -6,6 +6,10 @@ use App\Services\Banners\Implementations\GetBannersServiceImpl;
 use App\Services\Banners\Implementations\ManageBannersServiceImpl;
 use App\Services\Banners\Interfaces\GetBannersService;
 use App\Services\Banners\Interfaces\ManageBannersService;
+use App\Services\Users\Implementations\GetUsersServiceImpl;
+use App\Services\Users\Implementations\ManageUsersServiceImpl;
+use App\Services\Users\Interfaces\GetUsersService;
+use App\Services\Users\Interfaces\ManageUsersService;
 use App\Services\Cart\Implementations\CartServiceImpl;
 use App\Services\Cart\Interfaces\CartService;
 use App\Services\Categories\Implementations\GetCategoriesServiceImpl;
@@ -32,8 +36,6 @@ use App\Services\Products\Interfaces\ManageProductsService;
 use App\Services\Products\Interfaces\ManageProductVariantsService;
 use App\Services\Upload\Implementations\LocalUploadService;
 use App\Services\Upload\Interfaces\UploadService;
-use App\Services\Users\Implementations\ManageUsersServiceImpl;
-use App\Services\Users\Interfaces\ManageUsersService;
 use Illuminate\Support\ServiceProvider;
 
 class BusServiceProvider extends ServiceProvider
@@ -65,6 +67,11 @@ class BusServiceProvider extends ServiceProvider
         //Banner services
         $this->app->bind(GetBannersService::class, GetBannersServiceImpl::class);
         $this->app->bind(ManageBannersService::class, ManageBannersServiceImpl::class);
+
+        //User services
+        $this->app->bind(ManageUsersService::class, ManageUsersServiceImpl::class);
+        $this->app->bind(GetUsersService::class, GetUsersServiceImpl::class);
+
 
         // Order services
         $this->app->bind(OrdersService::class, OrdersServiceImpl::class);

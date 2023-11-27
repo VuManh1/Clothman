@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BannersController;
 use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\ColorsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductsController;
@@ -86,17 +87,20 @@ Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(fun
 
     Route::post("/products/images", [ProductsController::class, 'updateImages'])->name("admin.products.images.update");
     Route::resource('products', ProductsController::class, ['as' => 'admin']);
-    
+
     Route::get("/products/{id}/variants", [ProductVariantsController::class, 'show'])->name("admin.products.variants");
     Route::post("/products/variants", [ProductVariantsController::class, 'create'])->name("admin.products.variants.store");
     Route::patch("/products/variants/{id}/quantity", [ProductVariantsController::class, 'updateQuantity'])->name("admin.products.variants.quantity.update");
     Route::delete("/products/variants/{id}", [ProductVariantsController::class, 'destroy'])->name("admin.products.variants.destroy");
 
     Route::resource('categories', CategoriesController::class, ['as' => 'admin']);
-    
+
     Route::resource('colors', ColorsController::class, ['as' => 'admin']);
 
     Route::resource('banners', BannersController::class, ['as' => 'admin'])->middleware(['role:ADMIN,null,null']);
+
+    Route::resource('users', UsersController::class, ['as' => 'admin'])->middleware(['role:ADMIN,null,null']);
+
 
     Route::get("/orders", [\App\Http\Controllers\Admin\OrdersController::class, 'index'])->name('admin.orders.index');
     Route::get("/orders/{code}", [\App\Http\Controllers\Admin\OrdersController::class, 'show'])->name('admin.orders.show');

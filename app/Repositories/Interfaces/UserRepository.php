@@ -3,13 +3,17 @@
 namespace App\Repositories\Interfaces;
 
 use App\Models\User;
+use App\DTOs\Users\UserParamsDto;
 use App\Repositories\Interfaces\Repository;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Repository for User entity
  */
 interface UserRepository extends Repository
 {
+    public function findByParams(UserParamsDto $params): LengthAwarePaginator;
+
     /**
      * Get one user by email
      */
