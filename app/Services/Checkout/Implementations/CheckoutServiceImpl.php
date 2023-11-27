@@ -42,7 +42,7 @@ class CheckoutServiceImpl implements CheckoutService {
             $payment = $this->paymentService->createPayment($createPaymentDto);
     
             $createOrderDto = $this->makeOrderDto($cartData, $data, $payment->id);
-            $this->ordersService->createOrder($createOrderDto);
+            $order = $this->ordersService->createOrder($createOrderDto);
 
             $this->cartService->removeAllCart(Auth::check() ? Auth::id() : null);
             DB::commit();
@@ -51,6 +51,7 @@ class CheckoutServiceImpl implements CheckoutService {
             throw $ex;
         }
 
+        return $order;
     }
 
     private function validateCarts($carts) {

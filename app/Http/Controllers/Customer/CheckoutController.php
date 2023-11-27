@@ -24,9 +24,10 @@ class CheckoutController extends Controller
      */
     public function checkout(CheckoutRequest $request) {
         $data = CheckoutDto::fromRequest($request);
-        $result = $this->checkoutService->processCheckout($data);
+        $order = $this->checkoutService->processCheckout($data);
 
-        return redirect()->route('checkout.success')->with('success', 'Thanh toán và đặt hàng thành công!');
+        return redirect()->route('checkout.success', ['code' => $order->code])
+            ->with('success', 'Thanh toán và đặt hàng thành công!');
     }
 
     /**
