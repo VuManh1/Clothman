@@ -51,7 +51,7 @@
                                         placeholder="Search" aria-label="Search" required>
                                 </form>
 
-                                <a href="{{ route('admin.Users.create') }}" class="btn btn-dark mb-3">Create new User</a>
+                                <a href="{{ route('admin.users.create') }}" class="btn btn-dark mb-3">Create new User</a>
                             </div>
 
                             <div class="btn-toolbar">
@@ -128,9 +128,9 @@
                                                     </td>
                                                     <td>
                                                         <div class="action gap-2">
-                                                            <a href="{{ route('admin.users.show', [$User->id]) }}"
+                                                            <a href="{{ route('admin.users.show', [$user->id]) }}"
                                                                 class="btn btn-success">Detail</a>
-                                                            <a href="{{ route('admin.users.edit', [$User->id]) }}"
+                                                            <a href="{{ route('admin.users.edit', [$user->id]) }}"
                                                                 class="btn btn-success">Edit</a>
                                                         </div>
                                                     </td>

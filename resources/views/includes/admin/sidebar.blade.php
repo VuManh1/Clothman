@@ -47,13 +47,16 @@
                     <li>
                         <a href="{{ route("admin.banners.index") }}"> Banners </a>
                     </li>
+                    <li>
+                        <a href="{{ route("admin.users.index") }}"> Users </a>
+                    </li>
                 </ul>
             </li>
 
             <span class="divider">
                 <hr />
             </span>
-            
+
             <li class="nav-item">
                 <a href="{{ route('admin.orders.index') }}">
                     <span class="icon">
