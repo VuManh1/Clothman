@@ -45,6 +45,7 @@ Route::get("/cart", [\App\Http\Controllers\Customer\CartController::class, 'cart
 
 Route::post("/checkout", [CheckoutController::class, 'checkout'])->name('checkout');
 Route::get("/checkout/success", [CheckoutController::class, 'success'])->name('checkout.success');
+Route::get("/checkout/cancel", [CheckoutController::class, 'cancel'])->name('checkout.cancel');
 
 
 /*
@@ -112,7 +113,9 @@ Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(fun
 Route::prefix('account')->middleware(["auth"])->group(function () {
     Route::get("/infor", [AccountController::class, "infor"])->name("account.infor");
     Route::get("/password", [AccountController::class, "password"])->name("account.password");
+
     Route::get("/orders", [\App\Http\Controllers\Customer\OrdersController::class, "orders"])->name("account.orders");
+    Route::get("/more-orders", [\App\Http\Controllers\Customer\OrdersController::class, "loadMoreOrders"])->name("account.orders.more");
     Route::get("/orders/{code}", [\App\Http\Controllers\Customer\OrdersController::class, "detail"])->name("account.orders.detail");
     Route::patch("/orders/{code}", [\App\Http\Controllers\Customer\OrdersController::class, "cancel"])->name("account.orders.cancel");
 });

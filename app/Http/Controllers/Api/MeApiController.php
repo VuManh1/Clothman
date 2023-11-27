@@ -7,14 +7,35 @@ use App\DTOs\Users\UpdateUserDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\ChangePasswordRequest;
 use App\Http\Requests\Account\UpdateAccountRequest;
+use App\Services\Orders\Interfaces\OrdersService;
 use App\Services\Users\Interfaces\ManageUsersService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AccountApiController extends Controller
+class MeApiController extends Controller
 {
     public function __construct(
-        private ManageUsersService $manageUsersService
-    ) {}
+        private ManageUsersService $manageUsersService,
+        private OrdersService $ordersService
+    ) {
+        
+    }
+
+    /**
+     * Get current user's orders
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getOrders(Request $request) {
+        $userId = Auth::id() ?? "";
+        $orders = $this->ordersService->getOrdersForUser(
+            $userId,
+            $request->query('page') ?? 1,
+            $request->query('limit') ?? 10,
+        );
+
+        return response()->json($orders);
+    }
 
     /**
      * Handle update account information

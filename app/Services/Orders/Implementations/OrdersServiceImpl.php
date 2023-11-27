@@ -5,7 +5,9 @@ namespace App\Services\Orders\Implementations;
 use App\DTOs\Orders\CreateOrderDto;
 use App\DTOs\Orders\OrderParamsDto;
 use App\DTOs\Orders\UpdateOrderDto;
+use App\Events\OrderCompleted;
 use App\Events\OrderCreated;
+use App\Events\OrderShipped;
 use App\Exceptions\Orders\OrderCanNotCancelException;
 use App\Exceptions\Orders\OrderCanNotUpdateException;
 use App\Exceptions\Orders\OrderNotFoundException;
@@ -39,13 +41,13 @@ class OrdersServiceImpl implements OrdersService
 
     public function getOrdersForUser(string $userId, $page, $limit): LengthAwarePaginator {
         return $this->orderRepository->findByUserId($userId, $page, $limit, [
-            'orderItems', 'orderItems.product', 'orderItems.productVariant', 'orderItems.productVariant.color'
+            'orderItems.product', 'orderItems.productVariant', 'orderItems.productVariant.color'
         ]);
     }
 
     public function getOrderByCode(string $code): Order {
         $order = $this->orderRepository->findByCode($code, [
-            'payment', 'orderItems', 'orderItems.product', 'orderItems.productVariant', 'orderItems.productVariant.color'
+            'payment', 'orderItems.product', 'orderItems.productVariant', 'orderItems.productVariant.color'
         ]);
 
         if (!$order) {
@@ -104,11 +106,23 @@ class OrdersServiceImpl implements OrdersService
             throw new OrderCanNotUpdateException("Không thể cập nhập đơn hàng này!");
         }
 
-        
-        return $this->orderRepository->update($order->id, [
+        $updatedOrder = $this->orderRepository->update($order->id, [
             'status' => $updateOrderDto->status,
             'address' => $updateOrderDto->address
         ]);
+
+        switch ($updatedOrder->status) {
+            case OrderStatus::SHIPPING:
+                event(new OrderShipped($updatedOrder));
+                break;
+            case OrderStatus::COMPLETED:
+                event(new OrderCompleted($updatedOrder));
+                break;
+            default:
+                break;
+        }
+
+        return $updatedOrder;
     }
 
     public function cancelOrder(string $code, string $cancelReson = null): bool {

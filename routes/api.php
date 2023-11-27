@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\Api\AccountApiController;
 use App\Http\Controllers\Api\CartApiController;
 use App\Http\Controllers\Api\ColorsApiController;
 use App\Http\Controllers\Api\DashboardApiController;
+use App\Http\Controllers\Api\MeApiController;
 use App\Http\Controllers\Api\ProductsApiController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,10 +18,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Account API
-Route::prefix('account')->middleware(["auth"])->group(function () {
-    Route::put("/infor", [AccountApiController::class, "updateInfor"])->name("api.account.infor.update");
-    Route::patch("/password", [AccountApiController::class, "changePassword"])->name("api.account.password.update");
+// Me API
+Route::prefix('me')->middleware(["auth"])->group(function () {
+    Route::put("/infor", [MeApiController::class, "updateInfor"])->name("api.me.infor.update");
+    Route::patch("/password", [MeApiController::class, "changePassword"])->name("api.me.password.update");
+
+    Route::get("/orders", [MeApiController::class, "getOrders"])->name("api.me.orders");
 });
 
 // Cart API

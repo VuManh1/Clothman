@@ -36,6 +36,7 @@ class ViewComposerServiceProvider extends ServiceProvider
             'account.orders',
             'account.order-detail',
             'checkout.success',
+            'checkout.cancel',
         ], CategoryComposer::class);
     }
 }

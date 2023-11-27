@@ -24,8 +24,10 @@ class DashboardService {
 
         $newUsersCount = $this->userRepository->countByCreatedAt($today);
         $newOrdersCount = $this->orderRepository->countByCreatedAt($today);
-        $totalIncomeToday = $this->saleRepository->findByDate($today);
         
+        $saleToday = $this->saleRepository->findByDate($today);
+        $totalIncomeToday = $saleToday ? $saleToday->amount : 0;
+
         $yearlyStats = $this->saleRepository->getYearStats(Carbon::now()->year);
         $yearlyStatsTotal = $yearlyStats->sum('total');
 
@@ -34,7 +36,7 @@ class DashboardService {
         return [
             'new_users_count' => $newUsersCount,
             'new_orders_count' => $newOrdersCount,
-            'total_income_today' => number_format($totalIncomeToday->amount, 0, '.', '.').'đ',
+            'total_income_today' => number_format($totalIncomeToday, 0, '.', '.').'đ',
             'yearly_stats' => [
                 'total' => number_format($yearlyStatsTotal, 0, '.', '.')."đ",
                 'data' => $yearlyStats

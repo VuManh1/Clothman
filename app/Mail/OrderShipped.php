@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class OrderCreated extends Mailable
+class OrderShipped extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -20,7 +20,7 @@ class OrderCreated extends Mailable
      * @return void
      */
     public function __construct(
-        public Order $order,
+        public Order $order
     )
     {
         //
@@ -34,7 +34,7 @@ class OrderCreated extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Đặt hàng thành công!',
+            subject: 'Đơn hàng đã được vận chuyển',
         );
     }
 
@@ -46,7 +46,7 @@ class OrderCreated extends Mailable
     public function content()
     {
         return new Content(
-            markdown: 'emails.orders.created',
+            markdown: 'emails.orders.shipped',
         );
     }
 
