@@ -100,8 +100,13 @@ Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(fun
 
     Route::resource('banners', BannersController::class, ['as' => 'admin'])->middleware(['role:ADMIN,null,null']);
 
-    Route::resource('users', UsersController::class, ['as' => 'admin'])->middleware(['role:ADMIN,null,null']);
-
+    Route::controller(UsersController::class)->middleware(['role:ADMIN,null,null'])->group(function () {
+        Route::get('users', 'index')->name("admin.users.index");
+        Route::get('users/create', 'create')->name("admin.users.create");
+        Route::post('users', 'store')->name("admin.users.store");
+        Route::get('users/{id}', 'show')->name("admin.users.show");
+        Route::patch('users/{id}', 'lock')->name("admin.users.lock");
+    });
 
     Route::get("/orders", [\App\Http\Controllers\Admin\OrdersController::class, 'index'])->name('admin.orders.index');
     Route::get("/orders/{code}", [\App\Http\Controllers\Admin\OrdersController::class, 'show'])->name('admin.orders.show');

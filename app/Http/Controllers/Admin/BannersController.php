@@ -36,11 +36,21 @@ class BannersController extends Controller
         return view("admin.banners.index", ["banners" => $banners]);
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         return view("admin.banners.create");
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function store(CreateBannerRequest $request)
     {
         $createBannerDto = CreateBannerDto::fromRequest($request);
@@ -50,6 +60,11 @@ class BannersController extends Controller
         return redirect()->route("admin.banners.index")->with("success", $banner->name." created !");
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function show($id)
     {
         $banner = $this->getBannersService->getBannerById($id);
@@ -57,6 +72,11 @@ class BannersController extends Controller
         return view("admin.banners.show", compact("banner"));
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function edit($id)
     {
         $banner = $this->getBannersService->getBannerById($id);
@@ -64,6 +84,11 @@ class BannersController extends Controller
         return view("admin.banners.edit", compact("banner"));
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function update(UpdateBannerRequest $request, $id)
     {
         $updateBannerDto = UpdateBannerDto::fromRequest($request);
@@ -73,6 +98,11 @@ class BannersController extends Controller
         return redirect()->route("admin.banners.index")->with("success", $banner->name." updated !");
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
     {
         $this->manageBannersService->deleteBanner($id);

@@ -13,13 +13,21 @@ use App\Models\User;
 interface ManageUsersService
 {
     /**
-     * create a staff account
+     * Create a staff account
      */
-    public function createStaff(User $user, CreateStaffDto $createStaffDto): User;
+    public function createStaff(CreateStaffDto $createStaffDto): User;
+
     /**
      * Update basic information of an User
      */
     public function updateUserInformation($id, UpdateUserDto $updateUserDto): User;
+
+    /**
+     * Lock user if is_locked is 0, and vice versa 
+     * 
+     * @return bool (true if user locked, false if unlocked)
+     */
+    public function toggleLock($id): bool;
 
     /**
      * Change password of an User

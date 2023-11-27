@@ -10,9 +10,9 @@ use Illuminate\Http\Request;
  */
 class UniqueFieldException extends Exception
 {
-    public function __construct()
+    public function __construct(string $msg = null)
     {
-        parent::__construct("Unique field constraint violation");
+        parent::__construct($msg ? $msg : "Unique field constraint violation");
     }
 
     /**

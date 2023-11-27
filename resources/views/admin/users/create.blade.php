@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Create User')
+@section('title', 'Create Staff')
 
 @section('content')
     <div class="container-fluid">
@@ -8,7 +8,7 @@
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="title">
-                        <h2>Create User</h2>
+                        <h2>Create Staff</h2>
                     </div>
                 </div>
                 <!-- end col -->
@@ -23,7 +23,7 @@
                                     <a href="{{ route('admin.users.index') }}">Users</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
-                                    Create User
+                                    Create Staff
                                 </li>
                             </ol>
                         </nav>
@@ -42,36 +42,23 @@
                     @include('includes.errors')
 
                     <div class="card-style mb-30">
-                        <form action="{{ route('admin.users.store') }}" method="POST" id="create-user-form" enctype="multipart/form-data">
+                        <form action="{{ route('admin.users.store') }}" method="POST" id="create-staff-form">
                             @csrf
 
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="name" name="name">
+                                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" id="email" name="email">
-                            </div>
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">Phone</label>
-                                <input type="number" class="form-control" id="phone" name="phone">
+                                <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
                             </div>
                             <div class="mb-3 ">
                                 <label for="password" class="form-label">Password</label>
                                 <div class="col-sm-10">
                                   <input type="password" class="form-control" id="password" name="password">
                                 </div>
-                              </div>
-                            <div class="mb-3">
-                                <label for="role" class="form-label">Role</label>
-                                <input type="text" class="form-control" id="role" name="role">
                             </div>
-                            <div class="mb-3">
-                                <label for="info" class="form-label">Address</label>
-                                <input type="text" class="form-control" id="address" name="address">
-                            </div>
-
 
                             <button type="submit" class="btn btn-success">Create</button>
                         </form>
@@ -91,19 +78,18 @@
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
     <script>
         $().ready(function() {
-            $("#create-user-form").validate({
+            $("#create-staff-form").validate({
                 rules: {
                     "name": {
                         required: true,
                     },
                     "email": {
-                        required: true,
-                    },
-                    "phone": {
+                        email: true,
                         required: true,
                     },
                     "password": {
                         required: true,
+                        minlength: 8
                     }
                 },
                 messages: {
@@ -111,15 +97,13 @@
                         required: "Name không được để trống",
                     },
                     "email": {
+                        email: "Email không hợp lệ",
                         required: "Email không được để trống",
-                    },
-                    "phone": {
-                        required: "Phone không được để trống",
                     },
                     "password": {
                         required: "Password không được để trống",
+                        minlength: "Mật khẩu không được ít hơn 8 ký tự"
                     },
-
                 }
             });
         });

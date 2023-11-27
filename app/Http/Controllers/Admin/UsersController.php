@@ -4,17 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Services\Users\Interfaces\ManageUsersService;
-use Illuminate\Http\Request;
-
-use App\DTOs\Users\ChangePasswordDto;
 use App\DTOs\Users\CreateStaffDto;
-use App\DTOs\Users\UpdateUserDto;
 use App\DTOs\Users\UserParamsDto;
-use App\Http\Requests\Account\CreateStaffRequest;
-use App\Http\Requests\Account\ChangePasswordRequest;
-use App\Http\Requests\Account\UpdateAccountRequest;
+use App\Http\Requests\Users\CreateStaffRequest;
 use App\Services\Users\Interfaces\GetUsersService;
-use App\Services\Users\Implementations\GetUsersServiceImpl;
+use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
@@ -22,42 +16,61 @@ class UsersController extends Controller
         private ManageUsersService $manageUsersService,
         private GetUsersService $getUsersService
     ) {
-        $this->middleware('role:ADMIN,null,null')->only(['destroy']);
+
     }
 
-    public function index(Request $request){
+    /**
+     * Display a listing of the users.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request) {
         $params = UserParamsDto::fromRequest($request);
+
         $users = $this->getUsersService->getUsersByParams($params);
+        
         $this->appendPaginatorURL( $users);
+        
         return view('admin.users.index', ['users'=> $users]);
     }
+
+    /**
+     * Show the form for creating a new staff.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         return view("admin.users.create");
     }
 
-    public function edit($id)
+    /**
+     * Store a newly created staff in storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CreateStaffRequest $request) {
+        $dto = CreateStaffDto::fromRequest($request);
+
+        $this->manageUsersService->createStaff($dto);
+
+        return redirect()->route('admin.users.index')->with('success', 'Staff created !');
+    }
+
+    public function show($id)
     {
         $user = $this->getUsersService->getUserById($id);
 
-        return view("admin.users.edit", compact("user"));
+        return view("admin.users.show", compact("user"));
     }
 
-    public function update(UpdateAccountRequest $request, $id)
+    public function lock($id)
     {
-        $updateUserDto = UpdateUserDto::fromRequest($request);
+        $locked = $this->manageUsersService->toggleLock($id);
 
-        $user = $this->manageUsersService->updateUserInformation($id, $updateUserDto);
-
-        return redirect()->route("admin.users.index")->with("success", $user->name." updated !");
+        return response()->json([
+            'status' => 'success',
+            'message' => $locked ? "Locked successfully" : "Unlocked successfully"
+        ]);
     }
-
-    // public function destroy($id)
-    // {
-    //     $this->manageUsersService->deleteUser($id);
-
-    //     return redirect()->route("admin.users.index")->with("success", "user deleted !");
-    // }
-
-
 }

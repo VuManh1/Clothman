@@ -47,9 +47,6 @@
                     <li>
                         <a href="{{ route("admin.banners.index") }}"> Banners </a>
                     </li>
-                    <li>
-                        <a href="{{ route("admin.users.index") }}"> Users </a>
-                    </li>
                 </ul>
             </li>
 
@@ -67,6 +64,19 @@
                         </svg>
                     </span>
                     <span class="text">Orders</span>
+                </a>
+            </li>
+
+            <span class="divider">
+                <hr />
+            </span>
+
+            <li class="nav-item">
+                <a href="{{ route('admin.users.index') }}">
+                    <span class="icon">
+                        <i class="lni lni-users"></i>
+                    </span>
+                    <span class="text">Users</span>
                 </a>
             </li>
 

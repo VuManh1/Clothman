@@ -11,10 +11,6 @@
                         <div class="title">
                             <h2>Users</h2>
                         </div>
-                        {{-- <form role="search" method="GET">
-                            <input class="form-control me-2" name="q" type="search" placeholder="Search"
-                                aria-label="Search" required>
-                        </form> --}}
                     </div>
                     <!-- end col -->
                     <div class="col-md-6">
@@ -47,16 +43,27 @@
                             <div class="btn-toolbar justify-content-between gap-3">
 
                                 <form role="search" method="GET">
-                                    <input class="form-control me-2" name="q" type="search"
-                                        placeholder="Search" aria-label="Search" required>
+                                    <input class="form-control me-2" name="q" type="search" placeholder="Search"
+                                        aria-label="Search" required>
                                 </form>
 
-                                <a href="{{ route('admin.users.create') }}" class="btn btn-dark mb-3">Create new User</a>
+                                <a href="{{ route('admin.users.create') }}" class="btn btn-dark mb-3">Create new Staff</a>
                             </div>
 
                             <div class="btn-toolbar">
                                 {{-- Filter --}}
                                 <form class="filter-form mb-2" method="GET">
+                                    <select name="is_locked" class="p-1 mx-1">
+                                        <option value="">Is Locked</option>
+                                        <option value="1">True</option>
+                                        <option value="0">False</option>
+                                    </select>
+                                    <select name="role" class="p-1 mx-1">
+                                        <option value="">Role</option>
+                                        <option value="CUSTOMER">Customer</option>
+                                        <option value="STAFF">Staff</option>
+                                        <option value="ADMIN">Admin</option>
+                                    </select>
                                     <select name="sort" class="p-1 mx-1 select">
                                         <option value="">Sort By</option>
                                         <option value="name.asc">Name</option>
@@ -71,65 +78,66 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            {{-- <th class="lead-info">
-                                                <h6>ID</h6>
-                                            </th> --}}
-                                            <th class="lead-name">
+                                            <th>
                                                 <h6>Name</h6>
                                             </th>
-
-                                            <th class="lead-role">
-                                                <h6>Role</h6>
-                                            </th>
-                                            <th class="lead-email">
+                                            <th>
                                                 <h6>Email</h6>
                                             </th>
-                                            <th class="lead-phone">
+                                            <th>
                                                 <h6>Phone</h6>
                                             </th>
-                                            <th class="lead-info">
-                                                <h6>Address</h6>
+                                            <th>
+                                                <h6>Role</h6>
                                             </th>
                                             <th>
-                                                <h6>Actions</h6>
+                                                <h6>Locked</h6>
+                                            </th>
+                                            <th>
+                                                <h6>Action</h6>
                                             </th>
                                         </tr>
                                         <!-- end table row-->
                                     </thead>
                                     <tbody>
-                                        @if (isset($users) && $users->isNotEmpty())
-                                            @foreach ($users as $user)
-                                                <tr>
-                                                    <td class="min-width">
-                                                        <p>{{ $user->name }}</p>
-                                                    </td>
-                                                    <td class="min-width">
-                                                        <p>{{ $user->role }}</p>
-                                                    </td>
-                                                    <td class="min-width">
-                                                        <p>{{ $user->email }}</p>
-                                                    </td>
-                                                    <td class="min-width">
-                                                        <div class="lead">
-                                                            <div class="lead-phone">
-                                                                <p>{{ $user->phone_number }}</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="min-width">
-                                                        <p>{{ $user->address}}</p>
-                                                    </td>
-                                                    <td>
-                                                        <div class="action gap-2">
-                                                            <a href="{{ route('admin.users.show', [$user->id]) }}"
-                                                                class="btn btn-success">Detail</a>
-                                                            <a href="{{ route('admin.users.edit', [$user->id]) }}"
-                                                                class="btn btn-success">Edit</a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @endif
+                                        @foreach ($users as $user)
+                                            <tr>
+                                                <td class="min-width">
+                                                    <p>{{ $user->name }}</p>
+                                                </td>
+                                                <td class="min-width">
+                                                    <p>{{  $user->email }}</p>
+                                                </td>
+                                                <td class="min-width">
+                                                    <p>{{ $user->phone_number ?? 'NULL' }}</p>
+                                                </td>
+                                                <td class="min-width">
+                                                    @switch($user->role)
+                                                        @case('CUSTOMER')
+                                                            <span class="status-btn active-btn">{{ $user->role }}</span>
+                                                            @break
+                                                        @case('STAFF')
+                                                            <span class="status-btn info-btn">{{ $user->role }}</span>
+                                                            @break
+                                                        @case('ADMIN')
+                                                            <span class="status-btn close-btn">{{ $user->role }}</span>
+                                                            @break
+                                                        @default
+                                                            <p>{{ $user->role }}</p>
+                                                    @endswitch
+                                                </td>
+                                                <td class="min-width">
+                                                    <p>{{ $user->is_locked ? 'True' : 'False' }}</p>
+                                                </td>
+                                                <td>
+                                                    <div class="action gap-2">
+                                                        <a href="{{ route('admin.users.show', [$user->id]) }}"
+                                                            class="btn btn-success">Detail</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        <!-- end table row -->
                                     </tbody>
                                 </table>
                                 <!-- end table -->

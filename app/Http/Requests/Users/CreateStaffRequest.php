@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Account;
+namespace App\Http\Requests\Users;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,9 +25,8 @@ class CreateStaffRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email'=> 'required',
-            'password'=> 'required',
-            'phone_number'=> 'required',
+            'email'=> 'required|email:rfc,dns',
+            'password'=> 'required|min:8',
         ];
     }
 
@@ -41,8 +40,9 @@ class CreateStaffRequest extends FormRequest
         return [
             'name.required' => 'Người chứ có phải * đâu mà không có tên',
             'email.required' => 'Nhập email đê e ơi!',
+            'email.email' => "Email không hợp lệ",
             'password.required' => 'Không mật khẩu, khỏi đăng nhập',
-            'phone_number.required'=> 'bắt buộc',
+            'password.min' => "Mật khẩu không được ít hơn 8 ký tự",
         ];
     }
 }

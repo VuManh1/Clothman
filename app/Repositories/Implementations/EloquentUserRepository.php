@@ -21,7 +21,12 @@ class EloquentUserRepository extends EloquentRepository implements UserRepositor
         if ($params->keyword) {
             $query->where("name", "LIKE", "%".$params->keyword."%");
         }
-
+        if ($params->isLocked !== null) {
+            $query->where('is_locked', $params->isLocked);
+        }
+        if ($params->role !== null) {
+            $query->where('role', $params->role);
+        }
 
         if ($params->sortColumn) {
             $query->orderBy($params->sortColumn, $params->sortOrder ?? "asc");

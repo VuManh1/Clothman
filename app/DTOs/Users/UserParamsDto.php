@@ -13,7 +13,8 @@ class UserParamsDto extends QueryParamsDto
         ?string $sortColumn,
         ?string $sortOrder,
         ?string $keyword,
-        public ?array $includes,
+        public ?bool $isLocked,
+        public ?string $role,
     ) {
         parent::__construct($page, $limit, $sortColumn, $sortOrder, $keyword);
     }
@@ -30,7 +31,8 @@ class UserParamsDto extends QueryParamsDto
             $paramsDto->sortColumn,
             $paramsDto->sortOrder,
             $paramsDto->keyword,
-            null
+            $request->is_locked,
+            $request->role,
         );
     }
 }
