@@ -77,19 +77,15 @@
                                             <th class="lead-name">
                                                 <h6>Name</h6>
                                             </th>
+
+                                            <th class="lead-role">
+                                                <h6>Role</h6>
+                                            </th>
                                             <th class="lead-email">
                                                 <h6>Email</h6>
                                             </th>
                                             <th class="lead-phone">
                                                 <h6>Phone</h6>
-                                            </th>
-
-                                            <th class="lead-password">
-                                                <h6>Password</h6>
-                                            </th>
-
-                                            <th class="lead-role">
-                                                <h6>Role</h6>
                                             </th>
                                             <th class="lead-info">
                                                 <h6>Address</h6>
@@ -108,23 +104,20 @@
                                                         <p>{{ $user->name }}</p>
                                                     </td>
                                                     <td class="min-width">
+                                                        <p>{{ $user->role }}</p>
+                                                    </td>
+                                                    <td class="min-width">
+                                                        <p>{{ $user->email }}</p>
+                                                    </td>
+                                                    <td class="min-width">
                                                         <div class="lead">
-                                                            <div class="lead-email">
-                                                                <p>{{ $user->email }}</p>
-                                                            </div>
                                                             <div class="lead-phone">
                                                                 <p>{{ $user->phone_number }}</p>
                                                             </div>
-                                                            <div class="lead-password">
-                                                                <p>{{ $user->password }}</p>
-                                                            </div>
-                                                            <div class="lead-role">
-                                                                <p>{{ $user->role }}</p>
-                                                            </div>
-                                                            <div class="lead-info">
-                                                                <p>{{ $user->address }}</p>
-                                                            </div>
                                                         </div>
+                                                    </td>
+                                                    <td class="min-width">
+                                                        <p>{{ $user->address}}</p>
                                                     </td>
                                                     <td>
                                                         <div class="action gap-2">
