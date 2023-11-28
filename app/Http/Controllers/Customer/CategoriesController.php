@@ -16,7 +16,7 @@ class CategoriesController extends Controller
         
     }
 
-    public function category(Request $request) {
+    public function getCategoryWithProducts(Request $request) {
         $category = $this->getCategoriesService->getCategoryBySlug($request->slug);
         $products = $this->getProductsService->getProductsByCategorySlug($request->slug, $request->page ?? 1, 25);
         $this->appendPaginatorURL($products);

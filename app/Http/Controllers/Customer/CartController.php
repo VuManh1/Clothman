@@ -17,7 +17,7 @@ class CartController extends Controller
     /**
      * Show the cart page view
      */
-    public function cart(Request $request) {
+    public function showCart(Request $request) {
         $user = Auth::user();
         $cart = $this->cartService->getCartData();
 

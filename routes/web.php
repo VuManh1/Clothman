@@ -37,11 +37,12 @@ Route::get("/products", [\App\Http\Controllers\Customer\ProductsController::clas
 Route::get("/products/sales", [\App\Http\Controllers\Customer\ProductsController::class, 'sales'])->name('products.sales');
 Route::get("/products/related", [\App\Http\Controllers\Customer\ProductsController::class, 'relatedProducts'])->name('products.related');
 Route::get("/products/{slug}", [\App\Http\Controllers\Customer\ProductsController::class, 'productDetail'])->name('product.detail');
-Route::get("/category/{slug}", [\App\Http\Controllers\Customer\CategoriesController::class, 'category'])->name('category');
+
+Route::get("/category/{slug}", [\App\Http\Controllers\Customer\CategoriesController::class, 'getCategoryWithProducts'])->name('category');
 
 Route::get("/search", [\App\Http\Controllers\Customer\ProductsController::class, 'search'])->name('search');
 
-Route::get("/cart", [\App\Http\Controllers\Customer\CartController::class, 'cart'])->name('cart');
+Route::get("/cart", [\App\Http\Controllers\Customer\CartController::class, 'showCart'])->name('cart');
 
 Route::post("/checkout", [CheckoutController::class, 'checkout'])->name('checkout');
 Route::get("/checkout/success", [CheckoutController::class, 'success'])->name('checkout.success');

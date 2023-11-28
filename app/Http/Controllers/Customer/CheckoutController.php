@@ -51,8 +51,4 @@ class CheckoutController extends Controller
     public function cancel() {
         return view('checkout.cancel');
     }
-
-    public function palpalSuccess(Request $request) {
-
-    }
 }
