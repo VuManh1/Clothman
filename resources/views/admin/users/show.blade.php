@@ -75,6 +75,10 @@
                             <strong>{{ $user->name }}</strong>
                         </div>
                         <div class="mb-2">
+                            Joined At:
+                            <strong>{{ $user->created_at }}</strong>
+                        </div>
+                        <div class="mb-2">
                             Email:
                             <strong>{{ $user->email  }}</strong>
                         </div>

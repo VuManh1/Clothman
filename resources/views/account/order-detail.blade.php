@@ -30,9 +30,9 @@
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="cancel_reason" id="cancel_reason3" value="Hết tiền rồi">
+                                <input class="form-check-input" type="radio" name="cancel_reason" id="cancel_reason3" value="Hết tiền rùi :<">
                                 <label class="form-check-label" for="cancel_reason3">
-                                    Hết tiền rồi
+                                    Hết tiền rùi :<
                                 </label>
                             </div>
                         </div>
