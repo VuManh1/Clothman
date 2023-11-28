@@ -33,7 +33,7 @@ class ProductVariantsController extends Controller
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function create(CreateProductVariantRequest $request)
+    public function store(CreateProductVariantRequest $request)
     {
         $data = CreateProductVariantDto::fromRequest($request);
         $this->manageProductVariantsService->createProductVariant($data);

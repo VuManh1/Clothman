@@ -90,7 +90,7 @@ Route::prefix('admin')->middleware(["auth", "role:ADMIN,STAFF,null"])->group(fun
     Route::resource('products', ProductsController::class, ['as' => 'admin']);
 
     Route::get("/products/{id}/variants", [ProductVariantsController::class, 'show'])->name("admin.products.variants");
-    Route::post("/products/variants", [ProductVariantsController::class, 'create'])->name("admin.products.variants.store");
+    Route::post("/products/variants", [ProductVariantsController::class, 'store'])->name("admin.products.variants.store");
     Route::patch("/products/variants/{id}/quantity", [ProductVariantsController::class, 'updateQuantity'])->name("admin.products.variants.quantity.update");
     Route::delete("/products/variants/{id}", [ProductVariantsController::class, 'destroy'])->name("admin.products.variants.destroy");
 
