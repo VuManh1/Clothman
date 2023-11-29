@@ -6,6 +6,7 @@ use App\DTOs\CheckoutDto;
 use App\DTOs\Orders\CreateOrderDto;
 use App\DTOs\Payment\CreatePaymentDto;
 use App\Exceptions\Products\ProductOutOfStockException;
+use App\Repositories\Interfaces\ProductRepository;
 use App\Repositories\Interfaces\ProductVariantRepository;
 use App\Services\Cart\Interfaces\CartService;
 use App\Services\Checkout\Interfaces\CheckoutService;
@@ -22,7 +23,8 @@ class CheckoutServiceImpl implements CheckoutService {
         private CartService $cartService,
         private OrdersService $ordersService,
         private PaymentService $paymentService,
-        private ProductVariantRepository $productVariantRepository
+        private ProductVariantRepository $productVariantRepository,
+        private ProductRepository $productRepository
     ) {
         
     }
@@ -32,7 +34,9 @@ class CheckoutServiceImpl implements CheckoutService {
         $this->validateCarts($cartData['items']);
 
         DB::beginTransaction();
-        try {
+        try {            
+            $this->decreaseProductQuantity($cartData['items']);
+
             $createPaymentDto = new CreatePaymentDto();
             $createPaymentDto->amount = $cartData['total'];
             $createPaymentDto->currency = "vnd";
@@ -44,7 +48,9 @@ class CheckoutServiceImpl implements CheckoutService {
             $createOrderDto = $this->makeOrderDto($cartData, $data, $payment->id);
             $order = $this->ordersService->createOrder($createOrderDto);
 
+            // remove all cart after create order
             $this->cartService->removeAllCart(Auth::check() ? Auth::id() : null);
+            
             DB::commit();
         } catch (Exception $ex) {
             DB::rollBack();
@@ -61,6 +67,13 @@ class CheckoutServiceImpl implements CheckoutService {
             if (!$variant) throw new ModelNotFoundException();
 
             if ($variant->quantity < $cart->quantity) throw new ProductOutOfStockException(); 
+        }
+    }
+
+    private function decreaseProductQuantity($carts) {
+        foreach ($carts as $cart) {
+            $this->productVariantRepository->decrement($cart->product_variant_id, ['quantity' => $cart->quantity]);
+            $this->productRepository->decrement($cart->product_id, ['quantity' => $cart->quantity]);
         }
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Repositories\Interfaces\ProductRepository;
 use App\Repositories\Interfaces\SaleRepository;
 use App\Repositories\Interfaces\SoldRepository;
 use Carbon\Carbon;
@@ -17,7 +18,8 @@ class IncreaseSoldAndSale implements ShouldQueue
      */
     public function __construct(
         private SaleRepository $saleRepository,
-        private SoldRepository $soldRepository
+        private SoldRepository $soldRepository,
+        private ProductRepository $productRepository
     )
     {
         //
@@ -33,6 +35,7 @@ class IncreaseSoldAndSale implements ShouldQueue
     {
         $now = Carbon::now()->format('Y-m-d');
 
+        // find sale today, increase amount if exists
         $sale = $this->saleRepository->findByDate($now);
 
         if ($sale) {
@@ -48,6 +51,7 @@ class IncreaseSoldAndSale implements ShouldQueue
 
         $orderItems = $event->order->orderItems;
 
+        // loop through order items and update/insert Sold
         foreach ($orderItems as $item) {
             $sold = $this->soldRepository->findByProductIdAndDate($item->product_id, $now);
     
@@ -61,7 +65,9 @@ class IncreaseSoldAndSale implements ShouldQueue
                     'date' => $now,
                     'count' => $item->quantity
                 ]);
-            }        
+            }      
+            
+            $this->productRepository->increment($item->product_id, ['sold' => $item->quantity]);
         }
     }
 }

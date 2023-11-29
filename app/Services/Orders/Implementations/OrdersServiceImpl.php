@@ -14,8 +14,6 @@ use App\Exceptions\Orders\OrderNotFoundException;
 use App\Models\Order;
 use App\Repositories\Interfaces\OrderItemRepository;
 use App\Repositories\Interfaces\OrderRepository;
-use App\Repositories\Interfaces\ProductRepository;
-use App\Repositories\Interfaces\ProductVariantRepository;
 use App\Services\Orders\Interfaces\OrdersService;
 use App\Utils\OrderStatus;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -26,8 +24,6 @@ class OrdersServiceImpl implements OrdersService
     public function __construct(
         private OrderRepository $orderRepository,
         private OrderItemRepository $orderItemRepository,
-        private ProductVariantRepository $productVariantRepository,
-        private ProductRepository $productRepository,
     ) {}
 
     public function getOrdersByParams(OrderParamsDto $params): LengthAwarePaginator {
@@ -82,12 +78,6 @@ class OrdersServiceImpl implements OrdersService
                 'quantity' => $item['quantity'],
                 'price' => $item['price'],
             ]);
-
-            // Decrement quantity of product and variant
-            $this->productVariantRepository->decrement($item['product_variant_id'], ['quantity' => $item['quantity']]);
-            $this->productRepository->decrement($item['product_id'], ['quantity' => $item['quantity']]);
-            
-            $this->productRepository->increment($item['product_id'], ['sold' => $item['quantity']]);
         }
 
         event(new OrderCreated($order));
