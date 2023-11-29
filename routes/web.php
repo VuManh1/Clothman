@@ -47,6 +47,7 @@ Route::get("/cart", [\App\Http\Controllers\Customer\CartController::class, 'show
 Route::post("/checkout", [CheckoutController::class, 'checkout'])->name('checkout');
 Route::get("/checkout/success", [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get("/checkout/cancel", [CheckoutController::class, 'cancel'])->name('checkout.cancel');
+Route::get("/checkout/paypal/success", [CheckoutController::class, 'paypalSuccess'])->name('checkout.paypal.success');
 
 
 /*

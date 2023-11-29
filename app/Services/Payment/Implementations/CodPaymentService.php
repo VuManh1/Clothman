@@ -16,7 +16,7 @@ class CodPaymentService implements PaymentService {
     public function createPayment(CreatePaymentDto $data): Payment {
         return $this->paymentRepository->create([
             'amount' => $data->amount,
-            'payment_method' => $data->paymentMethod,
+            'payment_method' => "COD",
             'transaction_id' => $data->transactionId,
             'payer_id' => $data->payerId,
             'currency' => $data->currency,

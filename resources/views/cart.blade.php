@@ -84,7 +84,7 @@
                             </div>
                             <div class="payment-method-title">COD thanh toán khi nhận hàng</div>
                         </label>
-                        {{-- <label class="payment-method-item" for="paypal">
+                        <label class="payment-method-item" for="paypal">
                             <div class="payment-method-checkbox custom-radio">
                                 <input type="radio" name="payment_method" id="paypal" value="paypal">
                                 <span class="checkmark"></span>
@@ -93,7 +93,7 @@
                                 <img src="{{ asset('fonts/paypal-seeklogo.com.svg') }}" alt="paypal" class="d-block">
                             </div>
                             <div class="payment-method-title">Thanh toán Paypal</div>
-                        </label> --}}
+                        </label>
                     </div>
                 </section>
                 <!-- payment method section end -->

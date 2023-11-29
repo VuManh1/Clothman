@@ -6,12 +6,14 @@ use App\DTOs\CheckoutDto;
 use App\DTOs\Orders\CreateOrderDto;
 use App\DTOs\Payment\CreatePaymentDto;
 use App\Exceptions\Products\ProductOutOfStockException;
+use App\Factories\PaymentFactory;
 use App\Repositories\Interfaces\ProductRepository;
 use App\Repositories\Interfaces\ProductVariantRepository;
 use App\Services\Cart\Interfaces\CartService;
 use App\Services\Checkout\Interfaces\CheckoutService;
 use App\Services\Orders\Interfaces\OrdersService;
 use App\Services\Payment\Interfaces\PaymentService;
+use App\Services\Payment\Interfaces\Redirectable;
 use App\Utils\OrderStatus;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -22,28 +24,40 @@ class CheckoutServiceImpl implements CheckoutService {
     public function __construct(
         private CartService $cartService,
         private OrdersService $ordersService,
-        private PaymentService $paymentService,
         private ProductVariantRepository $productVariantRepository,
-        private ProductRepository $productRepository
+        private ProductRepository $productRepository,
+        private PaymentFactory $paymentFactory
     ) {
         
     }
 
-    public function processCheckout(CheckoutDto $data) {
+    public function processCheckout(CheckoutDto $data): array {
         $cartData = $this->cartService->getCartData();
         $this->validateCarts($cartData['items']);
 
         DB::beginTransaction();
         try {            
-            $this->decreaseProductQuantity($cartData['items']);
+            // $this->decreaseProductQuantity($cartData['items']);
 
+            $paymentService = $this->paymentFactory->createPayment($data->paymentMethod);
+
+            if ($paymentService instanceof Redirectable) {
+                $url = $paymentService->createPaymentUrl($this->calculateOrderTotal($cartData['items']));
+
+                session(['payer' => $data]);
+
+                return [
+                    'redirect' => $url
+                ];
+            }
+
+            dd("cod");
             $createPaymentDto = new CreatePaymentDto();
             $createPaymentDto->amount = $cartData['total'];
             $createPaymentDto->currency = "vnd";
-            $createPaymentDto->paymentMethod = $data->paymentMethod;
             $createPaymentDto->status = "success";
     
-            $payment = $this->paymentService->createPayment($createPaymentDto);
+            $payment = $paymentService->createPayment($createPaymentDto);
     
             $createOrderDto = $this->makeOrderDto($cartData, $data, $payment->id);
             $order = $this->ordersService->createOrder($createOrderDto);
@@ -57,7 +71,57 @@ class CheckoutServiceImpl implements CheckoutService {
             throw $ex;
         }
 
-        return $order;
+        return [
+            'success' => true,
+            'order' => $order
+        ];
+    }
+
+    public function makeOrder(string $method): array {
+        $cartData = $this->cartService->getCartData();
+        $this->validateCarts($cartData['items']);
+
+        $data = session('payer');
+
+        DB::beginTransaction();
+        try {            
+            // $this->decreaseProductQuantity($cartData['items']);
+
+            $paymentService = $this->paymentFactory->createPayment($method);
+
+            $createPaymentDto = new CreatePaymentDto();
+            $createPaymentDto->amount = $cartData['total'];
+            $createPaymentDto->currency = "vnd";
+            $createPaymentDto->status = "success";
+    
+            $payment = $paymentService->createPayment($createPaymentDto);
+    
+            $createOrderDto = $this->makeOrderDto($cartData, $data, $payment->id);
+            $order = $this->ordersService->createOrder($createOrderDto);
+
+            // remove all cart after create order
+            $this->cartService->removeAllCart(Auth::check() ? Auth::id() : null);
+            
+            DB::commit();
+        } catch (Exception $ex) {
+            DB::rollBack();
+            throw $ex;
+        }
+
+        return [
+            'success' => true,
+            'order' => $order
+        ];
+    }
+
+    private function calculateOrderTotal($carts): int {
+        $total = 0;
+
+        foreach ($carts as $cart) {
+            $total += $cart->getPrice();
+        }
+
+        return $total;
     }
 
     private function validateCarts($carts) {
