@@ -9,7 +9,10 @@
         <a href="{{ route('account.orders.detail', [$order->code]) }}" class="btn btn-dark">Xem chi tiết</a>
     </div>
     <div class="account-order-body">
-        <div>Trạng thái: <span class="fw-bold">{{ $order->status }}</span></div>
+        <div>
+            Trạng thái: 
+            <x-order-status :status="$order->status" />
+        </div>
 
         <div class="d-flex flex-column gap-3 my-3">
 

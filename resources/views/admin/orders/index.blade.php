@@ -61,6 +61,11 @@
                                         <option value="COMPLETED">Completed</option>
                                         <option value="CANCELED">Canceled</option>
                                     </select>
+                                    <select name="method" class="p-1 mx-1">
+                                        <option value="">Payment Method</option>
+                                        <option value="COD">COD</option>
+                                        <option value="paypal">Paypal</option>
+                                    </select>
                                     <select name="sort" class="p-1 mx-1">
                                         <option value="">Sort By</option>
                                         <option value="name.asc">Name</option>
@@ -117,7 +122,27 @@
                                                         <p>{{ $order->phone_number }}</p>
                                                     </td>
                                                     <td class="min-width">
-                                                        <p>{{ $order->status }}</p>
+                                                        <p>
+                                                            @switch($order->status)
+                                                                @case('PENDING')
+                                                                    <span class="fw-bold">{{ $order->status }}</span>
+                                                                    @break
+                                                                @case('PROCESSING')
+                                                                    <span class="fw-bold">{{ $order->status }}</span>
+                                                                    @break
+                                                                @case('SHIPPING')
+                                                                    <span class="fw-bold">{{ $order->status }}</span>
+                                                                    @break
+                                                                @case('COMPLETED')
+                                                                    <span class="fw-bold text-success">{{ $order->status }}</span>
+                                                                    @break
+                                                                @case('CANCELED')
+                                                                    <span class="fw-bold text-danger">{{ $order->status }}</span>
+                                                                    @break
+                                                                @default
+                                                                    
+                                                            @endswitch
+                                                        </p>
                                                     </td>
                                                     <td class="min-width">
                                                         <p>{{ $order->getFormatedCreatedAt() }}</p>

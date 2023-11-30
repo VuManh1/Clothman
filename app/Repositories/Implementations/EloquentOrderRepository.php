@@ -21,6 +21,9 @@ class EloquentOrderRepository extends EloquentRepository implements OrderReposit
         if ($params->status) {
             $query->where('status', $params->status);
         }
+        if ($params->paymentMethod) {
+            $query->whereRelation('payment', 'payment_method', $params->paymentMethod);
+        }
 
         if ($params->sortColumn) {
             $query->orderBy($params->sortColumn, $params->sortOrder ?? "asc");

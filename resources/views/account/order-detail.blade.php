@@ -50,7 +50,7 @@
 
     <h1 class="title mb-4">
         Thông tin đơn hàng #{{ $order->code }}
-        <span class="text-secondary">({{ $order->status }})</span>
+        (<x-order-status :status="$order->status" />)
     </h1>
 
     <div class="mb-4">

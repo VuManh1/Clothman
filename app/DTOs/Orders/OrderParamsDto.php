@@ -13,7 +13,8 @@ class OrderParamsDto extends QueryParamsDto
         ?string $sortColumn,
         ?string $sortOrder,
         ?string $keyword,
-        public ?string $status
+        public ?string $status,
+        public ?string $paymentMethod,
     ) {
         parent::__construct($page, $limit, $sortColumn, $sortOrder, $keyword);
     }
@@ -30,7 +31,8 @@ class OrderParamsDto extends QueryParamsDto
             $paramsDto->sortColumn,
             $paramsDto->sortOrder,
             $paramsDto->keyword,
-            $request->status
+            $request->status,
+            $request->method,
         );
     }
 }

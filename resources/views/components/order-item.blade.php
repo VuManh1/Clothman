@@ -3,7 +3,7 @@
 
     <div class="order-item-info">
         <a href="{{ route('product.detail', [$item->product->slug]) }}" class="order-item-title">{{ $item->product->name }}</a>
-        <div>{{ $item->productVariant->color->name }} / {{ $item->productVariant->size }}</div>
+        <div>{{ $item->productVariant->color->name }} / {{ $item->productVariant->size !== 'NONE' ? $item->productVariant->size : '' }}</div>
 
         <div class="order-item-actions">
             <div>x{{ $item->quantity }}</div>

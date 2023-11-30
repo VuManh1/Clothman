@@ -43,8 +43,29 @@
                     <div class="card-style mb-30">
                         <h1 class="title mb-4">
                             Thông tin đơn hàng #{{ $order->code }}
-                            <span class="text-secondary">({{ $order->status }})</span>
                         </h1>
+                        <h4 class="title mb-4">
+                            Trạng thái: 
+                            @switch($order->status)
+                                @case('PENDING')
+                                    <span class="fw-bold">{{ $order->status }}</span>
+                                    @break
+                                @case('PROCESSING')
+                                    <span class="fw-bold">{{ $order->status }}</span>
+                                    @break
+                                @case('SHIPPING')
+                                    <span class="fw-bold">{{ $order->status }}</span>
+                                    @break
+                                @case('COMPLETED')
+                                    <span class="fw-bold text-success">{{ $order->status }}</span>
+                                    @break
+                                @case('CANCELED')
+                                    <span class="fw-bold text-danger">{{ $order->status }}</span>
+                                    @break
+                                @default
+                                    
+                            @endswitch
+                        </h4>
                     
                         <div class="mb-4">
                             <button class="btn btn-primary" @disabled($order->status === 'CANCELED' || $order->status === 'COMPLETED')
