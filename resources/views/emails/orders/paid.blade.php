@@ -1,8 +1,8 @@
 @component('mail::message')
 
-# Đặt hàng thành công!
+# Đơn hàng đã được thanh toán!
 
-Hello, {{ $order->customer_name }}. Bạn đã đặt hàng thành công đơn hàng #{{$order->code}}!
+Hello, {{ $order->customer_name }}. Đơn hàng #{{$order->code}} của bạn đã được thanh toán thành công!
 
 
 @component('mail::table')

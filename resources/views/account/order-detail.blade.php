@@ -54,10 +54,12 @@
     </h1>
 
     <div class="mb-4">
-        <button class="btn btn-danger" @disabled($order->status !== 'PENDING') data-bs-toggle="modal"
-            data-bs-target="#cancel-order-modal">
-            Hủy đơn hàng
-        </button>
+        @if ($order->status === 'PENDING' && $order->payment->status === 'UNPAID')
+            <button class="btn btn-danger" data-bs-toggle="modal"
+                data-bs-target="#cancel-order-modal">
+                Hủy đơn hàng
+            </button>
+        @endif
     </div>
 
     <div class="d-flex flex-column gap-3 mb-4">

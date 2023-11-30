@@ -5,8 +5,8 @@ namespace App\Services\Orders\Implementations;
 use App\DTOs\Orders\CreateOrderDto;
 use App\DTOs\Orders\OrderParamsDto;
 use App\DTOs\Orders\UpdateOrderDto;
+use App\Events\OrderCanceled;
 use App\Events\OrderCompleted;
-use App\Events\OrderCreated;
 use App\Events\OrderShipped;
 use App\Exceptions\Orders\OrderCanNotCancelException;
 use App\Exceptions\Orders\OrderCanNotUpdateException;
@@ -16,6 +16,7 @@ use App\Repositories\Interfaces\OrderItemRepository;
 use App\Repositories\Interfaces\OrderRepository;
 use App\Services\Orders\Interfaces\OrdersService;
 use App\Utils\OrderStatus;
+use App\Utils\PaymentStatus;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 
@@ -80,8 +81,6 @@ class OrdersServiceImpl implements OrdersService
             ]);
         }
 
-        event(new OrderCreated($order));
-
         return $order;
     }
 
@@ -108,6 +107,9 @@ class OrdersServiceImpl implements OrdersService
             case OrderStatus::COMPLETED:
                 event(new OrderCompleted($updatedOrder));
                 break;
+            case OrderStatus::CANCELED:
+                event(new OrderCanceled($updatedOrder));
+                break;
             default:
                 break;
         }
@@ -116,20 +118,25 @@ class OrdersServiceImpl implements OrdersService
     }
 
     public function cancelOrder(string $code, string $cancelReson = null): bool {
-        $order = $this->orderRepository->findByCode($code);
+        $order = $this->orderRepository->findByCode($code, ['payment']);
 
         if (!$order) {
             throw new OrderNotFoundException();
         }
 
-        if ($order->status !== OrderStatus::PENDING) {
+        if (
+            $order->status !== OrderStatus::PENDING ||
+            $order->payment->status !== PaymentStatus::UNPAID
+        ) {
             throw new OrderCanNotCancelException("Không thể hủy đơn hàng này!");
         }
 
-        $this->orderRepository->update($order->id, [
+        $updatedOrder = $this->orderRepository->update($order->id, [
             'status' => OrderStatus::CANCELED,
             'cancel_reason' => $cancelReson
         ]);
+
+        event(new OrderCanceled($updatedOrder));
 
         return true;
     }

@@ -71,10 +71,6 @@
                                 <div class="col col-8">{{ $order->phone_number }}</div>
                             </div>
                             <div class="row">
-                                <div class="col col-4 fw-bolder">Phương thức thanh toán: </div>
-                                <div class="col col-8">{{ $order->payment->payment_method }}</div>
-                            </div>
-                            <div class="row">
                                 <div class="col col-4 fw-bolder">Địa chỉ giao hàng: </div>
                                 <div class="col col-8">{{ $order->address }}</div>
                             </div>
@@ -89,6 +85,20 @@
                                 </div>  
                             @endif
                         </div>   
+
+                        <div class="mb-4">
+                            <h4 class="title">Thanh toán: </h4>
+                            <div class="d-flex flex-column gap-3 ">
+                                <div class="row">
+                                    <div class="col col-4 fw-bolder">Phương thức thanh toán: </div>
+                                    <div class="col col-8">{{ $order->payment->payment_method }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col col-4 fw-bolder">Trạng thái: </div>
+                                    <div class="col col-8">{{ $order->payment->status }}</div>
+                                </div>
+                            </div>
+                        </div>
                     
                         <h4 class="title">Các sản phẩm: </h4>
                         <div class="d-flex flex-column gap-3 my-3">

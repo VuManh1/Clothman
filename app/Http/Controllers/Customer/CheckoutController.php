@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Customer;
 
 use App\DTOs\CheckoutDto;
 use App\Exceptions\Orders\OrderNotFoundException;
+use App\Factories\PaymentFactory;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckoutRequest;
-use App\Services\Checkout\Interfaces\CheckoutService;
 use App\Services\Orders\Interfaces\OrdersService;
 use App\Services\Payment\Implementations\PaypalPaymentService;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class CheckoutController extends Controller
 {
     public function __construct(
-        private CheckoutService $checkoutService,
+        private PaymentFactory $paymentFactory,
         private OrdersService $ordersService,
         private PaypalPaymentService $paypalPaymentService
     ) {
@@ -26,7 +26,10 @@ class CheckoutController extends Controller
      */
     public function checkout(CheckoutRequest $request) {
         $data = CheckoutDto::fromRequest($request);
-        $result = $this->checkoutService->processCheckout($data);
+
+        $paymentService = $this->paymentFactory->createPayment($data->paymentMethod);
+
+        $result = $paymentService->processPayment($data);
 
         if (isset($result['redirect'])) {
             return redirect()->away($result['redirect']);
@@ -58,16 +61,20 @@ class CheckoutController extends Controller
         return view('checkout.cancel');
     }
 
+    /**
+     * Handle paypal redirect after pay successful
+     */
     public function paypalSuccess(Request $request) {
-        $success = $this->paypalPaymentService->executePayment($request->query('token'));
+        $success = $this->paypalPaymentService->confirmPaypalPayment($request->query('token') ?? '');
 
         if (!$success) {
             return redirect()->route("checkout.cancel");
         }
 
-        $result = $this->checkoutService->makeOrder('paypal');
+        $orderCode = session('order_code', '');
+        session()->forget('order_code');
 
-        return redirect()->route('checkout.success', ['code' => $result['order']->code])
+        return redirect()->route('checkout.success', ['code' => $orderCode])
             ->with('success', 'Thanh toán và đặt hàng thành công!');        
     }
 }

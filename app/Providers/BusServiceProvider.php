@@ -18,7 +18,6 @@ use App\Services\Colors\Implementations\GetColorsServiceImpl;
 use App\Services\Categories\Interfaces\GetCategoriesService;
 use App\Services\Categories\Interfaces\ManageCategoriesService;
 use App\Services\Checkout\Implementations\CheckoutServiceImpl;
-use App\Services\Checkout\Interfaces\CheckoutService;
 use App\Services\Colors\Implementations\ManageColorsServiceImpl;
 use App\Services\Colors\Interfaces\GetColorsService;
 use App\Services\Colors\Interfaces\ManageColorsService;
@@ -77,9 +76,6 @@ class BusServiceProvider extends ServiceProvider
 
         // Cart services
         $this->app->bind(CartService::class, CartServiceImpl::class);
-
-        // Checkout services
-        $this->app->bind(CheckoutService::class, CheckoutServiceImpl::class);
 
         // Upload Service
         $this->app->bind(UploadService::class, LocalUploadService::class);

@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class IncreaseSoldAndSale implements ShouldQueue
+class IncreaseSoldAndSale
 {
     /**
      * Create the event listener.

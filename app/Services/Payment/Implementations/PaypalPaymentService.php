@@ -2,21 +2,32 @@
 
 namespace App\Services\Payment\Implementations;
 
-use App\DTOs\Payment\CreatePaymentDto;
-use App\Models\Payment;
+use App\DTOs\CheckoutDto;
+use App\Events\OrderCreated;
+use App\Events\OrderPaid;
 use App\Repositories\Interfaces\PaymentRepository;
-use App\Services\Payment\Interfaces\PaymentService;
-use App\Services\Payment\Interfaces\Redirectable;
+use App\Repositories\Interfaces\ProductRepository;
+use App\Repositories\Interfaces\ProductVariantRepository;
+use App\Services\Cart\Interfaces\CartService;
+use App\Services\Orders\Interfaces\OrdersService;
+use App\Utils\PaymentStatus;
 use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
-class PaypalPaymentService implements PaymentService, Redirectable {
+class PaypalPaymentService extends BasePaymentService {
     public function __construct(
-        private PaymentRepository $paymentRepository
+        protected CartService $cartService,
+        protected OrdersService $ordersService,
+        protected ProductRepository $productRepository,
+        protected ProductVariantRepository $productVariantRepository,
+        private PaymentRepository $paymentRepository,
     ) {
+        parent::__construct($cartService, $ordersService, $productRepository, $productVariantRepository);
     }
 
-    public function createPaymentUrl(int $amount): string {
+    public function createPaypalPaymentUrl(int|float $amount): string {
         $provider = new PayPalClient();
         $provider->setApiCredentials(config('paypal'));
         $paypalToken = $provider->getAccessToken();
@@ -48,27 +59,72 @@ class PaypalPaymentService implements PaymentService, Redirectable {
         }
     }
 
-    public function executePayment(string $token): bool {
+    public function processPayment(CheckoutDto $checkoutDto): array {
+        $this->checkoutDto = $checkoutDto;
+        $this->validateCart();
+
+        // convert vnd to usd
+        $usdAmount = ceil($this->cartData['total'] * 0.000041);
+
+        DB::beginTransaction();
+        try {
+            $this->decreaseProductQuantity();
+
+            $payment = $this->paymentRepository->create([
+                'amount' => $usdAmount,
+                'payment_method' => 'paypal',
+                'currency' => 'usd',
+                'status' => PaymentStatus::UNPAID
+            ]);
+    
+            $order = $this->makeOrder($payment->id);
+
+            $this->cartService->removeAllCart(Auth::id());
+
+            $paypalUrl = $this->createPaypalPaymentUrl($usdAmount);
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            throw $th;
+        }
+
+        event(new OrderCreated($order));
+
+        // save payment's ID to session to use later
+        session(['payment_id' => $payment->id]);
+        session(['order_code' => $order->code]);
+
+        return [
+            'success' => true,
+            'redirect' => $paypalUrl,
+        ];
+    }
+
+    public function confirmPaypalPayment(string $token): bool {
         $provider = new PayPalClient();
         $provider->setApiCredentials(config('paypal'));
         $provider->getAccessToken();
         $response = $provider->capturePaymentOrder($token);
 
         if (isset($response['status']) && $response['status'] == 'COMPLETED') {
+            $paymentId = session('payment_id', '');
+            session()->forget('payment_id');
+
+            $this->paymentRepository->update($paymentId, [
+                'status' => PaymentStatus::COMPLETED,
+                'transaction_id' => $response['id'],
+                'payer_id' => $response['payer']['payer_id']
+            ]);
+
+            $orderCode = session('order_code', '');
+            $order = $this->ordersService->getOrderByCode($orderCode);
+            event(new OrderPaid($order));
+
             return true;
         } else {
             return false;
         }
-    }
-
-    public function createPayment(CreatePaymentDto $data): Payment {
-        return $this->paymentRepository->create([
-            'amount' => $data->amount,
-            'payment_method' => "paypal",
-            'transaction_id' => $data->transactionId,
-            'payer_id' => $data->payerId,
-            'currency' => $data->currency,
-            'status' => $data->status,
-        ]);
     }
 }
