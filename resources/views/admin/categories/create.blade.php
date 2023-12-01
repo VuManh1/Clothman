@@ -45,24 +45,26 @@
                         <form action="{{ route('admin.categories.store') }}" method="POST" id="create-cate-form" enctype="multipart/form-data">
                             @csrf
 
-                            <div class="mb-3">
+                            <div class="mb-3 input-style-1">
                                 <label for="name" class="form-label">Name</label>
                                 <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3 input-style-1">
                                 <label for="description" class="form-label">Description</label>
                                 <input type="text" class="form-control" id="description" name="description" value="{{ old('description') }}">
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3 select-style-1">
                                 <label for="parent_id" class="form-label">Select parent category</label>
-                                <select class="mb-3 form-select" name="parent_id" id="parent_id" value="{{ old('parent_id') }}">
-                                    <option selected value="">NULL</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}" @selected($category->id === old('parent_id'))>
-                                            {{ $category->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <div class="select-position">
+                                    <select class="form-select" name="parent_id" id="parent_id" value="{{ old('parent_id') }}">
+                                        <option selected value="">NULL</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}" @selected($category->id === old('parent_id'))>
+                                                {{ $category->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="banner" class="form-label">Attach a banner image</label>

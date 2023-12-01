@@ -54,6 +54,10 @@
                         @endif
 
                         <div class="mb-2">
+                            Code:
+                            <strong>{{ $product->code }}</strong>
+                        </div>
+                        <div class="mb-2">
                             Name:
                             <strong>{{ $product->name }}</strong>
                         </div>
@@ -61,9 +65,25 @@
                             Description:
                             <strong>{{ $product->description ?? 'NULL' }}</strong>
                         </div>
-                        <div class="mb-4">
+                        <div class="mb-2">
+                            Created At:
+                            <strong>{{ $product->created_at }}</strong>
+                        </div>
+                        <div class="mb-2">
                             Category:
                             <strong>{{ isset($product->category) ? $product->category->name : 'NULL' }}</strong>
+                        </div>
+                        <div class="mb-2">
+                            Price:
+                            <strong>{{ $product->getFormatedPrice() }}đ</strong>
+                        </div>
+                        <div class="mb-2">
+                            Selling Price:
+                            <strong>{{ $product->getFormatedSellingPrice() }}đ</strong>
+                        </div>
+                        <div class="mb-2">
+                            Discount:
+                            <strong>{{ $product->discount }}%</strong>
                         </div>
                     </div>
                     <!-- end card -->

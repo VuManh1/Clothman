@@ -43,13 +43,18 @@
                         <form action="{{ route('admin.colors.store') }}" method="POST" id="create-color-form">
                             @csrf
 
-                            <div class="mb-3">
+                            <div class="mb-3 input-style-1">
                                 <label for="name" class="form-label">Name</label>
                                 <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
                             </div>
-                            <div class="mb-3">
-                                <label for="hex_code" class="form-label">Hex_code</label>
-                                <input type="text" class="form-control" id="hex_code" name="hex_code" value="{{ old('hex_code') }}">
+                            <div class="mb-3 input-style-1">
+                                <label for="hex_code" class="form-label">Hex Code</label>
+                                <div class="d-flex gap-1">
+                                    <div style="background-color: none; width: 50px; height: 50px;" id="color-box"></div>
+                                    <div class="flex-grow-1">
+                                        <input type="text" class="form-control" id="hex_code" name="hex_code" value="{{ old('hex_code') }}">
+                                    </div>
+                                </div>
                             </div>
 
                             <button type="submit" class="btn btn-success">Create</button>
@@ -86,6 +91,12 @@
                         required: "hex_code không được để trống",
                     },
                 }
+            });
+
+            $('#hex_code').on('keydown', function () {
+                const code = $(this).val();
+
+                $("#color-box").css('background-color', code);
             });
         });
     </script>

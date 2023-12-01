@@ -45,12 +45,12 @@
                         <form action="{{ route('admin.banners.store') }}" method="POST" id="create-banner-form" enctype="multipart/form-data">
                             @csrf
 
-                            <div class="mb-3">
+                            <div class="mb-3 input-style-1">
                                 <label for="name" class="form-label">Name</label>
                                 <input type="text" class="form-control" id="name" name="name">
                             </div>
-                            <div class="mb-3">
-                                <label for="link" class="form-label">link</label>
+                            <div class="mb-3 input-style-1">
+                                <label for="link" class="form-label">Link</label>
                                 <input type="text" class="form-control" id="link" name="link">
                             </div>
                             <div class="form-group mb-3">

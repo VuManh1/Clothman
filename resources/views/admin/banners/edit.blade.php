@@ -47,25 +47,25 @@
                             @method('PUT')
                             @csrf
 
-                            <div class="mb-3">
+                            <div class="mb-3 input-style-1">
                                 <label for="name" class="form-label">Name</label>
                                 <input type="text" class="form-control" id="name" name="name"
                                     value="{{ $banner->name }}">
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3 input-style-1">
                                 <label for="link" class="form-label">link</label>
                                 <input type="text" class="form-control" id="link" name="link"
                                     value="{{ $banner->link }}">
                             </div>
 
-                            <div>Image_url</div>
+                            <div>Image</div>
                             <img src="{{ asset($banner->image_url) }}" alt="{{ $banner->name }}" class="w-100">
                             <div class="form-group mb-3">
                                 <label for="image" class="form-label">Attach an image</label>
                                 <input type="file" name="image" id="image" class="form-control">
                             </div>
 
-                            <div class="mb-3 form-check">
+                            <div class="mb-3 form-check checkbox-style">
                                 <input type="checkbox" class="form-check-input" id="is_active" name="is_active"
                                     @checked($banner->is_active)>
                                 <label class="form-check-label" for="is_active">Active</label>

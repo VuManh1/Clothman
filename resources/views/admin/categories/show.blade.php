@@ -58,8 +58,16 @@
                             <strong>{{ $category->name }}</strong>
                         </div>
                         <div class="mb-2">
+                            Created At:
+                            <strong>{{ $category->created_at }}</strong>
+                        </div>
+                        <div class="mb-2">
                             Description:
                             <strong>{{ $category->description ?? 'NULL' }}</strong>
+                        </div>
+                        <div class="mb-2">
+                            Show in home page:
+                            <strong>{{ $category->display_in_home === 1 ? 'True' : 'False' }}</strong>
                         </div>
                         <div class="mb-4">
                             Parent Category:

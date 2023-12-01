@@ -53,13 +53,23 @@
                             </button>
                         @endif
 
-                        <div class="mb-2">
-                            Name:
-                            <strong>{{ $banner->name }}</strong>
-                        </div>
-                        <div class="mb-2">
-                            Link:
-                            <strong>{{ $banner->link ?? 'NULL' }}</strong>
+                        <div class="mb-4">
+                            <div class="mb-2">
+                                Name:
+                                <strong>{{ $banner->name }}</strong>
+                            </div>
+                            <div class="mb-2">
+                                Created At:
+                                <strong>{{ $banner->created_at }}</strong>
+                            </div>
+                            <div class="mb-2">
+                                Link:
+                                <strong>{{ $banner->link ?? 'NULL' }}</strong>
+                            </div>
+                            <div class="mb-2">
+                                Active: 
+                                <strong>{{ $banner->is_active === 1 ? 'True' : 'False' }}</strong>
+                            </div>
                         </div>
 
                         <img src="{{ asset($banner->image_url) }}" alt="{{ $banner->name }}" class="w-100">

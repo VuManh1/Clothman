@@ -47,39 +47,44 @@
                             @method('PUT')
                             @csrf
 
-                            <div class="mb-3">
+                            <div class="mb-3 input-style-1">
                                 <label for="name" class="form-label">Name</label>
                                 <input type="text" class="form-control" id="name" name="name"
                                     value="{{ $category->name }}">
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3 input-style-1">
                                 <label for="description" class="form-label">Description</label>
                                 <input type="text" class="form-control" id="description" name="description"
                                     value="{{ $category->description }}">
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3 select-style-1">
                                 <label for="parent_id" class="form-label">Select parent category</label>
-                                <select class="mb-3 form-select" name="parent_id" id="parent_id"
-                                    value="{{ $category->parent_id }}">
-                                    <option selected value="">NULL</option>
-                                    @foreach ($categories as $cate)
-                                        @if ($cate->id !== $category->id)
-                                            <option value="{{ $cate->id }}" @selected($category->parent_id === $cate->id)>
-                                                {{ $cate->name }}
-                                            </option>
-                                        @endif
-                                    @endforeach
-                                </select>
+                                <div class="select-position">
+                                    <select class="form-select" name="parent_id" id="parent_id"
+                                        value="{{ $category->parent_id }}">
+                                        <option selected value="">NULL</option>
+                                        @foreach ($categories as $cate)
+                                            @if ($cate->id !== $category->id)
+                                                <option value="{{ $cate->id }}" @selected($category->parent_id === $cate->id)>
+                                                    {{ $cate->name }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
 
-                            <div>Banner</div>
-                            <img src="{{ asset($category->banner_url) }}" alt="{{ $category->name }}" class="w-100">
+                            <div class="mb-3">
+                                <div>Banner</div>
+                                <img src="{{ asset($category->banner_url) }}" alt="{{ $category->name }}" class="w-100">
+                            </div>
+
                             <div class="form-group mb-3">
                                 <label for="banner" class="form-label">Attach a banner image</label>
                                 <input type="file" name="banner" id="banner" class="form-control">
                             </div>
 
-                            <div class="mb-3 form-check">
+                            <div class="mb-3 form-check checkbox-style">
                                 <input type="checkbox" class="form-check-input" id="display_in_home" name="display_in_home"
                                     @checked($category->display_in_home)>
                                 <label class="form-check-label" for="display_in_home">Display in home page</label>
