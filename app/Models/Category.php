@@ -27,6 +27,22 @@ class Category extends Model
         'display_in_home',
     ];
 
+    public function getAllParents(): array {
+        $curParent = $this->parent;
+
+        if (!$curParent) return [];
+
+        $parents = [$curParent];
+
+        while ($curParent->parent !== null) {
+            $curParent = $curParent->parent;
+
+            array_unshift($parents, $curParent);
+        }
+
+        return $parents;
+    }
+
     /**
      * Get the products for the category.
      */

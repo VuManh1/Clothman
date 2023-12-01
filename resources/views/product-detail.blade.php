@@ -39,6 +39,11 @@
         <nav aria-label="breadcrumb" class="mt-3">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}">Trang chủ</a></li>
+                @foreach ($product->category->getAllParents() as $parent)
+                    <li class="breadcrumb-item">
+                        <a href="{{ route('category', [$parent->slug]) }}">{{ $parent->name }}</a>
+                    </li>                    
+                @endforeach
                 <li class="breadcrumb-item">
                     <a href="{{ route('category', [$product->category->slug]) }}">{{ $product->category->name }}</a>
                 </li>

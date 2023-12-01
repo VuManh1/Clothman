@@ -51,7 +51,12 @@ class EloquentProductRepository extends EloquentRepository implements ProductRep
     public function findByCategorySlug(string $slug, int $page, int $limit): LengthAwarePaginator {
         $query = $this->model->query();
 
-        $query->whereRelation('category', 'slug', $slug)->orderBy('updated_at');
+        $query->whereHas('category', function ($q) use($slug) {
+            $q->where('slug', $slug)
+              ->orWhereRelation('parent', 'slug', $slug);
+        });
+
+        $query->orderBy('updated_at', 'desc');
 
         return $this->toPaginator($query, $page, $limit);
     }
