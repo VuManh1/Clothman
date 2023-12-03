@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('title', $product->name)
+@section('description', $product->description ?? '')
+@section('image', asset($product->thumbnail_url))
 
 @section('css')
     <style>

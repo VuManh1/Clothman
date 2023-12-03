@@ -6,6 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
 
+    @hasSection ('description')
+        <meta name="description" content="@yield('description')">
+        <meta property="og:description" content="@yield('description')">
+    @else
+        <meta name="description" content="Clothman chuyên thời trang nam và các sản phẩm chăm sóc cá nhân nam giới chất lượng, giá tốt.">
+        <meta property="og:description" content="Clothman chuyên thời trang nam và các sản phẩm chăm sóc cá nhân nam giới chất lượng, giá tốt.">
+    @endif
+
+    @hasSection ('image')
+        <meta property="og:image" content="@yield('image')">
+    @endif
+
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
