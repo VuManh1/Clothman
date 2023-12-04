@@ -4,20 +4,21 @@
 @section('content')
     <div class="container my-5">
         <h4 class="title mb-2">Sản phẩm</h4>
-        <form class="d-flex flex-wrap gap-3">
+        <form class="d-flex flex-wrap gap-3" id="search-form">
             <div style="width: 300px;">
                 <input type="text" name="q" value="{{ $keyword }}"
                     class="border-1 border-black rounded-pill py-2 px-3 bg-white d-block w-100"
                     placeholder="Tìm kiếm sản phẩm...">
             </div>
             <select class="form-select w-auto rounded-pill border-black" name="category">
-                <option value="" selected>Danh mục</option>
+                <option value="" selected>Tất cả</option>
                 @foreach ($categories as $category)
                     <option value="{{ $category->slug }}" @selected($category->slug === $selectedCategory)>
                         {{ $category->name }}
                     </option>
                 @endforeach
             </select>
+            <input type="submit" value="Search" class="btn btn-dark rounded d-block d-sm-none">
         </form>
 
         <hr>
@@ -39,4 +40,14 @@
         {{ $products->links() }}
         <!-- Products section end -->
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        $(function () {
+            $('#search-form select').on('change', function () {
+                $('#search-form').submit();
+            });
+        });
+    </script>
 @endsection

@@ -30,7 +30,10 @@ class EloquentProductRepository extends EloquentRepository implements ProductRep
             });
         }
         if (isset($params->category)) {
-            $query->whereRelation('category', 'slug', $params->category);
+            $query->whereHas('category', function ($q) use($params) {
+                $q->where('slug', $params->category)
+                  ->orWhereRelation('parent', 'slug', $params->category);
+            });
         }
 
         if ($params->sortColumn) {
@@ -80,7 +83,10 @@ class EloquentProductRepository extends EloquentRepository implements ProductRep
             });
         }
         if (isset($params->category)) {
-            $query->whereRelation('category', 'slug', $params->category);
+            $query->whereHas('category', function ($q) use($params) {
+                $q->where('slug', $params->category)
+                  ->orWhereRelation('parent', 'slug', $params->category);
+            });
         }
 
         return $this->toPaginator($query, $params->page, $params->limit);

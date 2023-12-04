@@ -44,7 +44,7 @@
                             <div class="btn-toolbar justify-content-between gap-3">
 
                                 <form role="search" method="GET">
-                                    <input class="form-control me-2" name="q" type="search"
+                                    <input class="form-control me-2" name="q" type="search" value="{{ request()->query('q') }}"
                                         placeholder="Search" aria-label="Search" required>
                                 </form>
 
