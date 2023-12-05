@@ -4,6 +4,7 @@ namespace Tests\Unit\Repositories;
 
 use App\Models\Color;
 use App\Repositories\Implementations\EloquentColorRepository;
+use App\Repositories\Interfaces\ColorRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 // use PHPUnit\Framework\TestCase;
 use Tests\TestCase;
@@ -12,46 +13,56 @@ class ColorRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * test get all colors
-     *
-     * @return void
-     */
-    public function test_return_all_colors()
-    {
-        $colorRepository = new EloquentColorRepository;
+    private ColorRepository $colorRepository;
 
-        $data = $colorRepository->getAll();
-        $this->assertTrue(is_a($data, 'Illuminate\Support\Collection'));
+    public function setUp(): void {
+        parent::setUp();
+        $this->colorRepository = new EloquentColorRepository;
     }
 
-    /**
-     *
-     * @return void
-     */
-    public function test_return_null_when_record_is_not_exists()
+    public function test_it_can_find_one_color()
     {
-        $colorRepository = new EloquentColorRepository;
+        $color = Color::factory()->create();
+        $foundColor = $this->colorRepository->findById($color->id);
 
-        $data = $colorRepository->findById("abc");
-        $this->assertTrue($data === null);
+        $this->assertEquals($foundColor->id, $color->id);
     }
 
-    /**
-     * test insert one color to database
-     *
-     * @return void
-     */
-    public function test_create_color()
+    public function test_it_can_create_color()
     {
-        $colorRepository = new EloquentColorRepository;
         $data = [
-            'name' => 'Đen',
+            'name' => 'Xanh',
             'hex_code' => '#121212'
         ];
 
-        $result = $colorRepository->create($data);
+        $color = $this->colorRepository->create($data);
 
-        $this->assertTrue($result instanceof Color);
+        $this->assertTrue($color instanceof Color);
+        $this->assertEquals($color->name, $data['name']);
+        $this->assertEquals($color->hex_code, $data['hex_code']);
+    }
+
+    public function test_it_can_update_color()
+    {
+        $color = Color::factory()->create();
+        $newData = [
+            'name' => 'New color name',
+            'hex_code' => '#000000'
+        ];
+
+        $updatedColor = $this->colorRepository->update($color->id, $newData);
+
+        $this->assertEquals($updatedColor->name, $newData['name']);
+        $this->assertEquals($updatedColor->hex_code, $newData['hex_code']);
+    }
+
+    public function test_it_can_soft_delete_color()
+    {
+        $color = Color::factory()->create();
+        $this->colorRepository->delete($color->id);
+
+        $this->assertSoftDeleted('colors', [
+            'id' => $color->id,
+        ]);
     }
 }
