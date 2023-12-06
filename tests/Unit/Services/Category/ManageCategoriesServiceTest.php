@@ -4,6 +4,7 @@ namespace Tests\Unit\Services\Category;
 
 use App\DTOs\Categories\CreateCategoryDto;
 use App\DTOs\Categories\UpdateCategoryDto;
+use App\Exceptions\Categories\CategoryCanNotDeleteException;
 use App\Models\Category;
 use App\Services\Categories\Implementations\ManageCategoriesServiceImpl;
 use App\Services\Categories\Interfaces\ManageCategoriesService;
@@ -70,5 +71,23 @@ class ManageCategoriesServiceTest extends TestCase
 
         $this->assertTrue($result);
         $this->assertSoftDeleted('categories', ['id' => $category->id]);
+    }
+
+    public function test_it_can_not_delete_category_if_have_childs()
+    {
+        $parent = Category::factory()->create();
+
+        // insert child
+        Category::create([
+            'name' => 'child cate',
+            'slug' => 'child cate',
+            'banner_url' => 'banner',
+            'parent_id' => $parent->id
+        ]);
+
+        $this->assertThrows(
+            fn () => $this->manageCategoriesService->deleteCategory($parent->id),
+            CategoryCanNotDeleteException::class
+        );
     }
 }
