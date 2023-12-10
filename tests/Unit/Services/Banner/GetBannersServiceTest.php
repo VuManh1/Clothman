@@ -24,7 +24,7 @@ class GetBannersServiceTest extends TestCase
     public function test_it_can_get_one_banner_by_ID()
     {
         $banner = Banner::factory()->create();
-        $foundBanner = $this->getBannersService->getBannerById($banner->id);
+        $foundBanner = $this->getBannersService->getBannerById($banner->id); 
 
         $this->assertEquals($foundBanner->id, $banner->id);
     }
