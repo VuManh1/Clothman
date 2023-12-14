@@ -100,8 +100,6 @@ class ManageProductsServiceImpl implements ManageProductsService
                 $this->uploadService->deleteFile($sizeGuildUploadedResult['path']);
             }
 
-            dd($ex);
-            
             throw new UniqueFieldException();
         }
 
