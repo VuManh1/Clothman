@@ -24,14 +24,20 @@
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="cancel_reason" id="cancel_reason2" value="Tôi không muốn mua đơn hàng này nữa">
+                                <input class="form-check-input" type="radio" name="cancel_reason" id="cancel_reason2" value="Tôi muốn đổi địa chỉ giao hàng">
                                 <label class="form-check-label" for="cancel_reason2">
+                                    Tôi muốn đổi địa chỉ giao hàng
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="cancel_reason" id="cancel_reason3" value="Tôi không muốn mua đơn hàng này nữa">
+                                <label class="form-check-label" for="cancel_reason3">
                                     Tôi không muốn mua đơn hàng này nữa
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="cancel_reason" id="cancel_reason3" value="Hết tiền rùi :<">
-                                <label class="form-check-label" for="cancel_reason3">
+                                <input class="form-check-input" type="radio" name="cancel_reason" id="cancel_reason4" value="Hết tiền rùi :<">
+                                <label class="form-check-label" for="cancel_reason4">
                                     Hết tiền rùi :<
                                 </label>
                             </div>
@@ -80,16 +86,34 @@
             <div class="col col-8">{{ $order->phone_number }}</div>
         </div>
         <div class="row">
-            <div class="col col-4 fw-bolder">Phương thức thanh toán: </div>
-            <div class="col col-8">{{ $order->payment->payment_method }}</div>
-        </div>
-        <div class="row">
             <div class="col col-4 fw-bolder">Địa chỉ giao hàng: </div>
             <div class="col col-8">{{ $order->address }}</div>
         </div>
         <div class="row">
             <div class="col col-4 fw-bolder">Ghi chú: </div>
             <div class="col col-8">{{ $order->note ?? 'NULL' }}</div>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <h4 class="">Thanh toán: </h4>
+        <div class="d-flex flex-column gap-3 ">
+            <div class="row">
+                <div class="col col-4 fw-bolder">Phương thức thanh toán: </div>
+                <div class="col col-8">{{ $order->payment->payment_method }}</div>
+            </div>
+            <div class="row">
+                <div class="col col-4 fw-bolder">Trạng thái: </div>
+                @switch($order->payment->status)
+                    @case('UNPAID')
+                        <div class="col col-8">Chưa thanh toán</div>
+                        @break
+                    @case('COMPLETED')
+                        <div class="col col-8 text-success">Đã thanh toán</div>                        
+                        @break
+                    @default
+                @endswitch
+            </div>
         </div>
     </div>
 

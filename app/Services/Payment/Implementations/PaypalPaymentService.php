@@ -79,8 +79,6 @@ class PaypalPaymentService extends BasePaymentService {
     
             $order = $this->makeOrder($payment->id);
 
-            $this->cartService->removeAllCart(Auth::id());
-
             $paypalUrl = $this->createPaypalPaymentUrl($usdAmount);
 
             DB::commit();
@@ -121,6 +119,8 @@ class PaypalPaymentService extends BasePaymentService {
             $orderCode = session('order_code', '');
             $order = $this->ordersService->getOrderByCode($orderCode);
             event(new OrderPaid($order));
+
+            $this->cartService->removeAllCart(Auth::id());
 
             return true;
         } else {
