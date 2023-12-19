@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 // use PHPUnit\Framework\TestCase;
 use Tests\TestCase;
 
-class BannerRepositoryTest extends TestCase
+class BannerRepositoryTest extends TestCase 
 {
     use RefreshDatabase;
 
