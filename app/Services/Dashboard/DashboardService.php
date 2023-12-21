@@ -44,4 +44,14 @@ class DashboardService {
             'top_week_selling_products' => $topWeekProducts
         ];
     }
+
+    public function getYearStats(int $year) {
+        $yearlyStats = $this->saleRepository->getYearStats($year);
+        $yearlyStatsTotal = $yearlyStats->sum('total');
+
+        return [
+            'total' => number_format($yearlyStatsTotal, 0, '.', '.')."đ",
+            'data' => $yearlyStats
+        ];
+    }
 }

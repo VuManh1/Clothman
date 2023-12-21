@@ -42,3 +42,5 @@ Route::get("/products/top-selling", [ProductsApiController::class, 'getTopSellin
 // Admin dashboard
 Route::get("/get-dashboard", [DashboardApiController::class, 'getDashboard'])
     ->middleware(["auth", "role:ADMIN,STAFF,null"])->name('api.dashboard');
+Route::get("/dashboard/year-stats", [DashboardApiController::class, 'getYearStats'])
+    ->middleware(["auth", "role:ADMIN,STAFF,null"])->name('api.dashboard.yearstats');

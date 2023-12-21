@@ -90,6 +90,18 @@
                                 <h6 class="text-medium mb-10">Yearly Stats</h6>
                                 <h3 class="text-bold" id="yearlyStatsTotal">0đ</h3>
                             </div>
+                            <div class="right">
+                                <div class="select-style-1">
+                                    <div class="select-position select-sm">
+                                        <select class="light-bg" id="yearlyStatsSelect" disabled>
+                                            @for ($i = 2023; $i <= \Carbon\Carbon::now()->year; $i++)
+                                                <option value="{{ $i }}" @selected($i === \Carbon\Carbon::now()->year)>{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- end select -->
+                            </div>
                         </div>
                         <!-- End Title -->
                         <div class="chart position-relative" id="yearlyStatsContent">
@@ -185,6 +197,7 @@
     <script>
         const domain = '{{ asset('') }}';
         const fetchTopSellingUrl = '{{ route('api.products.topselling') }}';
+        const fetchYearStatsUrl = '{{ route('api.dashboard.yearstats') }}';
 
         $(function() {
             $.get("{{ route('api.dashboard') }}", function(data, status) {
@@ -205,8 +218,12 @@
                 }
             });
 
-            $("#topSellingSelect").on('change', function() {
+            $("#topSellingSelect").on('change', function () {
                 fetchTopSellingProducts($(this).val());
+            });
+
+            $('#yearlyStatsSelect').on('change', function () {
+                fetchYearlyStats($(this).val());
             });
         });
 
@@ -218,6 +235,18 @@
             $.get(`${fetchTopSellingUrl}?time=${time}`, function(data, status) {
                 if (status === 'success') {
                     renderTopSellingProducts(data);
+                }
+            });
+        }
+
+        function fetchYearlyStats(year) {
+            $('#yearlyStatsSelect').attr('disabled', true);
+            $('#yearlyStatsContent').find('.spinner').show();
+            Chart.getChart("yearlyStatsChart").destroy();
+            
+            $.get(`${fetchYearStatsUrl}?year=${year}`, function(data, status) {
+                if (status === 'success') {
+                    renderYearlyStats(data);
                 }
             });
         }
@@ -258,6 +287,7 @@
         function renderYearlyStats(stats) {
             $('#yearlyStatsContent').find('.spinner').hide();
             $('#yearlyStatsTotal').html(stats.total);
+            $('#yearlyStatsSelect').attr('disabled', false);
 
             const months = stats.data.map(d => d.month);
             const amounts = stats.data.map(d => d.total);
