@@ -18,6 +18,13 @@ class EloquentOrderRepository extends EloquentRepository implements OrderReposit
 
         $query->with('payment');
 
+        if ($params->keyword) {
+            $query->where(function ($q) use($params) {
+                $q->where("email", $params->keyword)
+                  ->orWhere("phone_number", $params->keyword)
+                  ->orWhere("code", $params->keyword);
+            });
+        }
         if ($params->status) {
             $query->where('status', $params->status);
         }

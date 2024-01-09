@@ -11,10 +11,6 @@
                         <div class="title">
                             <h2>Orders</h2>
                         </div>
-                        {{-- <form role="search" method="GET">
-                            <input class="form-control me-2" name="q" type="search" placeholder="Search"
-                                aria-label="Search" required>
-                        </form> --}}
                     </div>
                     <!-- end col -->
                     <div class="col-md-6">
@@ -43,12 +39,12 @@
                     <div class="col-lg-12">
 
                         <div class="card-style mb-30">
-                            {{-- <div class="btn-toolbar justify-content-between gap-3">
+                            <div class="btn-toolbar justify-content-between gap-3 mb-3">
                                 <form role="search" method="GET">
                                     <input class="form-control me-2" name="q" type="search"
                                         placeholder="Search" aria-label="Search" required>
                                 </form>
-                            </div> --}}
+                            </div>
 
                             <div class="btn-toolbar">
                                 {{-- Filter --}}
